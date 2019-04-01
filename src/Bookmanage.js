@@ -7,34 +7,34 @@ import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 
 
-
 let counter = 0;
-function createData(username,password,email,order) {
+function createData(name, author, price, isbn, stock, img) {
     counter += 1;
-    return { id: counter, username,password,email,order };
+    return { id: counter, name, author, price, isbn, stock, img };
 }
 let order = {
-    username: true,
-    password: true,
-    email: true,
-    order: true,
-
+    name: true,
+    author: true,
+    price: true,
+    isbn: true,
+    stock: true,
 };
-let orderBy = 'username';
-class Root extends Component {
+let orderBy = 'name';
+class Bookmanage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
             isOpen: false,
-            users: [
-                createData('傅亮', '1122445', '571718111666@qq.com', 2),
-                createData('浮生来', 'cj83j8uj', 'udhuheiwuh@163.com', 10),
-                createData('七仙女', '	7c93h7c97h3', 'fairyofficial@heaven.com', 5000),
+            books: [
+                createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
+                createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
+                createData('The Three-Body Problem', '	Liu Cixin', 4000, '‎278-3-16-148410-0', 7, './img/tb.jpg'),
             ],
-            usersCp: [
-                createData('傅亮', '1122445', '571718111666@qq.com', 2),
-                createData('浮生来', 'cj83j8uj', 'udhuheiwuh@163.com', 10),
-                createData('七仙女', '	7c93h7c97h3', 'fairyofficial@heaven.com', 5000),
+            booksCp: [
+                createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
+                createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
+                createData('The Three-Body Problem', '	Liu Cixin', 4000, '‎278-3-16-148410-0', 7, './img/tb.jpg'),
             ]
         };
     }
@@ -42,16 +42,19 @@ class Root extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
+    handleLink(index) {
+        return "/edit/" + index
+    }
     handleSort(index) {
         orderBy = index
         order[index] = !order[index]
         let list = []
-        for (let i = 0; i < this.state.users.length; i++) {
-            list.push(this.state.users[i])
+        for (let i = 0; i < this.state.books.length; i++) {
+            list.push(this.state.books[i])
         }
         list.sort(this.sort)
         this.setState({
-            users: list
+            books: list
         })
     }
     sort(a, b) {
@@ -70,19 +73,23 @@ class Root extends Component {
     }
     handleChange() {
         let pattern = document.getElementById('filter').value
-        let list = this.state.usersCp.filter((item) => {
-            return item.username.indexOf(pattern) !== -1
+        let list = this.state.booksCp.filter((item) => {
+            return item.name.indexOf(pattern) !== -1
         })
         this.setState({
-            users: list
+            books: list
         })
     }
+
+
+
     render() {
+
         return (
             <paper>
                 <MDBNavbar color="default-color" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Root</strong>
+                        <strong className="white-text">Bookmanage</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
@@ -94,8 +101,8 @@ class Root extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem ><Link to="/Root" >Root</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Statistics" >Statistics</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/" >Log out</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Statistics" >Statistics</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Bookmanage" >Bookmanage</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
@@ -116,31 +123,36 @@ class Root extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("username") }}>用户名</a></th>
-                            <th><a onClick={() => { this.handleSort("password") }}>密码</a></th>
-                            <th><a onClick={() => { this.handleSort("email") }}>邮箱</a></th>
-                            <th><a onClick={() => { this.handleSort("order") }}>订单数</a></th>
-
+                            <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
+                            <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
+                            <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
+                            <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
+                            <th><a a>库存</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        {this.state.users.map((item, index) => {
+                        {this.state.books.map((item, index) => {
                             return (
                                 <tr key={index}>
                                     <td >
-                                        {item.username}
+                                        {item.name}
                                     </td>
                                     <td>
-                                        {item.password}
+                                        {item.author}
                                     </td>
                                     <td>
-                                        {item.email}
+                                        {item.price / 100}
                                     </td>
                                     <td>
-                                        {item.order}
+                                        {item.isbn}
+                                    </td>
+                                    <td>
+                                        {item.stock}
                                     </td>
 
-
+                                    <td >
+                                        <Link to={this.handleLink(index)}>修改</Link>
+                                    </td>
                                 </tr>
                             )
                         })}
@@ -158,4 +170,4 @@ class Root extends Component {
     }
 }
 
-export default Root;
+export default Bookmanage;

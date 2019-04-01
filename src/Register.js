@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput } from 'mdbreact';
-
+import {Link} from "react-router-dom";
 class Register extends Component
 {
 
     submitHandler = event => {
         event.preventDefault();
-        let pattern = document.getElementById('email').value;
-        let patternag = document.getElementById('emailag').value;
+        let pattern = document.getElementById('password').value;
+        let patternag = document.getElementById('passwordag').value;
         if(pattern!=patternag)
         {
-            alert("Two email address don't match");
+            alert("Two passwords don't match");
         }
+
     };
     render()
     {
@@ -27,13 +28,26 @@ class Register extends Component
                                         icon="user"
                                         group
                                         type="text"
-                                        validate
-                                        error="wrong"
-                                        success="right"
+
+                                    />
+                                    <MDBInput
+                                        label="Your password"
+                                        id={"password"}
+                                        icon="lock"
+                                        group
+                                        type="password"
+
+                                    />
+                                    <MDBInput
+                                        label="Confirm your password"
+                                        icon="exclamation-triangle"
+                                        id={"passwordag"}
+                                        group
+                                        type="password"
+
                                     />
                                     <MDBInput
                                         label="Your email"
-                                        id={"email"}
                                         icon="envelope"
                                         group
                                         type="email"
@@ -41,26 +55,13 @@ class Register extends Component
                                         error="wrong"
                                         success="right"
                                     />
-                                    <MDBInput
-                                        label="Confirm your email"
-                                        icon="exclamation-triangle"
-                                        id={"emailag"}
-                                        group
-                                        type="text"
-                                        validate
-                                        error="wrong"
-                                        success="right"
-                                    />
-                                    <MDBInput
-                                        label="Your password"
-                                        icon="lock"
-                                        group
-                                        type="password"
-                                        validate
-                                    />
                                 </div>
                                 <div className="text-center">
                                     <MDBBtn color="primary" type="submit">Register</MDBBtn>
+                                </div>
+                                <p> </p>
+                                <div className="text-center">
+                                    <Link to={"/"}>Log in</Link>
                                 </div>
                             </form>
                         </MDBCol>
