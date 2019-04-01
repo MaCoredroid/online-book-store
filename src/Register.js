@@ -1,71 +1,57 @@
-import React, { Component } from "react";
-import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
-import { Link } from 'react-router-dom'
-import "./Login.css";
+import React from "react";
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput } from 'mdbreact';
 
+const Register = () => {
+    return (
+        <MDBContainer>
+            <MDBRow>
+                <MDBCol md="6">
+                    <form>
+                        <p className="h5 text-center mb-4">Sign up</p>
+                        <div className="grey-text">
+                            <MDBInput
+                                label="Your name"
+                                icon="user"
+                                group
+                                type="text"
+                                validate
+                                error="wrong"
+                                success="right"
+                            />
+                            <MDBInput
+                                label="Your email"
+                                icon="envelope"
+                                group
+                                type="email"
+                                validate
+                                error="wrong"
+                                success="right"
+                            />
+                            <MDBInput
+                                label="Confirm your email"
+                                icon="exclamation-triangle"
+                                group
+                                type="text"
+                                validate
+                                error="wrong"
+                                success="right"
+                            />
+                            <MDBInput
+                                label="Your password"
+                                icon="lock"
+                                group
+                                type="password"
+                                validate
+                            />
+                        </div>
+                        <div className="text-center">
+                            <MDBBtn color="primary">Register</MDBBtn>
+                        </div>
+                    </form>
+                </MDBCol>
+            </MDBRow>
+        </MDBContainer>
+    );
+};
 
-export default class Register extends Component {
-    handleLink() {
-        return "/Booklist"
-    }
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            email: "",
-            password: ""
-        };
-    }
-
-    validateForm() {
-        return this.state.email.length > 0 && this.state.password.length > 0;
-    }
-
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    }
-
-    handleSubmit = event => {
-        event.preventDefault();
-
-    }
-
-    render() {
-        return (
-            <div className="Login">
-                <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="email" bsSize="large">
-                        <FormLabel>Email</FormLabel>
-                        <FormControl
-                            autoFocus
-                            type="email"
-                            value={this.state.email}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="password" bsSize="large">
-                        <FormLabel>Password</FormLabel>
-                        <FormControl
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                            type="password"
-                        />
-                    </FormGroup>
-
-                    <Button
-                        block
-                        bsSize="large"
-                        disabled={false}
-
-                    >
-                        <Link to={this.handleLink() }>Register</Link>
-
-
-                    </Button>
-                </form>
-            </div>
-        );
-    }
-}
+export default Register;
