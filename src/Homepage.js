@@ -21,7 +21,7 @@ let order = {
     stock: true,
 };
 let orderBy = 'name';
-class NavbarPage extends Component {
+class Homepage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -85,7 +85,7 @@ class NavbarPage extends Component {
             <paper>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Navbar</strong>
+                        <strong className="white-text">Homepage</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
@@ -96,10 +96,11 @@ class NavbarPage extends Component {
                                         <span className="mr-2">Dropdown</span>
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
-                                        <MDBDropdownItem ><Link to="#!" >Order</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Register" >Register</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="#!" >Cart</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
@@ -108,7 +109,7 @@ class NavbarPage extends Component {
                             <MDBNavItem>
                                 <MDBFormInline waves>
                                     <div className="md-form my-0">
-                                        <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
                                     </div>
                                 </MDBFormInline>
                             </MDBNavItem>
@@ -123,7 +124,7 @@ class NavbarPage extends Component {
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
+                            <th><a onClick={() => { this.handleSort("stock") }}>库存</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -165,4 +166,4 @@ class NavbarPage extends Component {
     }
 }
 
-export default NavbarPage;
+export default Homepage;

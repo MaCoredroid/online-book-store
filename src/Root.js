@@ -9,32 +9,32 @@ import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 
 
 let counter = 0;
-function createData(name, author, price, isbn, stock, img) {
+function createData(username,password,email,order) {
     counter += 1;
-    return { id: counter, name, author, price, isbn, stock, img };
+    return { id: counter, username,password,email,order };
 }
 let order = {
-    name: true,
-    author: true,
-    price: true,
-    isbn: true,
-    stock: true,
+    username: true,
+    password: true,
+    email: true,
+    order: true,
+
 };
-let orderBy = 'name';
-class Order extends Component {
+let orderBy = 'username';
+class Root extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isOpen: false,
             books: [
-                createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
-
-                createData('The Three-Body Problem', '	Liu Cixin', 4000, '‎278-3-16-148410-0', 7, './img/tb.jpg'),
+                createData('傅亮', '1122445', '571718111666@qq.com', 2),
+                createData('浮生来', 'cj83j8uj', 'udhuheiwuh@163.com', 10),
+                createData('七仙女', '	7c93h7c97h3', 'fairyofficial@heaven.com', 5000),
             ],
             booksCp: [
-                createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
-
-                createData('The Three-Body Problem', '	Liu Cixin', 4000, '‎278-3-16-148410-0', 7, './img/tb.jpg'),
+                createData('傅亮', '1122445', '571718111666@qq.com', 2),
+                createData('浮生来', 'cj83j8uj', 'udhuheiwuh@163.com', 10),
+                createData('七仙女', '	7c93h7c97h3', 'fairyofficial@heaven.com', 5000),
             ]
         };
     }
@@ -42,9 +42,6 @@ class Order extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(index) {
-        return "/detail/" + index
-    }
     handleSort(index) {
         orderBy = index
         order[index] = !order[index]
@@ -74,7 +71,7 @@ class Order extends Component {
     handleChange() {
         let pattern = document.getElementById('filter').value
         let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
+            return item.username.indexOf(pattern) !== -1
         })
         this.setState({
             books: list
@@ -85,7 +82,7 @@ class Order extends Component {
             <paper>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Order</strong>
+                        <strong className="white-text">Root</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
@@ -96,11 +93,8 @@ class Order extends Component {
                                         <span className="mr-2">Dropdown</span>
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
-                                        <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Register" >Register</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Root" >Root</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/" >Log out</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
@@ -120,11 +114,11 @@ class Order extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
-                            <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
-                            <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>库存</a></th>
+                            <th><a onClick={() => { this.handleSort("username") }}>用户名</a></th>
+                            <th><a onClick={() => { this.handleSort("password") }}>密码</a></th>
+                            <th><a onClick={() => { this.handleSort("email") }}>邮箱</a></th>
+                            <th><a onClick={() => { this.handleSort("order") }}>订单数</a></th>
+
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -132,23 +126,19 @@ class Order extends Component {
                             return (
                                 <tr key={index}>
                                     <td >
-                                        {item.name}
+                                        {item.username}
                                     </td>
                                     <td>
-                                        {item.author}
+                                        {item.password}
                                     </td>
                                     <td>
-                                        {item.price / 100}
+                                        {item.email}
                                     </td>
                                     <td>
-                                        {item.isbn}
+                                        {item.order}
                                     </td>
-                                    <td>
-                                        {item.stock}
-                                    </td>
-                                    <td >
-                                        <Link to={this.handleLink(index)}>查看详情</Link>
-                                    </td>
+
+
                                 </tr>
                             )
                         })}
@@ -166,4 +156,4 @@ class Order extends Component {
     }
 }
 
-export default Order;
+export default Root;

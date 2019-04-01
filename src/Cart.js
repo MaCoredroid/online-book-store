@@ -21,20 +21,20 @@ let order = {
     stock: true,
 };
 let orderBy = 'name';
-class Order extends Component {
+class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isOpen: false,
             books: [
-                createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
 
-                createData('The Three-Body Problem', '	Liu Cixin', 4000, '‎278-3-16-148410-0', 7, './img/tb.jpg'),
+                createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
+
             ],
             booksCp: [
-                createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
 
-                createData('The Three-Body Problem', '	Liu Cixin', 4000, '‎278-3-16-148410-0', 7, './img/tb.jpg'),
+                createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
+
             ]
         };
     }
@@ -85,7 +85,7 @@ class Order extends Component {
             <paper>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Order</strong>
+                        <strong className="white-text">Cart</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
@@ -166,4 +166,4 @@ class Order extends Component {
     }
 }
 
-export default Order;
+export default Cart;
