@@ -5,6 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
 // import { HashRouter as Router, Route, Link, Switch } from 'react-router-dom'
 
 let counter = 0;
@@ -18,6 +19,7 @@ class Book extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
             books: [
                 createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
                 createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
@@ -25,6 +27,29 @@ class Book extends Component {
             ]
         };
     }
+    componentDidMount()
+    {
+        fetch("http://localhost:8080/Javaweb/Servlet")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        isLoaded: true,
+                        items: result.items
+                    });
+                },
+                // Note: it's important to handle errors here
+                // instead of a catch() block so that we don't swallow
+                // exceptions from actual bugs in components.
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            )
+    }
+
     render() {
         return (
             <Paper className="paper">
