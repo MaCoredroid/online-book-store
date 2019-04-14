@@ -6,7 +6,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
-// import { HashRouter as Router, Route, Link, Switch } from 'react-router-dom'
+
 
 let counter = 0;
 function createData(name, author, price, isbn, stock, img) {
@@ -24,32 +24,34 @@ class Book extends Component {
                 createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
                 createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
                 createData('The Three-Body Problem', '	Liu Cixin', 4000, '‎278-3-16-148410-0', 7, './img/tb.jpg'),
-            ]
+            ],
+            books1:[],
+            loading: true,
+            error: null,
         };
     }
-    componentDidMount()
-    {
-        fetch("http://localhost:8080/Javaweb/Servlet")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        items: result.items
-                    });
-                },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )
-    }
+    componentDidMount() {
+        axios.get(`http://localhost:8080/Javaweb/${this.props.subreddit}.json`)
+            .then(res => {
+                // Transform the raw data by extracting the nested posts
+                const books1 = res.data.data.children.map(obj => obj.data);
 
+                // Update state to trigger a re-render.
+                // Clear any errors, and turn off the loading indiciator.
+                this.setState({
+                    books1,
+                    loading: false,
+                    error: null
+                });
+            })
+            .catch(err => {
+                // Something went wrong. Save the error in state and re-render.
+                this.setState({
+                    loading: false,
+                    error: err
+                });
+            });
+    }
     render() {
         return (
             <Paper className="paper">
@@ -64,7 +66,7 @@ class Book extends Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.state.books.map((item, index) => {
+                        {this.state.books1.map((item, index) => {
                             if (index == this.props.match.params.id) {
                                 return (
                                     <TableRow key={index} >
@@ -91,8 +93,8 @@ class Book extends Component {
                     </TableBody>
                 </Table>
                 <img
-                    src={require( "" + this.state.books[this.props.match.params.id].img)}
-                    alt={this.state.books[this.props.match.params.id].name}
+                    src={require( "" + this.state.books1[this.props.match.params.id].img)}
+                    alt={this.state.books1[this.props.match.params.id].name}
                     width="320" height="480"
                 />
             </Paper>
