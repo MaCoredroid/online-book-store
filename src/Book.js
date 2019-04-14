@@ -31,7 +31,7 @@ class Book extends Component {
         };
     }
     componentDidMount() {
-        axios.get(`http://localhost:8080/Javaweb/${this.props.subreddit}.json`)
+        axios.get(`http://localhost:8080/Javaweb/Servlet.json`)
             .then(res => {
                 // Transform the raw data by extracting the nested posts
                 const books1 = res.data.data.children.map(obj => obj.data);
