@@ -26,7 +26,7 @@ class Book extends Component {
 
     }
     componentDidMount() {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Servlet`)
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`)
             .then(res => {
                 this.setState({ books: res.data });
             });

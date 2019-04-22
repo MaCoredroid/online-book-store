@@ -5,6 +5,7 @@ import {
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+import axios from 'axios';
 
 
 
@@ -27,16 +28,23 @@ class Homepage extends Component {
         this.state = {
             isOpen: false,
             books: [
-                createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
-                createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
-                createData('The Three-Body Problem', '	Liu Cixin', 4000, '‎278-3-16-148410-0', 7, './img/tb.jpg'),
+
             ],
             booksCp: [
-                createData('Harry Potter', ' J. K. Rowling', 3000, '‎978-3-16-148410-0', 5, './img/hp.jpg'),
-                createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
-                createData('The Three-Body Problem', '	Liu Cixin', 4000, '‎278-3-16-148410-0', 7, './img/tb.jpg'),
+
             ]
         };
+    }
+    componentDidMount()
+    {
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`)
+            .then(res => {
+                this.setState(
+                    {
+                    books: res.data,
+                    booksCp: res.data
+                    });
+            });
     }
 
     toggleCollapse = () => {
