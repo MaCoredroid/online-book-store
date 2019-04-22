@@ -5,6 +5,7 @@ import {
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+import axios from "axios";
 
 
 
@@ -28,17 +29,27 @@ class Cart extends Component {
             isOpen: false,
             books: [
 
-                createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
+
 
             ],
             booksCp: [
 
-                createData('King of the Ring', 'John Ronald Reuel Tolkien', 5000, '‎178-3-16-148410-0', 9, './img/ring.jpg'),
+
 
             ]
         };
     }
-
+    componentDidMount()
+    {
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Cart`)
+            .then(res => {
+                this.setState(
+                    {
+                        books: res.data,
+                        booksCp: res.data
+                    });
+            });
+    }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
