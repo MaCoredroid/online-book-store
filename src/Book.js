@@ -22,14 +22,22 @@ class Book extends Component {
 
 
 
+
         }
 
     }
     componentDidMount() {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`)
-            .then(res => {
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`,{
+            params: {
+                flag: "FALSE",
+                isbn: this.props.match.params.id,
+            }
+        }).then(res => {
                 this.setState({ books: res.data });
             });
+
+
+
     }
     render() {
         return<Paper className="paper">
@@ -46,7 +54,7 @@ class Book extends Component {
                 <TableBody>
                     {
                         this.state.books.map((item, index) => {
-                        if (index == this.props.match.params.id) {
+                        if (item.isbn == this.props.match.params.id) {
                             return (
                                 <TableRow key={index}>
                                     <TableCell component="th" scope="row">
@@ -74,7 +82,9 @@ class Book extends Component {
                     })}
                 </TableBody>
             </Table>
-
+            <p>
+                <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
+            </p>
 
         </Paper>;
     }

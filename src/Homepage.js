@@ -9,11 +9,7 @@ import axios from 'axios';
 
 
 
-let counter = 0;
-function createData(name, author, price, isbn, stock, img) {
-    counter += 1;
-    return { id: counter, name, author, price, isbn, stock, img };
-}
+
 let order = {
     name: true,
     author: true,
@@ -37,7 +33,11 @@ class Homepage extends Component {
     }
     componentDidMount()
     {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`)
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`, {
+            params: {
+                flag: "TRUE",
+            }
+        })
             .then(res => {
                 this.setState(
                     {
@@ -50,8 +50,8 @@ class Homepage extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(index) {
-        return "/detail/" + index
+    handleLink(isbn) {
+        return "/detail/" + isbn
     }
     handleSort(index) {
         orderBy = index
@@ -155,7 +155,7 @@ class Homepage extends Component {
                                         {item.stock}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(index)}>查看详情</Link>
+                                        <Link to={this.handleLink(item.isbn)}>查看详情</Link>
                                     </td>
                                 </tr>
                             )
