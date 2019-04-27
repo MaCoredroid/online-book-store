@@ -8,10 +8,31 @@ class Register extends Component
         event.preventDefault();
         let pattern = document.getElementById('password').value;
         let patternag = document.getElementById('passwordag').value;
+        let username=document.getElementById('username').value;
+        let request = new XMLHttpRequest();
+        request.open("GET","http://127.0.0.1:8080/Javaweb_war_exploded/Checkuser?user="+username, false);
+        request.send();
+        if(request.responseText === "FALSE")
+        {
+            alert("This username has already been taken");
+            return;
+        }
+        let useremail=document.getElementById('useremail').value;
         if(pattern!=patternag)
         {
             alert("Two passwords don't match");
+            return;
         }
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Checkuser", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            "username":username,
+            "useremail":useremail,
+            "password":pattern,
+
+        }));
+
 
     };
     render()
@@ -26,6 +47,7 @@ class Register extends Component
                                     <MDBInput
                                         label="Your name"
                                         icon="user"
+                                        id={"username"}
                                         group
                                         type="text"
 
@@ -49,6 +71,7 @@ class Register extends Component
                                     <MDBInput
                                         label="Your email"
                                         icon="envelope"
+                                        id={"useremail"}
                                         group
                                         type="email"
                                         validate
