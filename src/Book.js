@@ -19,7 +19,7 @@ class Book extends Component {
 
 
             books:[],
-           source: null ,
+
 
 
 
@@ -32,10 +32,10 @@ class Book extends Component {
                 flag: "FALSE",
                 isbn: this.props.match.params.id,
             }
-        })
-            .then(res => {
+        }).then(res => {
                 this.setState({ books: res.data });
             });
+
 
 
     }
@@ -83,7 +83,7 @@ class Book extends Component {
                 </TableBody>
             </Table>
             <p>
-                <img src={"http://localhost:8080/Javaweb_war_exploded/getImage"} />
+                <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
             </p>
 
         </Paper>;
