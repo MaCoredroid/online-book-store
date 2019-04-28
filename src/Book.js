@@ -24,7 +24,8 @@ class Book extends Component {
 
             books:[],
             username:"",
-            loaded: true
+            cartloaded:1,
+            orderloaded:1
 
 
 
@@ -35,18 +36,26 @@ class Book extends Component {
 
         axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`,{
             params: {
-                flag: "FALSE",
-                isbn: this.props.match.params.id,
+                flag:"FALSE",
+                isbn:this.props.match.params.id,
             }
         }).then(res => {
             this.setState({ books: res.data });
         });
+        console.log(this.props.match.params.id)
         this.setState({username:Cookies.get("username")});
         if(Cookies.get("cart")==="1")
         {
             console.log("make it happen");
-            this.setState({loaded: false });
+            this.setState({cartloaded:0});
         }
+        if(Cookies.get("order")==="1")
+        {
+            console.log("always be my baby");
+            this.setState({cartloaded:0});
+            this.setState({orderloaded:0});
+        }
+
 
 
 
@@ -226,10 +235,12 @@ class Book extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <div className={this.props.loaded ? 'visible' : 'invisible'}>
-                    <MDBBtn id="gotocart" style={this.state.loaded ? {display: 'none'}:{ display: 'none' }}className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
+                <div className={this.state.cartloaded===1 ? 'visible' : 'invisible'}>
+                    <MDBBtn className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
                 </div>
-                <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Directly order</MDBBtn>
+                <div className={this.state.orderloaded===1? 'visible' : 'invisible'}>
+                    <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Directly order</MDBBtn>
+                </div>
                 <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
 
             </a>

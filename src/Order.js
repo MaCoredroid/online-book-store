@@ -10,11 +10,7 @@ import Cookies from "js-cookie";
 
 
 
-let counter = 0;
-function createData(name, author, price, isbn, stock, img) {
-    counter += 1;
-    return { id: counter, name, author, price, isbn, stock, img };
-}
+
 let order = {
     name: true,
     author: true,
@@ -52,8 +48,12 @@ class Order extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(index) {
-        return "/detail/" + index
+    handleLink(isbn) {
+        Cookies.set('homepage', 0);
+        Cookies.set('cart', 0);
+        Cookies.set('order', 1);
+        console.log(isbn);
+        return "/detail/" + isbn
     }
     handleSort(index) {
         orderBy = index
@@ -169,7 +169,7 @@ class Order extends Component {
                                         {item.stock}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(index)}>查看详情</Link>
+                                        <Link to={this.handleLink(item.isbn)}>查看详情</Link>
                                     </td>
                                 </tr>
                             )

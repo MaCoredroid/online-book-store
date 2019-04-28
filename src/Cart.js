@@ -10,11 +10,7 @@ import Cookies from "js-cookie";
 
 
 
-let counter = 0;
-function createData(name, author, price, isbn, stock, img) {
-    counter += 1;
-    return { id: counter, name, author, price, isbn, stock, img };
-}
+
 let order = {
     name: true,
     author: true,
