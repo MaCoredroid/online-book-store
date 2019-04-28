@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import {
-    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem,  MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem
+    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from "axios";
+import Cookies from "js-cookie";
 
 
 
-let counter = 0;
-function createData(name, author, price, isbn, stock, img) {
-    counter += 1;
-    return { id: counter, name, author, price, isbn, stock, img };
-}
+
 let order = {
     name: true,
     author: true,
@@ -41,7 +38,14 @@ class Cart extends Component {
     }
     componentDidMount()
     {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Cart`)
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Cart`,
+        {
+            params: {
+
+                    username:Cookies.get("username"),
+            }
+        }
+        )
             .then(res => {
                 this.setState(
                     {
@@ -49,12 +53,17 @@ class Cart extends Component {
                         booksCp: res.data
                     });
             });
+        this.setState({username:Cookies.get("username")});
+
     }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(index) {
-        return "/detail/" + index
+    handleLink(isbn) {
+        Cookies.set('cart',1);
+        Cookies.set('homepage',0);
+        Cookies.set('order',0);
+        return "/detail/" + isbn
     }
     handleSort(index) {
         orderBy = index
@@ -98,6 +107,9 @@ class Cart extends Component {
                     <MDBNavbarBrand>
                         <strong className="white-text">Cart</strong>
                     </MDBNavbarBrand>
+                    <MDBNavbarBrand>
+                        <strong className="white-text">Weclome, {this.state.username}</strong>
+                    </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
                         <MDBNavbarNav left>
@@ -108,8 +120,7 @@ class Cart extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Register" >Register</Link></MDBDropdownItem>
+
                                         <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
@@ -124,6 +135,17 @@ class Cart extends Component {
                                     </div>
                                 </MDBFormInline>
                             </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBDropdown>
+                                    <MDBDropdownToggle nav caret>
+                                        <MDBIcon icon="user" />
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu className="dropdown-default" right>
+                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
+
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBNavItem>
                         </MDBNavbarNav>
                     </MDBCollapse>
                 </MDBNavbar>
@@ -135,7 +157,7 @@ class Cart extends Component {
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>库存</a></th>
+                            <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -158,7 +180,7 @@ class Cart extends Component {
                                         {item.stock}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(index)}>查看详情</Link>
+                                        <Link to={this.handleLink(item.isbn)}>查看详情</Link>
                                     </td>
                                 </tr>
                             )
