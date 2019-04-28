@@ -25,7 +25,7 @@ class Register extends Component
         }
         let xhr = new XMLHttpRequest();
         xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Checkuser", false);
-       
+
         xhr.send(JSON.stringify({
             "username":username,
             "useremail":useremail,
