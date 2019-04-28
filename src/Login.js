@@ -75,10 +75,7 @@ class Login extends Component {
                                             className="dark-grey-text font-weight-bold ml-1"
                                         >
                                             <Link to={"/Register"}>Register</Link>
-                                            <p></p>
-                                            <Link to={"/Homepage"}>Homepage</Link>
-                                            <p></p>
-                                            <Link to={"/Root"}>Root</Link>
+
 
                                         </a>
                                     </p>
