@@ -17,48 +17,6 @@ import {Link} from "react-router-dom";
 import Cookies from 'js-cookie'
 
 class Book extends Component {
-
-    handleback()
-    {
-        window.location.href = "http://localhost:3000/Homepage#/Homepage";
-    }
-    handlecart()
-    {
-        while(true)
-        {
-            let number = prompt("Please enter the number :", "1");
-            if ((number % 1 === 0) && number > 0) {
-                alert("Books have been added to your cart");
-                break;
-            }
-            if(number==null || number=="")
-            {
-                break;
-            }
-            alert("Please enter positive integer");
-        }
-
-
-    }
-    handlepurchase()
-    {
-        while(true)
-        {
-            let number = prompt("Please enter the number :", "1");
-            if ((number % 1 === 0) && number > 0) {
-                alert("Your orders have been made");
-                break;
-            }
-            if(number==null || number=="")
-            {
-                break;
-            }
-            alert("Please enter positive integer");
-        }
-
-
-    }
-
     constructor(props) {
         super(props);
         this.state = {
@@ -81,12 +39,76 @@ class Book extends Component {
                 isbn: this.props.match.params.id,
             }
         }).then(res => {
-                this.setState({ books: res.data });
-            });
+            this.setState({ books: res.data });
+        });
         this.setState({username:Cookies.get("username")});
 
 
     }
+
+    handleback()
+    {
+        window.location.href = "http://localhost:3000/Homepage#/Homepage";
+    }
+    handlecart(username,isbn)
+    {
+        let number;
+        while(true)
+        {
+            number = parseInt(prompt("Please enter the number :", "0"));
+
+            if ((number % 1 === 0) && number > 0) {
+
+                break;
+            }
+            if(number==null || number=="")
+            {
+                return;
+            }
+            alert("Please enter positive integer");
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Cart", false);
+        xhr.send(JSON.stringify({
+            "username":username,
+            "isbn":isbn,
+            "number":number,
+
+        }));
+        console.log(xhr.status);
+        if (xhr.responseText === "TRUE")
+        {
+            alert("Books have been added to your cart");
+        }
+        else
+        {
+            alert("Failed to add books to your cart");
+        }
+
+
+
+    }
+    handlepurchase(username,isbn)
+    {
+        while(true)
+        {
+            let number = prompt("Please enter the number :", "1");
+            if ((number % 1 === 0) && number > 0) {
+                alert("Your orders have been made");
+                break;
+            }
+            if(number==null || number=="")
+            {
+                break;
+            }
+            alert("Please enter positive integer");
+        }
+
+
+    }
+
+
+
     render()
     {
         return(
@@ -181,8 +203,8 @@ class Book extends Component {
                 <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
 
 
-                <MDBBtn className="d-block p-2 " color="primary" onClick={this.handlecart}>Add to Cart</MDBBtn>
-                <MDBBtn className="d-block p-2 " color="info" onClick={this.handlepurchase}>Directly order</MDBBtn>
+                <MDBBtn className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
+                <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Directly order</MDBBtn>
                 <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
 
             </a>
