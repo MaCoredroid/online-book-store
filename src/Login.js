@@ -6,19 +6,28 @@ import Cookies from 'js-cookie'
 class Login extends Component {
     submitHandler = event => {
         event.preventDefault();
+        if(Cookies.get('username'))
+        {
+            Cookies.remove('username');
+        }
         let pattern = document.getElementById('password').value;
         let username = document.getElementById('username').value;
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Checkuser", false);
+        xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Login", false);
         xhr.send(JSON.stringify({
             "username":username,
             "password":pattern,
 
         }));
         if (xhr.responseText === "TRUE") {
-            alert("Login success!");
-            Cookies.set('access_token', username);
+            alert("Login succeed!");
+            Cookies.set('username', username);
             window.location.href = "http://localhost:3000/Homepage#/Homepage";
+        }
+        else
+        {
+            alert("Login failed! Please check your username and password. ")
+            return;
         }
 
 

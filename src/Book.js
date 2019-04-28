@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 import {
-    MDBCollapse, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBFormInline,
+    MDBCollapse, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBFormInline, MDBIcon,
     MDBNavbar,
     MDBNavbarBrand,
     MDBNavbarNav,
@@ -14,7 +14,7 @@ import {
 import { MDBBtn } from "mdbreact";
 import {Link} from "react-router-dom";
 
-
+import Cookies from 'js-cookie'
 
 class Book extends Component {
 
@@ -29,7 +29,7 @@ class Book extends Component {
 
 
             books:[],
-
+            username:Cookies.get("username"),
 
 
 
@@ -37,6 +37,7 @@ class Book extends Component {
 
     }
     componentDidMount() {
+
         axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`,{
             params: {
                 flag: "FALSE",
@@ -57,6 +58,7 @@ class Book extends Component {
                     <MDBNavbarBrand>
                         <strong className="white-text">Homepage</strong>
                     </MDBNavbarBrand>
+
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
                         <MDBNavbarNav left>
@@ -67,15 +69,15 @@ class Book extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Register" >Register</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
+
                         </MDBNavbarNav>
                         <MDBNavbarNav right>
+
                             <MDBNavItem>
                                 <MDBFormInline waves>
                                     <div className="md-form my-0">
@@ -83,8 +85,20 @@ class Book extends Component {
                                     </div>
                                 </MDBFormInline>
                             </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBDropdown>
+                                    <MDBDropdownToggle nav caret>
+                                        <MDBIcon icon="user" />
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu className="dropdown-default" right>
+                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Register" >Register</Link></MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBNavItem>
                         </MDBNavbarNav>
                     </MDBCollapse>
+
                 </MDBNavbar>
 
                 <MDBTable>

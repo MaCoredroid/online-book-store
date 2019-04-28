@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
-    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem,  MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem
+    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
@@ -108,8 +108,7 @@ class Cart extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Register" >Register</Link></MDBDropdownItem>
+
                                         <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
@@ -123,6 +122,17 @@ class Cart extends Component {
                                         <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
                                     </div>
                                 </MDBFormInline>
+                            </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBDropdown>
+                                    <MDBDropdownToggle nav caret>
+                                        <MDBIcon icon="user" />
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu className="dropdown-default" right>
+                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
+
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
                             </MDBNavItem>
                         </MDBNavbarNav>
                     </MDBCollapse>
