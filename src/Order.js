@@ -6,6 +6,7 @@ import {
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from "axios";
+import Cookies from "js-cookie";
 
 
 
@@ -45,6 +46,7 @@ class Order extends Component {
                         booksCp: res.data
                     });
             });
+        this.setState({username:Cookies.get("username")});
     }
 
     toggleCollapse = () => {
@@ -95,6 +97,9 @@ class Order extends Component {
                     <MDBNavbarBrand>
                         <strong className="white-text">Order</strong>
                     </MDBNavbarBrand>
+                    <MDBNavbarBrand>
+                        <strong className="white-text">Weclome, {this.state.username}</strong>
+                    </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
                         <MDBNavbarNav left>
@@ -107,7 +112,7 @@ class Order extends Component {
                                         <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
+
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>

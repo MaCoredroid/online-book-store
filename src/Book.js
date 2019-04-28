@@ -29,7 +29,8 @@ class Book extends Component {
 
 
             books:[],
-            username:Cookies.get("username"),
+            username:"",
+
 
 
 
@@ -46,7 +47,7 @@ class Book extends Component {
         }).then(res => {
                 this.setState({ books: res.data });
             });
-
+        this.setState({username:Cookies.get("username")});
 
 
     }
@@ -56,7 +57,10 @@ class Book extends Component {
             <a>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Homepage</strong>
+                        <strong className="white-text">BOOK</strong>
+                    </MDBNavbarBrand>
+                    <MDBNavbarBrand>
+                        <strong className="white-text">Weclome, {this.state.username}</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
@@ -91,6 +95,7 @@ class Book extends Component {
                                         <MDBIcon icon="user" />
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
+
                                         <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Register" >Register</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
