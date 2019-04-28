@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+
 import axios from 'axios';
+import {MDBTable, MDBTableBody, MDBTableHead} from "mdbreact";
+import {Link} from "react-router-dom";
 
 
 
@@ -39,54 +36,50 @@ class Book extends Component {
 
 
     }
-    render() {
-        return<Paper className="paper">
-            <Table className="table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>书名</TableCell>
-                        <TableCell align="right">作者</TableCell>
-                        <TableCell align="right">价格</TableCell>
-                        <TableCell align="right">isbn</TableCell>
-                        <TableCell align="right">库存</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        this.state.books.map((item, index) => {
-                        if (item.isbn == this.props.match.params.id) {
+    render()
+    {
+        return(
+            <a>
+                <MDBTable>
+                    <MDBTableHead>
+                        <tr>
+                            <th><a >书名</a></th>
+                            <th><a >作者</a></th>
+                            <th><a >价格</a></th>
+                            <th><a >isbn</a></th>
+                            <th><a >库存</a></th>
+                        </tr>
+                    </MDBTableHead>
+                    <MDBTableBody>
+                        {this.state.books.map((item, index) => {
                             return (
-                                <TableRow key={index}>
-                                    <TableCell component="th" scope="row">
+                                <tr key={index}>
+                                    <td >
                                         {item.name}
-                                    </TableCell>
-                                    <TableCell align="right">
+                                    </td>
+                                    <td>
                                         {item.author}
-                                    </TableCell>
-                                    <TableCell align="right">
+                                    </td>
+                                    <td>
                                         {item.price / 100}
-                                    </TableCell>
-                                    <TableCell align="right">
+                                    </td>
+                                    <td>
                                         {item.isbn}
-                                    </TableCell>
-                                    <TableCell align="right">
+                                    </td>
+                                    <td>
                                         {item.stock}
-                                    </TableCell>
+                                    </td>
 
-                                </TableRow>
+
+                                </tr>
                             )
-
-
-                        }
-
-                    })}
-                </TableBody>
-            </Table>
-            <p>
+                        })}
+                    </MDBTableBody>
+                </MDBTable>
                 <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
-            </p>
+            </a>
 
-        </Paper>;
+    )
     }
 }
 

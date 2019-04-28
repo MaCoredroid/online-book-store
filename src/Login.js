@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBCard, MDBCardBody, MDBInput } from 'mdbreact';
 import { Link } from 'react-router-dom'
+import Cookies from 'js-cookie'
+
 class Login extends Component {
     submitHandler = event => {
         event.preventDefault();
@@ -15,7 +17,8 @@ class Login extends Component {
         }));
         if (xhr.responseText === "TRUE") {
             alert("Login success!");
-            return;
+            Cookies.set('access_token', username);
+            window.location.href = "http://localhost:3000/Homepage#/Homepage";
         }
 
 

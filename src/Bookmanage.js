@@ -86,7 +86,7 @@ class Bookmanage extends Component {
     render() {
 
         return (
-            <paper>
+            <a>
                 <MDBNavbar color="default-color" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
                         <strong className="white-text">Bookmanage</strong>
@@ -158,12 +158,11 @@ class Bookmanage extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-            </paper>
 
 
 
 
-
+             </a>
 
 
         );

@@ -90,7 +90,7 @@ class Homepage extends Component {
     }
     render() {
         return (
-            <paper>
+           <a>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
                         <strong className="white-text">Homepage</strong>
@@ -162,7 +162,7 @@ class Homepage extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-            </paper>
+            </a>
 
 
 
