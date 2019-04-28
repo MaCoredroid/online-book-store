@@ -22,6 +22,42 @@ class Book extends Component {
     {
         window.location.href = "http://localhost:3000/Homepage#/Homepage";
     }
+    handlecart()
+    {
+        while(true)
+        {
+            let number = prompt("Please enter the number :", "1");
+            if ((number % 1 === 0) && number > 0) {
+                alert("Books have been added to your cart");
+                break;
+            }
+            if(number==null || number=="")
+            {
+                break;
+            }
+            alert("Please enter positive integer");
+        }
+
+
+    }
+    handlepurchase()
+    {
+        while(true)
+        {
+            let number = prompt("Please enter the number :", "1");
+            if ((number % 1 === 0) && number > 0) {
+                alert("Your orders have been made");
+                break;
+            }
+            if(number==null || number=="")
+            {
+                break;
+            }
+            alert("Please enter positive integer");
+        }
+
+
+    }
 
     constructor(props) {
         super(props);
@@ -145,8 +181,8 @@ class Book extends Component {
                 <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
 
 
-                <MDBBtn className="d-block p-2 " color="primary">Add to Cart</MDBBtn>
-                <MDBBtn className="d-block p-2 " color="info">Directly purchase</MDBBtn>
+                <MDBBtn className="d-block p-2 " color="primary" onClick={this.handlecart}>Add to Cart</MDBBtn>
+                <MDBBtn className="d-block p-2 " color="info" onClick={this.handlepurchase}>Directly order</MDBBtn>
                 <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
 
             </a>
