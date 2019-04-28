@@ -24,7 +24,7 @@ class Book extends Component {
 
             books:[],
             username:"",
-
+            loaded: true
 
 
 
@@ -45,8 +45,7 @@ class Book extends Component {
         if(Cookies.get("cart")==="1")
         {
             console.log("make it happen");
-            let link = document.getElementById('gotocart');
-            link.style.display = 'none';
+            this.setState({loaded: false });
         }
 
 
@@ -55,13 +54,17 @@ class Book extends Component {
 
     handleback()
     {
-        if(Cookies.get("cart")===1)
+        if(Cookies.get("cart")==="1")
         {
             window.location.href = "http://localhost:3000/Homepage#/Cart";
         }
-        if(Cookies.get("homepage")===1)
+        if(Cookies.get("homepage")==="1")
         {
             window.location.href = "http://localhost:3000/Homepage#/Homepage";
+        }
+        if(Cookies.get("order")==="1")
+        {
+            window.location.href = "http://localhost:3000/Homepage#/Order";
         }
     }
     handlecart(username,isbn)
@@ -223,9 +226,9 @@ class Book extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
-
-
-                <MDBBtn id="gotocart" className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
+                <div className={this.props.loaded ? 'visible' : 'invisible'}>
+                    <MDBBtn id="gotocart" style={this.state.loaded ? {display: 'none'}:{ display: 'none' }}className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
+                </div>
                 <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Directly order</MDBBtn>
                 <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
 
