@@ -42,7 +42,14 @@ class Cart extends Component {
     }
     componentDidMount()
     {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Cart`)
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Cart`,
+        {
+            params: {
+
+                    username:Cookies.get("username"),
+            }
+        }
+        )
             .then(res => {
                 this.setState(
                     {
@@ -55,8 +62,8 @@ class Cart extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(index) {
-        return "/detail/" + index
+    handleLink(isbn) {
+        return "/detail/" + isbn
     }
     handleSort(index) {
         orderBy = index
@@ -173,7 +180,7 @@ class Cart extends Component {
                                         {item.stock}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(index)}>查看详情</Link>
+                                        <Link to={this.handleLink(item.isbn)}>查看详情</Link>
                                     </td>
                                 </tr>
                             )
