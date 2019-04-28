@@ -42,48 +42,70 @@ class Book extends Component {
             this.setState({ books: res.data });
         });
         this.setState({username:Cookies.get("username")});
+        if(Cookies.get("cart")==="1")
+        {
+            console.log("make it happen");
+            let link = document.getElementById('gotocart');
+            link.style.display = 'none';
+        }
+
 
 
     }
 
     handleback()
     {
-        window.location.href = "http://localhost:3000/Homepage#/Homepage";
+        if(Cookies.get("cart")===1)
+        {
+            window.location.href = "http://localhost:3000/Homepage#/Cart";
+        }
+        if(Cookies.get("homepage")===1)
+        {
+            window.location.href = "http://localhost:3000/Homepage#/Homepage";
+        }
     }
     handlecart(username,isbn)
     {
-        let number;
+        let number=0;
         while(true)
         {
             number = parseInt(prompt("Please enter the number :", "0"));
-
+            console.log(number);
+            if(number==null || number==""|| number===0|| isNaN(number))
+            {
+                break;
+            }
             if ((number % 1 === 0) && number > 0) {
 
                 break;
             }
-            if(number==null || number=="")
-            {
-                return;
+            else {
+                alert("Please enter positive integer");
             }
-            alert("Please enter positive integer");
         }
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Cart", false);
-        xhr.send(JSON.stringify({
-            "username":username,
-            "isbn":isbn,
-            "number":number,
 
-        }));
-        console.log(xhr.status);
-        if (xhr.responseText === "TRUE")
+        if(number==null || number==""|| number===0||isNaN(number))
         {
-            alert("Books have been added to your cart");
+
         }
         else
         {
-            alert("Failed to add books to your cart");
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Cart", false);
+            xhr.send(JSON.stringify({
+                "username": username,
+                "isbn": isbn,
+                "number": number,
+
+            }));
+            console.log(xhr.status);
+            if (xhr.responseText === "TRUE") {
+                alert("Books have been added to your cart");
+            } else {
+                alert("Failed to add books to your cart");
+            }
         }
+
 
 
 
@@ -203,7 +225,7 @@ class Book extends Component {
                 <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
 
 
-                <MDBBtn className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
+                <MDBBtn id="gotocart" className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
                 <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Directly order</MDBBtn>
                 <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
 

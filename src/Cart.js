@@ -58,11 +58,15 @@ class Cart extends Component {
                     });
             });
         this.setState({username:Cookies.get("username")});
+
     }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
     handleLink(isbn) {
+        Cookies.set('cart',1);
+        Cookies.set('homepage',0);
+        Cookies.set('order',0);
         return "/detail/" + isbn
     }
     handleSort(index) {

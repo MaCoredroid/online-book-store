@@ -22,6 +22,10 @@ class Login extends Component {
         if (xhr.responseText === "TRUE") {
             alert("Login succeed!");
             Cookies.set('username', username);
+            Cookies.set('homepage', 0);
+            Cookies.set('cart', 0);
+            Cookies.set('order', 0);
+
             window.location.href = "http://localhost:3000/Homepage#/Homepage";
         }
         else

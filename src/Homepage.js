@@ -54,6 +54,9 @@ class Homepage extends Component {
         this.setState({ isOpen: !this.state.isOpen });
     };
     handleLink(isbn) {
+        Cookies.set('homepage', 1);
+        Cookies.set('cart', 0);
+        Cookies.set('order', 0);
         return "/detail/" + isbn
     }
     handleSort(index) {
