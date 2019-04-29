@@ -301,7 +301,7 @@ class Book extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-                <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
+                <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?flag=FALSE&isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
                 <div className={this.state.cartloaded===1 ? 'visible' : 'invisible'}>
                     <MDBBtn className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
                 </div>
