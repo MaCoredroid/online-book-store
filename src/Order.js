@@ -26,15 +26,26 @@ class Order extends Component {
             isOpen: false,
             books: [
 
+
+
             ],
             booksCp: [
+
+
 
             ]
         };
     }
     componentDidMount()
     {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`)
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`,
+            {
+                params: {
+
+                    username:Cookies.get("username"),
+                }
+            }
+        )
             .then(res => {
                 this.setState(
                     {
@@ -43,16 +54,15 @@ class Order extends Component {
                     });
             });
         this.setState({username:Cookies.get("username")});
-    }
 
+    }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
     handleLink(isbn) {
-        Cookies.set('homepage', 0);
-        Cookies.set('cart', 0);
-        Cookies.set('order', 1);
-        console.log(isbn);
+        Cookies.set('cart',0);
+        Cookies.set('homepage',0);
+        Cookies.set('order',1);
         return "/detail/" + isbn
     }
     handleSort(index) {
@@ -110,9 +120,9 @@ class Order extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
+
                                         <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
-
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
@@ -132,6 +142,7 @@ class Order extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
                                         <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
+
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
@@ -146,7 +157,7 @@ class Order extends Component {
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>库存</a></th>
+                            <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>

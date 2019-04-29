@@ -46,12 +46,12 @@ class Book extends Component {
         this.setState({username:Cookies.get("username")});
         if(Cookies.get("cart")==="1")
         {
-            console.log("make it happen");
+
             this.setState({cartloaded:0});
         }
         if(Cookies.get("order")==="1")
         {
-            console.log("always be my baby");
+
             this.setState({cartloaded:0});
             this.setState({orderloaded:0});
         }
@@ -81,7 +81,7 @@ class Book extends Component {
         let number=0;
         while(true)
         {
-            number = parseInt(prompt("Please enter the number :", "0"));
+            number = parseInt(prompt("Please enter the number to add to cart :", "0"));
             console.log(number);
             if(number==null || number==""|| number===0|| isNaN(number))
             {
@@ -122,20 +122,90 @@ class Book extends Component {
 
 
     }
-    handlepurchase(username,isbn)
+
+    handleremovefromcart(username,isbn)
     {
+        let number=0;
         while(true)
         {
-            let number = prompt("Please enter the number :", "1");
-            if ((number % 1 === 0) && number > 0) {
-                alert("Your orders have been made");
-                break;
-            }
-            if(number==null || number=="")
+            number = parseInt(prompt("Please enter the number to remove from cart :", "0"));
+            console.log(number);
+            if(number==null || number==""|| number===0|| isNaN(number))
             {
                 break;
             }
-            alert("Please enter positive integer");
+            if ((number % 1 === 0) && number > 0) {
+
+                break;
+            }
+            else {
+                alert("Please enter positive integer");
+            }
+        }
+
+        if(number==null || number==""|| number===0||isNaN(number))
+        {
+
+        }
+        else
+        {
+            let temp=number*(-1);
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Cart", false);
+            xhr.send(JSON.stringify({
+                "username": username,
+                "isbn": isbn,
+                "number":temp,
+
+            }));
+            console.log(xhr.status);
+            if (xhr.responseText === "TRUE") {
+                alert("Books have removed from your cart");
+            } else {
+                alert("Failed to remove books from your cart");
+            }
+        }
+    }
+    handlepurchase(username,isbn)
+    {
+        let number=0;
+        while(true)
+        {
+            number = parseInt(prompt("Please enter the number to add to order:", "0"));
+            console.log(number);
+            if(number==null || number==""|| number===0|| isNaN(number))
+            {
+                break;
+            }
+            if ((number % 1 === 0) && number > 0) {
+
+                break;
+            }
+            else {
+                alert("Please enter positive integer");
+            }
+        }
+
+        if(number==null || number==""|| number===0||isNaN(number))
+        {
+
+        }
+        else
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Order", false);
+            xhr.send(JSON.stringify({
+                "username": username,
+                "isbn": isbn,
+                "number": number,
+
+            }));
+            console.log(xhr.status);
+            if (xhr.responseText === "TRUE") {
+                alert("Books have been ordered");
+            } else {
+                alert("Failed to order books");
+            }
         }
 
 
@@ -240,6 +310,9 @@ class Book extends Component {
                 </div>
                 <div className={this.state.orderloaded===1? 'visible' : 'invisible'}>
                     <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Directly order</MDBBtn>
+                </div>
+                <div className={this.state.cartloaded===1 ? 'invisible' : 'visible'}>
+                    <MDBBtn className="d-block p-2 " color="warning" onClick={()=>{this.handleremovefromcart(this.state.username,this.props.match.params.id)}}>Remove from Cart</MDBBtn>
                 </div>
                 <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
 
