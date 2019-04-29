@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon,
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from "axios";
 import Cookies from "js-cookie";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 
 
 
@@ -19,7 +23,7 @@ let order = {
     stock: true,
 };
 let orderBy = 'name';
-class Order extends Component {
+class Userstatistics extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,8 +37,12 @@ class Order extends Component {
 
 
 
-            ]
+            ],
+            startDate: new Date(),
+            endDate: new Date()
         };
+        this.handledateChange= this.handledateChange.bind(this);
+        this.handledateChange1= this.handledateChange1.bind(this);
     }
     componentDidMount()
     {
@@ -104,12 +112,62 @@ class Order extends Component {
             books: list
         })
     }
+    handledateChange(date)
+    {
+        this.setState({
+            startDate: date
+        });
+        let start = this.state.startDate.getTime();
+        let end = this.state.endDate.getTime();
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`,
+            {
+                params: {
+                    start:start,
+                    end:end,
+                    flag:"TRUE",
+                    username:Cookies.get("username"),
+                }
+            }
+        )
+            .then(res => {
+                this.setState(
+                    {
+                        books: res.data,
+                        booksCp: res.data
+                    });
+            });
+    }
+    handledateChange1(date)
+    {
+        this.setState({
+            endDate: date
+        });
+        let start = this.state.startDate.getTime();
+        let end = this.state.endDate.getTime();
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`,
+            {
+                params: {
+                    start:start,
+                    end:end,
+                    flag:"TRUE",
+                    username:Cookies.get("username"),
+                }
+            }
+        )
+            .then(res => {
+                this.setState(
+                    {
+                        books: res.data,
+                        booksCp: res.data
+                    });
+            });
+    }
     render() {
         return (
             <paper>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Order</strong>
+                        <strong className="white-text">Statistics</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarBrand>
                         <strong className="white-text">Weclome, {this.state.username}</strong>
@@ -191,6 +249,37 @@ class Order extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
+                <p>
+                    Start from:
+                </p>
+
+                <DatePicker
+                    selected={this.state.startDate}
+                    onChange={this.handledateChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    timeCaption="time"
+                />
+                    <p>
+
+                    </p>
+                <p>
+                    To:
+                </p>
+
+                <DatePicker
+                    selected={this.state.endDate}
+                    onChange={this.handledateChange1}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    timeCaption="time"
+                />
+
+
             </paper>
 
 
@@ -203,4 +292,4 @@ class Order extends Component {
     }
 }
 
-export default Order;
+export default Userstatistics;

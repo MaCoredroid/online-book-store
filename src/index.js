@@ -10,6 +10,7 @@ import Order from "./Order"
 import Root from "./Root"
 import Bookmanage from "./Bookmanage"
 import Statistics from "./Statistics"
+import Userstatistics from "./Userstatistics"
 
 import * as serviceWorker from './serviceWorker';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
@@ -30,6 +31,7 @@ ReactDOM.render(
                 <Route exact path="/Homepage" component={Homepage} />
                 <Route exact path="/Register" component={Register} />
                 <Route exact path="/Statistics" component={Statistics} />
+                <Route exact path="/Userstatistics" component={Userstatistics} />
                 <Route path="/detail/:id" component={Book} />
                 <Route path="/edit/:id" component={Edit} />
             </Switch>

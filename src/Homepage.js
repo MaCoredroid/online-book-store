@@ -136,7 +136,7 @@ class Homepage extends Component {
                         <img
                             height="300px"
                             width="200px"
-                            
+
                             src={imageSrc}
                             alt="Gallery"
                             className="img-fluid z-depth-1"
@@ -169,6 +169,7 @@ class Homepage extends Component {
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
