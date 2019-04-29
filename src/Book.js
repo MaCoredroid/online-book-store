@@ -166,6 +166,10 @@ class Book extends Component {
             }
         }
     }
+    handleLogout()
+    {
+        window.location.href = "http://localhost:3000/"
+    }
     handlepurchase(username,isbn)
     {
         let number=0;
@@ -244,13 +248,7 @@ class Book extends Component {
                         </MDBNavbarNav>
                         <MDBNavbarNav right>
 
-                            <MDBNavItem>
-                                <MDBFormInline waves>
-                                    <div className="md-form my-0">
-                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
-                                    </div>
-                                </MDBFormInline>
-                            </MDBNavItem>
+
                             <MDBNavItem>
                                 <MDBDropdown>
                                     <MDBDropdownToggle nav caret>
@@ -258,8 +256,7 @@ class Book extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
 
-                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Register" >Register</Link></MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>

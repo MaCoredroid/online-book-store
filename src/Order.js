@@ -65,6 +65,10 @@ class Order extends Component {
         Cookies.set('order',1);
         return "/detail/" + isbn
     }
+    handleLogout()
+    {
+        window.location.href = "http://localhost:3000/"
+    }
     handleSort(index) {
         orderBy = index
         order[index] = !order[index]
@@ -141,7 +145,7 @@ class Order extends Component {
                                         <MDBIcon icon="user" />
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
-                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
 
                                     </MDBDropdownMenu>
                                 </MDBDropdown>

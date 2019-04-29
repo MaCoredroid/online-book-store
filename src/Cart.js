@@ -91,6 +91,10 @@ class Cart extends Component {
         }
         return res
     }
+    handleLogout()
+    {
+        window.location.href = "http://localhost:3000/"
+    }
     handleChange() {
         let pattern = document.getElementById('filter').value
         let list = this.state.booksCp.filter((item) => {
@@ -141,7 +145,7 @@ class Cart extends Component {
                                         <MDBIcon icon="user" />
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
-                                        <MDBDropdownItem ><Link to="/" >Logout</Link></MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
 
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
