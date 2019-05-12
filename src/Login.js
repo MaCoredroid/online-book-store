@@ -27,7 +27,7 @@ class Login extends Component {
             Cookies.set('cart', 0);
             Cookies.set('order', 0);
 
-            window.location.href = "http://localhost:3000/Homepage#/Homepage";
+            window.location.href = "http://localhost:8081/Homepage#/Homepage";
         }
         else
         {

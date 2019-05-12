@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const CspHtmlWebpackPlugin = require("csp-html-webpack-plugin");
 module.exports = {
     module: {
         rules: [
@@ -32,7 +33,28 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: "./src/index.html",
             filename: "./index.html"
+        }),
+        new CspHtmlWebpackPlugin({
+            'base-uri': "'self'",
+            'object-src': "'none'",
+            'script-src': ["'unsafe-inline'", "'self'", "'unsafe-eval'"],
+            'style-src': ["'unsafe-inline'", "'self'", "'unsafe-eval'"]
+        }, {
+            enabled: true,
+            hashingMethod: 'sha256',
+            hashEnabled: {
+                'script-src': true,
+                'style-src': true
+            },
+            nonceEnabled: {
+                'script-src': true,
+                'style-src': true
+            }
         })
-    ]
+    ],
+    devServer: {
+        historyApiFallback: true
+    }
+
 
 };
