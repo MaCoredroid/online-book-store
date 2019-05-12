@@ -18,10 +18,7 @@
     "react-scripts": "2.1.8"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "webpack --mode production"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,5 +28,22 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
+  },
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-class-properties"
+    ]
   ]
 }
