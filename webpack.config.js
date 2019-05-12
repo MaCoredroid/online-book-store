@@ -1,3 +1,4 @@
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = {
     module: {
         rules: [
@@ -10,6 +11,14 @@ module.exports = {
 
             },
             {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: "html-loader"
+                    }
+                ]
+            },
+            {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader'
             },
@@ -17,6 +26,7 @@ module.exports = {
                 test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
                 loader: 'url-loader?limit=100000'
             }
-        ]
-    }
+        ],
+    },
+
 };
