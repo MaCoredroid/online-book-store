@@ -19,6 +19,7 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 
 
+
 ReactDOM.render(
 
         <Router>
@@ -35,7 +36,7 @@ ReactDOM.render(
                 <Route path="/detail/:id" component={Book} />
                 <Route path="/edit/:id" component={Edit} />
             </Switch>
-        </Router>, document.getElementById('root'));
+        </Router>, document.getElementById('create-article-form'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
