@@ -113,7 +113,7 @@ class Homepage extends Component {
     }
     handleLogout()
     {
-        window.location.href = "http://localhost:8081/"
+        window.location.href = "http://localhost:3000/"
     }
     handlepictureLink(imageSrc)
     {
@@ -121,7 +121,7 @@ class Homepage extends Component {
         Cookies.set('cart', 0);
         Cookies.set('order', 0);
         let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "http://localhost:8081/Homepage#/detail/"+ res;
+        window.location.href = "http://localhost:3000/Homepage#/detail/"+ res;
     }
     renderImages = () => {
         let photoIndex = -1;
