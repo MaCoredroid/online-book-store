@@ -52,7 +52,7 @@ class Book extends Component {
         if(Cookies.get("order")==="1")
         {
 
-            this.setState({cartloaded:0});
+
             this.setState({orderloaded:0});
         }
 
@@ -175,7 +175,7 @@ class Book extends Component {
         let number=0;
         while(true)
         {
-            number = parseInt(prompt("Please enter the number to add to order:", "0"));
+            number = parseInt(prompt("Please enter the number to add to purchase:", "0"));
             console.log(number);
             if(number==null || number==""|| number===0|| isNaN(number))
             {
@@ -303,11 +303,11 @@ class Book extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?flag=FALSE&isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <div className={this.state.cartloaded===1 ? 'visible' : 'invisible'}>
+                <div className={(this.state.cartloaded===1 && this.state.orderloaded===1)? 'visible' : 'invisible'}>
                     <MDBBtn className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
                 </div>
                 <div className={this.state.orderloaded===1? 'visible' : 'invisible'}>
-                    <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Directly order</MDBBtn>
+                    <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Purchase</MDBBtn>
                 </div>
                 <div className={this.state.cartloaded===1 ? 'invisible' : 'visible'}>
                     <MDBBtn className="d-block p-2 " color="warning" onClick={()=>{this.handleremovefromcart(this.state.username,this.props.match.params.id)}}>Remove from Cart</MDBBtn>
