@@ -17,6 +17,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
+import Cookies from "js-cookie";
 
 
 
@@ -37,9 +38,7 @@ ReactDOM.render(
                 <Route path="/edit/:id" component={Edit} />
             </Switch>
         </Router>, document.getElementById('create-article-form'));
-export const UrlContext = React.createContext(
-    "http://localhost:8080" // default value
-);
+Cookies.set('url', 'http://localhost:8080');
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

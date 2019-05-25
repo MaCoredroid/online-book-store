@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import './css/Login.css'
 
+
 class Login extends Component {
     submitHandler = event => {
         event.preventDefault();
@@ -14,8 +15,10 @@ class Login extends Component {
         let pattern = document.getElementById('password').value;
         let username = document.getElementById('username').value;
         let xhr = new XMLHttpRequest();
-        let value = this.context;
-        xhr.open("GET", "Http://localhost:8080/login/"+username+"/password/"+pattern, false);
+        let url=Cookies.get('url');
+
+
+        xhr.open("GET", url+"/login/"+username+"/password/"+pattern, false);
         xhr.send();
         if (xhr.responseText === "true") {
             alert("Login succeed!");
