@@ -37,6 +37,9 @@ ReactDOM.render(
                 <Route path="/edit/:id" component={Edit} />
             </Switch>
         </Router>, document.getElementById('create-article-form'));
+export const UrlContext = React.createContext(
+    "http://localhost:8080" // default value
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

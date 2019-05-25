@@ -124,7 +124,7 @@ class Homepage extends Component {
         window.location.href = "http://localhost:3000/Homepage#/detail/"+ res;
     }
     renderImages = () => {
-        let photoIndex = -1;
+        let photoIndex = 0;
         const { images } = this.state;
 
         return images.map(imageSrc => {

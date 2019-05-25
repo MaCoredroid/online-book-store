@@ -14,13 +14,10 @@ class Login extends Component {
         let pattern = document.getElementById('password').value;
         let username = document.getElementById('username').value;
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Login", false);
-        xhr.send(JSON.stringify({
-            "username":username,
-            "password":pattern,
-
-        }));
-        if (xhr.responseText === "TRUE") {
+        let value = this.context;
+        xhr.open("GET", "Http://localhost:8080/login/"+username+"/password/"+pattern, false);
+        xhr.send();
+        if (xhr.responseText === "true") {
             alert("Login succeed!");
             Cookies.set('username', username);
             Cookies.set('homepage', 0);
