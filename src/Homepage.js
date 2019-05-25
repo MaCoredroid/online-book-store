@@ -40,11 +40,9 @@ class Homepage extends Component {
     }
     componentDidMount()
     {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`, {
-            params: {
-                flag: "TRUE",
-            }
-        })
+        let url=Cookies.get('url');
+        axios.get(url+`/booklist`,
+            )
             .then(res => {
                 this.setState(
                     {
@@ -52,11 +50,8 @@ class Homepage extends Component {
                     booksCp: res.data
                     });
             });
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/getImage`, {
-            params: {
-                flag: "TRUE",
-            }
-        })
+        axios.get(url+`/isbnlist`,
+            )
             .then(res => {
                 this.setState(
                     {
@@ -126,7 +121,7 @@ class Homepage extends Component {
     renderImages = () => {
         let photoIndex = 0;
         const { images } = this.state;
-
+        let url=Cookies.get('url');
         return images.map(imageSrc => {
             photoIndex++;
             const privateKey = photoIndex;
@@ -137,7 +132,7 @@ class Homepage extends Component {
                             height="300px"
                             width="200px"
 
-                            src={imageSrc}
+                            src={url+"/image/"+imageSrc}
                             alt="Gallery"
                             className="img-fluid z-depth-1"
                             onClick={() => {this.handlepictureLink(imageSrc)}}
