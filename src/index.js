@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Book from './Book'
-import Edit from './Edit'
+import HomepageBook from './User/HomepageBook'
+import CartpageBook from './User/CartpageBook'
+import OrderpageBook from './User/OrderpageBook'
+import Edit from './Admin/Edit'
 import Login from "./Login";
 import Register from "./Register"
-import Homepage from "./Homepage"
-import Cart from "./Cart"
-import Order from "./Order"
-import Root from "./Root"
-import Bookmanage from "./Bookmanage"
-import Statistics from "./Statistics"
-import Userstatistics from "./Userstatistics"
+import Homepage from "./User/Homepage"
+import Cart from "./User/Cart"
+import Order from "./User/Order"
+import Root from "./Admin/Root"
+import Bookmanage from "./Admin/Bookmanage"
+import Statistics from "./Admin/Statistics"
+import Userstatistics from "./User/Userstatistics"
 
 import * as serviceWorker from './serviceWorker';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
@@ -34,7 +36,9 @@ ReactDOM.render(
                 <Route exact path="/Register" component={Register} />
                 <Route exact path="/Statistics" component={Statistics} />
                 <Route exact path="/Userstatistics" component={Userstatistics} />
-                <Route path="/detail/:id" component={Book} />
+                <Route path="/homepage/detail/:id" component={HomepageBook} />
+                <Route path="/orderpage/detail/:id" component={OrderpageBook} />
+                <Route path="/cartpage/detail/:id" component={CartpageBook} />
                 <Route path="/edit/:id" component={Edit} />
             </Switch>
         </Router>, document.getElementById('create-article-form'));

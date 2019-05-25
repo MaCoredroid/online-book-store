@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import axios from 'axios';
+import axios from 'axios/index';
 import {
     MDBCollapse, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBFormInline, MDBIcon,
     MDBNavbar,
@@ -16,7 +16,7 @@ import {Link} from "react-router-dom";
 
 import Cookies from 'js-cookie'
 
-class Book extends Component {
+class OrderpageBook extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -316,8 +316,8 @@ class Book extends Component {
 
             </a>
 
-    )
+        )
     }
 }
 
-export default Book;
+export default OrderpageBook;

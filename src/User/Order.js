@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBRow, MDBContainer, MDBCol, MDBBtn
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon
 } from "mdbreact";
 import { Link } from 'react-router-dom'
-import Lightbox from "react-image-lightbox";
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
-import axios from 'axios';
+import axios from "axios/index";
 import Cookies from "js-cookie";
-import "./css/Homepage.css";
+
 
 
 
@@ -20,56 +19,55 @@ let order = {
     stock: true,
 };
 let orderBy = 'name';
-class Homepage extends Component {
+class Order extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isOpen: false,
             books: [
 
+
+
             ],
             booksCp: [
 
-            ],
-            username:"",
-            photoIndex: 0,
-            images: [
+
 
             ]
         };
     }
     componentDidMount()
     {
-        let url=Cookies.get('url');
-        axios.get(url+`/booklist`,
-            )
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`,
+            {
+                params: {
+                    flag:"FALSE",
+                    username:Cookies.get("username"),
+                }
+            }
+        )
             .then(res => {
                 this.setState(
                     {
-                    books: res.data,
-                    booksCp: res.data
-                    });
-            });
-        axios.get(url+`/isbnlist`,
-            )
-            .then(res => {
-                this.setState(
-                    {
-                        images: res.data,
-
+                        books: res.data,
+                        booksCp: res.data
                     });
             });
         this.setState({username:Cookies.get("username")});
-    }
 
+    }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
     handleLink(isbn) {
-        Cookies.set('homepage', 1);
-        Cookies.set('cart', 0);
-        Cookies.set('order', 0);
+        Cookies.set('cart',0);
+        Cookies.set('homepage',0);
+        Cookies.set('order',1);
         return "/detail/" + isbn
+    }
+    handleLogout()
+    {
+        window.location.href = "http://localhost:3000/"
     }
     handleSort(index) {
         orderBy = index
@@ -106,49 +104,12 @@ class Homepage extends Component {
             books: list
         })
     }
-    handleLogout()
-    {
-        window.location.href = "http://localhost:3000/"
-    }
-    handlepictureLink(imageSrc)
-    {
-        Cookies.set('homepage', 1);
-        Cookies.set('cart', 0);
-        Cookies.set('order', 0);
-        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "http://localhost:3000/Homepage#/detail/"+ res;
-    }
-    renderImages = () => {
-        let photoIndex = 0;
-        const { images } = this.state;
-        let url=Cookies.get('url');
-        return images.map(imageSrc => {
-            photoIndex++;
-            const privateKey = photoIndex;
-            return (
-                <MDBCol md="3" key={photoIndex}>
-                    <figure >
-                        <img
-                            height="300px"
-                            width="200px"
-
-                            src={url+"/image/"+imageSrc}
-                            alt="Gallery"
-                            className="img-fluid z-depth-1"
-                            onClick={() => {this.handlepictureLink(imageSrc)}}
-                        />
-                    </figure>
-                </MDBCol>
-            );
-        })
-    }
-
     render() {
         return (
-           <a>
+            <paper>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Homepage</strong>
+                        <strong className="white-text">Order</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarBrand>
                         <strong className="white-text">Weclome, {this.state.username}</strong>
@@ -163,8 +124,8 @@ class Homepage extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
@@ -185,6 +146,7 @@ class Homepage extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
                                         <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
+
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
@@ -199,7 +161,7 @@ class Homepage extends Component {
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>库存</a></th>
+                            <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -229,15 +191,7 @@ class Homepage extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-
-                   <MDBContainer className="mt-5 p-3" style={{ backgroundColor: "#fff" }}>
-                       <div className="mdb-lightbox p-3">
-                           <MDBRow>
-                               {this.renderImages()}
-                           </MDBRow>
-                       </div>
-                   </MDBContainer>
-            </a>
+            </paper>
 
 
 
@@ -249,4 +203,4 @@ class Homepage extends Component {
     }
 }
 
-export default Homepage;
+export default Order;
