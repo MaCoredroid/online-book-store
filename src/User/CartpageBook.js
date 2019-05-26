@@ -226,7 +226,7 @@ class CartpageBook extends Component {
                         <strong className="white-text">BOOK</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome, {this.state.username}</strong>
+                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
@@ -277,29 +277,27 @@ class CartpageBook extends Component {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        {this.state.books.map((item, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td >
-                                        {item.name}
-                                    </td>
-                                    <td>
-                                        {item.author}
-                                    </td>
-                                    <td>
-                                        {item.price / 100}
-                                    </td>
-                                    <td>
-                                        {item.isbn}
-                                    </td>
-                                    <td>
-                                        {item.stock}
-                                    </td>
+
+                        <tr >
+                            <td >
+                                {this.state.books.name}
+                            </td>
+                            <td>
+                                {this.state.books.author}
+                            </td>
+                            <td>
+                                {this.state.books.price / 100}
+                            </td>
+                            <td>
+                                {this.state.books.isbn}
+                            </td>
+                            <td>
+                                {this.state.books.stock}
+                            </td>
 
 
-                                </tr>
-                            )
-                        })}
+                        </tr>
+
                     </MDBTableBody>
                 </MDBTable>
                 <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?flag=FALSE&isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>

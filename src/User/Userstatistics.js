@@ -170,7 +170,7 @@ class Userstatistics extends Component {
                         <strong className="white-text">Statistics</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome, {this.state.username}</strong>
+                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
@@ -223,30 +223,27 @@ class Userstatistics extends Component {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        {this.state.books.map((item, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td >
-                                        {item.name}
-                                    </td>
-                                    <td>
-                                        {item.author}
-                                    </td>
-                                    <td>
-                                        {item.price / 100}
-                                    </td>
-                                    <td>
-                                        {item.isbn}
-                                    </td>
-                                    <td>
-                                        {item.stock}
-                                    </td>
-                                    <td >
-                                        <Link to={this.handleLink(item.isbn)}>查看详情</Link>
-                                    </td>
-                                </tr>
-                            )
-                        })}
+
+                        <tr >
+                            <td >
+                                {this.state.books.name}
+                            </td>
+                            <td>
+                                {this.state.books.author}
+                            </td>
+                            <td>
+                                {this.state.books.price / 100}
+                            </td>
+                            <td>
+                                {this.state.books.isbn}
+                            </td>
+                            <td>
+                                {this.state.books.stock}
+                            </td>
+
+
+                        </tr>
+
                     </MDBTableBody>
                 </MDBTable>
                 <p>
