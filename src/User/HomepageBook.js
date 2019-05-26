@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import axios from 'axios/index';
+import axios from 'axios';
 import {
     MDBCollapse, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBFormInline, MDBIcon,
     MDBNavbar,
@@ -63,9 +63,18 @@ class HomepageBook extends Component {
 
     handleback()
     {
-
-        window.location.href = "http://localhost:3000/Homepage#/Homepage";
-
+        if(Cookies.get("cart")==="1")
+        {
+            window.location.href = "http://localhost:3000/Homepage#/Cart";
+        }
+        if(Cookies.get("homepage")==="1")
+        {
+            window.location.href = "http://localhost:3000/Homepage#/Homepage";
+        }
+        if(Cookies.get("order")==="1")
+        {
+            window.location.href = "http://localhost:3000/Homepage#/Order";
+        }
     }
     handlecart(username,isbn)
     {
@@ -307,7 +316,7 @@ class HomepageBook extends Component {
 
             </a>
 
-    )
+        )
     }
 }
 

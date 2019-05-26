@@ -4,7 +4,6 @@ import {
     MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBRow, MDBContainer, MDBCol, MDBBtn
 } from "mdbreact";
 import { Link } from 'react-router-dom'
-import Lightbox from "react-image-lightbox/index";
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from 'axios/index';
 import Cookies from "js-cookie";
@@ -66,7 +65,8 @@ class Homepage extends Component {
         this.setState({ isOpen: !this.state.isOpen });
     };
     handleLink(isbn) {
-        return "/homepage/detail/" + isbn
+        let temp = isbn.substring(isbn.length - 17,isbn.length);
+        return "/homepage/detail/" + temp
     }
     handleSort(index) {
         orderBy = index
@@ -224,13 +224,13 @@ class Homepage extends Component {
                     </MDBTableBody>
                 </MDBTable>
 
-                   <MDBContainer className="mt-5 p-3" style={{ backgroundColor: "#fff" }}>
-                       <div className="mdb-lightbox p-3">
-                           <MDBRow>
-                               {this.renderImages()}
-                           </MDBRow>
-                       </div>
-                   </MDBContainer>
+               <MDBContainer className="mt-5 p-3" style={{ backgroundColor: "#fff" }}>
+                   <div className="mdb-lightbox p-3">
+                       <MDBRow>
+                           {this.renderImages()}
+                       </MDBRow>
+                   </div>
+               </MDBContainer>
             </a>
 
 
