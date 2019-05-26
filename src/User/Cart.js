@@ -5,7 +5,7 @@ import {
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
-import axios from "axios";
+import axios from "axios/index";
 import Cookies from "js-cookie";
 
 
@@ -19,7 +19,7 @@ let order = {
     stock: true,
 };
 let orderBy = 'name';
-class Order extends Component {
+class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,13 +38,13 @@ class Order extends Component {
     }
     componentDidMount()
     {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`,
-            {
-                params: {
-                    flag:"FALSE",
+        axios.get(`http://localhost:8080/Javaweb_war_exploded/Cart`,
+        {
+            params: {
+
                     username:Cookies.get("username"),
-                }
             }
+        }
         )
             .then(res => {
                 this.setState(
@@ -60,14 +60,10 @@ class Order extends Component {
         this.setState({ isOpen: !this.state.isOpen });
     };
     handleLink(isbn) {
-        Cookies.set('cart',0);
+        Cookies.set('cart',1);
         Cookies.set('homepage',0);
-        Cookies.set('order',1);
+        Cookies.set('order',0);
         return "/detail/" + isbn
-    }
-    handleLogout()
-    {
-        window.location.href = "http://localhost:3000/"
     }
     handleSort(index) {
         orderBy = index
@@ -95,6 +91,10 @@ class Order extends Component {
         }
         return res
     }
+    handleLogout()
+    {
+        window.location.href = "http://localhost:3000/"
+    }
     handleChange() {
         let pattern = document.getElementById('filter').value
         let list = this.state.booksCp.filter((item) => {
@@ -109,7 +109,7 @@ class Order extends Component {
             <paper>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Order</strong>
+                        <strong className="white-text">Cart</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarBrand>
                         <strong className="white-text">Weclome, {this.state.username}</strong>
@@ -203,4 +203,4 @@ class Order extends Component {
     }
 }
 
-export default Order;
+export default Cart;
