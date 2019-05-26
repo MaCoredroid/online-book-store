@@ -24,9 +24,7 @@ class HomepageBook extends Component {
 
             books:[],
             username:"",
-            cartloaded:1,
-            orderloaded:1
-
+            url:Cookies.get('url')
 
 
         }
@@ -34,27 +32,11 @@ class HomepageBook extends Component {
     }
     componentDidMount() {
 
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Booklist`,{
-            params: {
-                flag:"FALSE",
-                isbn:this.props.match.params.id,
-            }
-        }).then(res => {
+        axios.get(this.state.url+`/Booklist/`+this.props.match.params.id).then(res => {
             this.setState({ books: res.data });
         });
-        console.log(this.props.match.params.id)
         this.setState({username:Cookies.get("username")});
-        if(Cookies.get("cart")==="1")
-        {
 
-            this.setState({cartloaded:0});
-        }
-        if(Cookies.get("order")==="1")
-        {
-
-
-            this.setState({orderloaded:0});
-        }
 
 
 
@@ -63,18 +45,9 @@ class HomepageBook extends Component {
 
     handleback()
     {
-        if(Cookies.get("cart")==="1")
-        {
-            window.location.href = "http://localhost:3000/Homepage#/Cart";
-        }
-        if(Cookies.get("homepage")==="1")
-        {
+
             window.location.href = "http://localhost:3000/Homepage#/Homepage";
-        }
-        if(Cookies.get("order")==="1")
-        {
-            window.location.href = "http://localhost:3000/Homepage#/Order";
-        }
+
     }
     handlecart(username,isbn)
     {
@@ -277,40 +250,32 @@ class HomepageBook extends Component {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        {this.state.books.map((item, index) => {
-                            return (
-                                <tr key={index}>
+
+                                <tr >
                                     <td >
-                                        {item.name}
+                                        {this.state.books.name}
                                     </td>
                                     <td>
-                                        {item.author}
+                                        {this.state.books.author}
                                     </td>
                                     <td>
-                                        {item.price / 100}
+                                        {this.state.books.price / 100}
                                     </td>
                                     <td>
-                                        {item.isbn}
+                                        {this.state.books.isbn}
                                     </td>
                                     <td>
-                                        {item.stock}
+                                        {this.state.books.stock}
                                     </td>
 
 
                                 </tr>
-                            )
-                        })}
+
                     </MDBTableBody>
                 </MDBTable>
-                <img src={"http://localhost:8080/Javaweb_war_exploded/getImage?flag=FALSE&isbn="+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <div className={(this.state.cartloaded===1 && this.state.orderloaded===1)? 'visible' : 'invisible'}>
+                <img src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
+                <div >
                     <MDBBtn className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
-                </div>
-                <div className={this.state.orderloaded===1? 'visible' : 'invisible'}>
-                    <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Purchase</MDBBtn>
-                </div>
-                <div className={this.state.cartloaded===1 ? 'invisible' : 'visible'}>
-                    <MDBBtn className="d-block p-2 " color="warning" onClick={()=>{this.handleremovefromcart(this.state.username,this.props.match.params.id)}}>Remove from Cart</MDBBtn>
                 </div>
                 <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
 
