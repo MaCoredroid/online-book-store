@@ -110,7 +110,7 @@ class Homepage extends Component {
     handlepictureLink(imageSrc)
     {
         let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "/homepage/detail/" + res;
+        window.location.href = "/Homepage#/homepage/detail/" + res;
     }
     renderImages = () => {
         let photoIndex = 0;
@@ -145,7 +145,7 @@ class Homepage extends Component {
                         <strong className="white-text">Homepage</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome, {this.state.username}</strong>
+                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>

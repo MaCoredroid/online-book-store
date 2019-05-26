@@ -198,8 +198,9 @@ class HomepageBook extends Component {
                     <MDBNavbarBrand>
                         <strong className="white-text">BOOK</strong>
                     </MDBNavbarBrand>
+
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome, {this.state.username}</strong>
+                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
@@ -220,6 +221,7 @@ class HomepageBook extends Component {
                             </MDBNavItem>
 
                         </MDBNavbarNav>
+
                         <MDBNavbarNav right>
 
 
@@ -238,6 +240,7 @@ class HomepageBook extends Component {
                     </MDBCollapse>
 
                 </MDBNavbar>
+
 
                 <MDBTable>
                     <MDBTableHead>

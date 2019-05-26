@@ -112,7 +112,7 @@ class Cart extends Component {
                         <strong className="white-text">Cart</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome, {this.state.username}</strong>
+                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>

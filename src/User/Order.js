@@ -24,6 +24,7 @@ class Order extends Component {
         super(props);
         this.state = {
             isOpen: false,
+            orders:[],
             books: [
 
 
@@ -33,37 +34,29 @@ class Order extends Component {
 
 
 
-            ]
+            ],
+            url:Cookies.get('url'),
+            username:Cookies.get("username")
         };
     }
     componentDidMount()
     {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`,
-            {
-                params: {
-                    flag:"FALSE",
-                    username:Cookies.get("username"),
-                }
-            }
-        )
-            .then(res => {
+        this.setState()
+        axios.get(this.state.url+`/order/`+this.state.username).then(res => {
                 this.setState(
                     {
                         books: res.data,
-                        booksCp: res.data
                     });
             });
-        this.setState({username:Cookies.get("username")});
+
 
     }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(isbn) {
-        Cookies.set('cart',0);
-        Cookies.set('homepage',0);
-        Cookies.set('order',1);
-        return "/detail/" + isbn
+    handleLink(isbn,number) {
+        Cookies.set('ordernumber',number);
+        return "/orderpage/detail/" + isbn
     }
     handleLogout()
     {
@@ -112,7 +105,7 @@ class Order extends Component {
                         <strong className="white-text">Order</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome, {this.state.username}</strong>
+                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
@@ -181,10 +174,10 @@ class Order extends Component {
                                         {item.isbn}
                                     </td>
                                     <td>
-                                        {item.stock}
+                                        {item.number}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(item.isbn)}>查看详情</Link>
+                                        <Link to={this.handleLink(item.isbn,item.number)}>查看详情</Link>
                                     </td>
                                 </tr>
                             )
