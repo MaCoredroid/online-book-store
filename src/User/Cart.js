@@ -43,7 +43,6 @@ class Cart extends Component {
     }
     componentDidMount()
     {
-        this.setState()
         axios.get(this.state.url+`/cart/`+this.state.username).then(res => {
             this.setState(
                 {
@@ -102,8 +101,20 @@ class Cart extends Component {
     }
     renderImages = () => {
         let  images  = [];
+        let flag=true;
         for (let i = 0; i < this.state.books.length; i++) {
-            images.push(this.state.books[i].isbn);
+            for(let j=0;j<images.length;j++)
+            {
+                if(images[j]===this.state.books[i].isbn)
+                {
+                    flag=false;
+                    break;
+                }
+
+            }
+            if(flag===true) {
+                images.push(this.state.books[i].isbn);
+            }
         }
         let photoIndex = 0;
         let url=Cookies.get('url');
@@ -120,17 +131,11 @@ class Cart extends Component {
                             src={url+"/image/"+imageSrc}
                             alt="Gallery"
                             className="img-fluid z-depth-1"
-                            onClick={() => {this.handlepictureLink(imageSrc)}}
                         />
                     </figure>
                 </MDBCol>
             );
         })
-    }
-    handlepictureLink(imageSrc)
-    {
-        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "/Homepage#/cartpage/detail/" + res;
     }
     render() {
         return (

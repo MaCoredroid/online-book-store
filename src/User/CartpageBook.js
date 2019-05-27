@@ -48,52 +48,6 @@ class CartpageBook extends Component {
             window.location.href = "http://localhost:3000/Homepage#/Cart";
 
     }
-    handlecart(username,isbn)
-    {
-        let number=0;
-        while(true)
-        {
-            number = parseInt(prompt("Please enter the number to add to cart :", "0"));
-            console.log(number);
-            if(number==null || number==""|| number===0|| isNaN(number))
-            {
-                break;
-            }
-            if ((number % 1 === 0) && number > 0) {
-
-                break;
-            }
-            else {
-                alert("Please enter positive integer");
-            }
-        }
-
-        if(number==null || number==""|| number===0||isNaN(number))
-        {
-
-        }
-        else
-        {
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Cart", false);
-            xhr.send(JSON.stringify({
-                "username": username,
-                "isbn": isbn,
-                "number": number,
-
-            }));
-            console.log(xhr.status);
-            if (xhr.responseText === "TRUE") {
-                alert("Books have been added to your cart");
-            } else {
-                alert("Failed to add books to your cart");
-            }
-        }
-
-
-
-
-    }
 
     handleremovefromcart(username,isbn)
     {
