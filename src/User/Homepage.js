@@ -17,6 +17,7 @@ let order = {
     price: true,
     isbn: true,
     stock: true,
+    booklistID:true,
 };
 let orderBy = 'name';
 class Homepage extends Component {
@@ -189,6 +190,7 @@ class Homepage extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
+                            <th><a onClick={() => { this.handleSort("booklistID") }}>编号</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
@@ -200,6 +202,9 @@ class Homepage extends Component {
                         {this.state.books.map((item, index) => {
                             return (
                                 <tr key={index}>
+                                    <td >
+                                        {item.booklistID}
+                                    </td>
                                     <td >
                                         {item.name}
                                     </td>

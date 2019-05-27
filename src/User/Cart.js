@@ -17,6 +17,7 @@ let order = {
     price: true,
     isbn: true,
     stock: true,
+    CartID:true,
 };
 let orderBy = 'name';
 class Cart extends Component {
@@ -181,6 +182,7 @@ class Cart extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
+                            <th><a onClick={() => { this.handleSort("CartID") }}>数量</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
@@ -192,6 +194,9 @@ class Cart extends Component {
                         {this.state.books.map((item, index) => {
                             return (
                                 <tr key={index}>
+                                    <td >
+                                        {item.CartID}
+                                    </td>
                                     <td >
                                         {item.name}
                                     </td>

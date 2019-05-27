@@ -241,6 +241,7 @@ class CartpageBook extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
+                            <th><a >编号</a></th>
                             <th><a >书名</a></th>
                             <th><a >作者</a></th>
                             <th><a >价格</a></th>
@@ -251,6 +252,9 @@ class CartpageBook extends Component {
                     <MDBTableBody>
 
                         <tr >
+                            <td >
+                                {this.state.books.booklistID}
+                            </td>
                             <td >
                                 {this.state.books.name}
                             </td>
