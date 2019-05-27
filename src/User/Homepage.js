@@ -66,8 +66,10 @@ class Homepage extends Component {
         this.setState({ isOpen: !this.state.isOpen });
     };
     handleLink(isbn) {
-        let temp = isbn.substring(isbn.length - 17,isbn.length);
-        return "/homepage/detail/" + temp
+        if(isbn!=null) {
+            let temp = isbn.substring(isbn.length - 17, isbn.length);
+            return "/homepage/detail/" + temp
+        }
     }
     handleSort(index) {
         orderBy = index

@@ -18,6 +18,8 @@ let order = {
     isbn: true,
     stock: true,
     OrderID:true,
+    timestamp:true,
+    number:true
 };
 let orderBy = 'name';
 class Order extends Component {
@@ -58,7 +60,9 @@ class Order extends Component {
     };
     handleLink(isbn,number) {
         Cookies.set('ordernumber',number);
-        return "/orderpage/detail/" + isbn
+        let res = isbn.substring(isbn.length - 17,isbn.length);
+        window.location.href = "http://localhost:3000"+"/Homepage#/orderpage/detail/" + res
+
     }
     handleLogout()
     {
@@ -190,6 +194,7 @@ class Order extends Component {
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
                             <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
+                            <th><a onClick={() => { this.handleSort("timestamp") }}>生成时间</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -214,8 +219,11 @@ class Order extends Component {
                                     <td>
                                         {item.number}
                                     </td>
-                                    <td >
-                                        <Link to={this.handleLink(item.isbn,item.number)}>查看详情</Link>
+                                    <td>
+                                        {(new Date(parseInt(item.timestamp))).toString()}
+                                    </td>
+                                    <td onClick={() => {this.handleLink(item.isbn,item.number)}}>
+                                        查看详情
                                     </td>
                                 </tr>
                             )
