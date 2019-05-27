@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBRow, MDBContainer, MDBCol
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
@@ -33,37 +33,29 @@ class Cart extends Component {
 
 
 
-            ]
+            ],
+            url:Cookies.get('url'),
+            username:Cookies.get("username")
         };
     }
     componentDidMount()
     {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Cart`,
-        {
-            params: {
-
-                    username:Cookies.get("username"),
-            }
-        }
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        books: res.data,
-                        booksCp: res.data
-                    });
-            });
-        this.setState({username:Cookies.get("username")});
+        this.setState()
+        axios.get(this.state.url+`/cart/`+this.state.username).then(res => {
+            this.setState(
+                {
+                    books: res.data,
+                });
+        });
 
     }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(isbn) {
-        Cookies.set('cart',1);
-        Cookies.set('homepage',0);
-        Cookies.set('order',0);
-        return "/detail/" + isbn
+    handleLink(isbn,number) {
+        Cookies.set('cartnumber',number);
+        return "/cartpage/detail/" + isbn
+
     }
     handleSort(index) {
         orderBy = index
@@ -102,6 +94,33 @@ class Cart extends Component {
         })
         this.setState({
             books: list
+        })
+    }
+    renderImages = () => {
+        let  images  = [];
+        for (let i = 0; i < this.state.books.length; i++) {
+            images.push(this.state.books[i].isbn);
+        }
+        let photoIndex = 0;
+        let url=Cookies.get('url');
+        return images.map(imageSrc => {
+            photoIndex++;
+            const privateKey = photoIndex;
+            return (
+                <MDBCol md="3" key={photoIndex}>
+                    <figure >
+                        <img
+                            height="300px"
+                            width="200px"
+
+                            src={url+"/image/"+imageSrc}
+                            alt="Gallery"
+                            className="img-fluid z-depth-1"
+                            onClick={() => {this.handlepictureLink(imageSrc)}}
+                        />
+                    </figure>
+                </MDBCol>
+            );
         })
     }
     render() {
@@ -181,16 +200,23 @@ class Cart extends Component {
                                         {item.isbn}
                                     </td>
                                     <td>
-                                        {item.stock}
+                                        {item.number}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(item.isbn)}>查看详情</Link>
+                                        <Link to={this.handleLink(item.isbn,item.number)}>查看详情</Link>
                                     </td>
                                 </tr>
                             )
                         })}
                     </MDBTableBody>
                 </MDBTable>
+                <MDBContainer className="mt-5 p-3" style={{ backgroundColor: "#fff" }}>
+                    <div className="mdb-lightbox p-3">
+                        <MDBRow>
+                            {this.renderImages()}
+                        </MDBRow>
+                    </div>
+                </MDBContainer>
             </paper>
 
 

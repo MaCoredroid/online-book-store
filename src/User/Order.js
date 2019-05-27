@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBRow, MDBContainer, MDBCol
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
@@ -41,11 +41,12 @@ class Order extends Component {
     }
     componentDidMount()
     {
-        this.setState()
+
         axios.get(this.state.url+`/order/`+this.state.username).then(res => {
                 this.setState(
                     {
                         books: res.data,
+                        booksCp: res.data
                     });
             });
 
@@ -63,9 +64,9 @@ class Order extends Component {
         window.location.href = "http://localhost:3000/"
     }
     handleSort(index) {
-        orderBy = index
-        order[index] = !order[index]
-        let list = []
+        orderBy = index;
+        order[index] = !order[index];
+        let list = [];
         for (let i = 0; i < this.state.books.length; i++) {
             list.push(this.state.books[i])
         }
@@ -95,6 +96,33 @@ class Order extends Component {
         })
         this.setState({
             books: list
+        })
+    }
+    renderImages = () => {
+        let  images  = [];
+        for (let i = 0; i < this.state.books.length; i++) {
+            images.push(this.state.books[i].isbn);
+        }
+        let photoIndex = 0;
+        let url=Cookies.get('url');
+        return images.map(imageSrc => {
+            photoIndex++;
+            const privateKey = photoIndex;
+            return (
+                <MDBCol md="3" key={photoIndex}>
+                    <figure >
+                        <img
+                            height="300px"
+                            width="200px"
+
+                            src={url+"/image/"+imageSrc}
+                            alt="Gallery"
+                            className="img-fluid z-depth-1"
+                            onClick={() => {this.handlepictureLink(imageSrc)}}
+                        />
+                    </figure>
+                </MDBCol>
+            );
         })
     }
     render() {
@@ -184,6 +212,13 @@ class Order extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
+                <MDBContainer className="mt-5 p-3" style={{ backgroundColor: "#fff" }}>
+                    <div className="mdb-lightbox p-3">
+                        <MDBRow>
+                            {this.renderImages()}
+                        </MDBRow>
+                    </div>
+                </MDBContainer>
             </paper>
 
 
