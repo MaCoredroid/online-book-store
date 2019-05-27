@@ -123,6 +123,11 @@ class Cart extends Component {
             );
         })
     }
+    handlepictureLink(imageSrc)
+    {
+        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
+        window.location.href = "/Homepage#/cartpage/detail/" + res;
+    }
     render() {
         return (
             <paper>

@@ -245,7 +245,7 @@ class CartpageBook extends Component {
                             <th><a >作者</a></th>
                             <th><a >价格</a></th>
                             <th><a >isbn</a></th>
-                            <th><a >库存</a></th>
+                            <th><a >数量</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
