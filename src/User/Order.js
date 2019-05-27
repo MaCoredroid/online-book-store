@@ -17,6 +17,9 @@ let order = {
     price: true,
     isbn: true,
     stock: true,
+    OrderID:true,
+    timestamp:true,
+    number:true
 };
 let orderBy = 'name';
 class Order extends Component {
@@ -57,7 +60,9 @@ class Order extends Component {
     };
     handleLink(isbn,number) {
         Cookies.set('ordernumber',number);
-        return "/orderpage/detail/" + isbn
+        let res = isbn.substring(isbn.length - 17,isbn.length);
+        window.location.href = "http://localhost:3000"+"/Homepage#/orderpage/detail/" + res
+
     }
     handleLogout()
     {
@@ -100,8 +105,20 @@ class Order extends Component {
     }
     renderImages = () => {
         let  images  = [];
+        let flag=true;
         for (let i = 0; i < this.state.books.length; i++) {
-            images.push(this.state.books[i].isbn);
+            for(let j=0;j<images.length;j++)
+            {
+                if(images[j]===this.state.books[i].isbn)
+                {
+                    flag=false;
+                    break;
+                }
+
+            }
+            if(flag===true) {
+                images.push(this.state.books[i].isbn);
+            }
         }
         let photoIndex = 0;
         let url=Cookies.get('url');
@@ -118,17 +135,11 @@ class Order extends Component {
                             src={url+"/image/"+imageSrc}
                             alt="Gallery"
                             className="img-fluid z-depth-1"
-                            onClick={() => {this.handlepictureLink(imageSrc)}}
                         />
                     </figure>
                 </MDBCol>
             );
         })
-    }
-    handlepictureLink(imageSrc)
-    {
-        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "/Homepage#/orderpage/detail/" + res;
     }
     render() {
         return (
@@ -183,17 +194,22 @@ class Order extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
+                            <th><a onClick={() => { this.handleSort("OrderID") }}>订单编号</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
                             <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
+                            <th><a onClick={() => { this.handleSort("timestamp") }}>生成时间</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
                         {this.state.books.map((item, index) => {
                             return (
                                 <tr key={index}>
+                                    <td >
+                                        {item.OrderID}
+                                    </td>
                                     <td >
                                         {item.name}
                                     </td>
@@ -209,8 +225,11 @@ class Order extends Component {
                                     <td>
                                         {item.number}
                                     </td>
-                                    <td >
-                                        <Link to={this.handleLink(item.isbn,item.number)}>查看详情</Link>
+                                    <td>
+                                        {(new Date(parseInt(item.timestamp))).toString()}
+                                    </td>
+                                    <td onClick={() => {this.handleLink(item.isbn,item.number)}}>
+                                        查看详情
                                     </td>
                                 </tr>
                             )

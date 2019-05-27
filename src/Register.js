@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBCard, MDBCardBody} from 'mdbreact';
 import {Link} from "react-router-dom";
+import Cookies from "js-cookie";
 class Register extends Component
 {
 
@@ -12,7 +13,7 @@ class Register extends Component
         let useremail=document.getElementById('useremail').value;
         if(username===""||username.length<4)
         {
-            alert("Password has to contain at least 4 characters");
+            alert("Username has to contain at least 4 characters");
             return;
         }
         if(pattern!==patternag)
@@ -32,26 +33,17 @@ class Register extends Component
             return;
         }
 
-        let request = new XMLHttpRequest();
-        request.open("GET", "http://localhost:8080/Javaweb_war_exploded/Checkuser?user=" + username, false);
-        request.send(null);
-        if(request.responseText === "FALSE")
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", Cookies.get("url")+"/register/username/"+username+"/password/"+pattern+"/email/"+useremail+"/star/"+"2", false);
+
+        xhr.send();
+        if(xhr.responseText === "false")
         {
             alert("This username has already been taken");
             return;
         }
-
-
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Checkuser", false);
-
-        xhr.send(JSON.stringify({
-            "username":username,
-            "useremail":useremail,
-            "password":pattern,
-
-        }));
-        if(xhr.responseText==="TRUE")
+        if(xhr.responseText==="true")
         {
             alert("Registration success!");
             return;

@@ -25,7 +25,8 @@ class CartpageBook extends Component {
             books:[],
             username:Cookies.get("username"),
             url:Cookies.get('url'),
-            cartnumber:Cookies.get('cartnumber')
+            cartnumber:Cookies.get('cartnumber'),
+            cartid:Cookies.get('cartid')
 
 
 
@@ -48,95 +49,20 @@ class CartpageBook extends Component {
             window.location.href = "http://localhost:3000/Homepage#/Cart";
 
     }
-    handlecart(username,isbn)
+
+    handleremovefromcart(booklistID)
     {
-        let number=0;
-        while(true)
-        {
-            number = parseInt(prompt("Please enter the number to add to cart :", "0"));
-            console.log(number);
-            if(number==null || number==""|| number===0|| isNaN(number))
-            {
-                break;
-            }
-            if ((number % 1 === 0) && number > 0) {
 
-                break;
-            }
-            else {
-                alert("Please enter positive integer");
-            }
-        }
 
-        if(number==null || number==""|| number===0||isNaN(number))
-        {
-
-        }
-        else
-        {
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Cart", false);
-            xhr.send(JSON.stringify({
-                "username": username,
-                "isbn": isbn,
-                "number": number,
-
-            }));
-            console.log(xhr.status);
-            if (xhr.responseText === "TRUE") {
-                alert("Books have been added to your cart");
-            } else {
-                alert("Failed to add books to your cart");
-            }
-        }
-
-
-
-
-    }
-
-    handleremovefromcart(username,isbn)
-    {
-        let number=0;
-        while(true)
-        {
-            number = parseInt(prompt("Please enter the number to remove from cart :", "0"));
-            console.log(number);
-            if(number==null || number==""|| number===0|| isNaN(number))
-            {
-                break;
-            }
-            if ((number % 1 === 0) && number > 0) {
-
-                break;
-            }
-            else {
-                alert("Please enter positive integer");
-            }
-        }
-
-        if(number==null || number==""|| number===0||isNaN(number))
-        {
-
-        }
-        else
-        {
-            let temp=number*(-1);
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Cart", false);
-            xhr.send(JSON.stringify({
-                "username": username,
-                "isbn": isbn,
-                "number":temp,
-
-            }));
-            console.log(xhr.status);
-            if (xhr.responseText === "TRUE") {
+            xhr.open("GET", this.state.url+"/cart/remove/"+booklistID, false);
+            xhr.send();
+            if (xhr.responseText === "true") {+
                 alert("Books have removed from your cart");
             } else {
                 alert("Failed to remove books from your cart");
             }
-        }
+
     }
     handleLogout()
     {
@@ -241,6 +167,7 @@ class CartpageBook extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
+                            <th><a >购物车编号</a></th>
                             <th><a >书名</a></th>
                             <th><a >作者</a></th>
                             <th><a >价格</a></th>
@@ -251,6 +178,9 @@ class CartpageBook extends Component {
                     <MDBTableBody>
 
                         <tr >
+                            <td >
+                                {this.state.cartid}
+                            </td>
                             <td >
                                 {this.state.books.name}
                             </td>
@@ -277,7 +207,7 @@ class CartpageBook extends Component {
                     <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Purchase</MDBBtn>
                 </div>
                 <div >
-                    <MDBBtn className="d-block p-2 " color="warning" onClick={()=>{this.handleremovefromcart(this.state.username,this.props.match.params.id)}}>Remove from Cart</MDBBtn>
+                    <MDBBtn className="d-block p-2 " color="warning" onClick={()=>{this.handleremovefromcart(this.state.cartid)}}>Remove from Cart</MDBBtn>
                 </div>
                 <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
 

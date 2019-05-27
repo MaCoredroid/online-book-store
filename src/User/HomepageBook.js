@@ -75,16 +75,11 @@ class HomepageBook extends Component {
         }
         else
         {
+            let time=new Date().getTime();
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Cart", false);
-            xhr.send(JSON.stringify({
-                "username": username,
-                "isbn": isbn,
-                "number": number,
-
-            }));
-            console.log(xhr.status);
-            if (xhr.responseText === "TRUE") {
+            xhr.open("GET", this.state.url+"/cart/username/"+username+"/isbn/"+isbn+"/number/"+number.toString()+"/time/"+time.toString(), false);
+            xhr.send();
+            if (xhr.responseText === "true") {
                 alert("Books have been added to your cart");
             } else {
                 alert("Failed to add books to your cart");
@@ -96,96 +91,9 @@ class HomepageBook extends Component {
 
     }
 
-    handleremovefromcart(username,isbn)
-    {
-        let number=0;
-        while(true)
-        {
-            number = parseInt(prompt("Please enter the number to remove from cart :", "0"));
-            console.log(number);
-            if(number==null || number==""|| number===0|| isNaN(number))
-            {
-                break;
-            }
-            if ((number % 1 === 0) && number > 0) {
-
-                break;
-            }
-            else {
-                alert("Please enter positive integer");
-            }
-        }
-
-        if(number==null || number==""|| number===0||isNaN(number))
-        {
-
-        }
-        else
-        {
-            let temp=number*(-1);
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Cart", false);
-            xhr.send(JSON.stringify({
-                "username": username,
-                "isbn": isbn,
-                "number":temp,
-
-            }));
-            console.log(xhr.status);
-            if (xhr.responseText === "TRUE") {
-                alert("Books have removed from your cart");
-            } else {
-                alert("Failed to remove books from your cart");
-            }
-        }
-    }
     handleLogout()
     {
         window.location.href = "http://localhost:3000/"
-    }
-    handlepurchase(username,isbn)
-    {
-        let number=0;
-        while(true)
-        {
-            number = parseInt(prompt("Please enter the number to add to purchase:", "0"));
-            console.log(number);
-            if(number==null || number==""|| number===0|| isNaN(number))
-            {
-                break;
-            }
-            if ((number % 1 === 0) && number > 0) {
-
-                break;
-            }
-            else {
-                alert("Please enter positive integer");
-            }
-        }
-
-        if(number==null || number==""|| number===0||isNaN(number))
-        {
-
-        }
-        else
-        {
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Order", false);
-            xhr.send(JSON.stringify({
-                "username": username,
-                "isbn": isbn,
-                "number": number,
-
-            }));
-            console.log(xhr.status);
-            if (xhr.responseText === "TRUE") {
-                alert("Books have been ordered");
-            } else {
-                alert("Failed to order books");
-            }
-        }
-
-
     }
 
 
@@ -245,6 +153,7 @@ class HomepageBook extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
+                            <th><a >书籍编号</a></th>
                             <th><a >书名</a></th>
                             <th><a >作者</a></th>
                             <th><a >价格</a></th>
@@ -255,6 +164,9 @@ class HomepageBook extends Component {
                     <MDBTableBody>
 
                                 <tr >
+                                    <td >
+                                        {this.state.books.booklistID}
+                                    </td>
                                     <td >
                                         {this.state.books.name}
                                     </td>
