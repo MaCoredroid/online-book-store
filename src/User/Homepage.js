@@ -190,7 +190,7 @@ class Homepage extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("booklistID") }}>编号</a></th>
+                            <th><a onClick={() => { this.handleSort("booklistID") }}>书籍编号</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>

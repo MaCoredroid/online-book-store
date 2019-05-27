@@ -184,7 +184,7 @@ class Order extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("OrderID") }}>编号</a></th>
+                            <th><a onClick={() => { this.handleSort("OrderID") }}>订单编号</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>

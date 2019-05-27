@@ -182,7 +182,7 @@ class Cart extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("CartID") }}>数量</a></th>
+                            <th><a onClick={() => { this.handleSort("CartID") }}>购物车编号</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
