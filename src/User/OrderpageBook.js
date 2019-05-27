@@ -25,7 +25,9 @@ class OrderpageBook extends Component {
             books:[],
             username:Cookies.get("username"),
             url:Cookies.get('url'),
-            ordernumber:Cookies.get('ordernumber')
+            ordernumber:Cookies.get('ordernumber'),
+            orderid:Cookies.get('orderid')
+
 
 
 
@@ -105,7 +107,7 @@ class OrderpageBook extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a >书籍编号</a></th>
+                            <th><a >订单编号</a></th>
                             <th><a >书名</a></th>
                             <th><a >作者</a></th>
                             <th><a >价格</a></th>
@@ -117,7 +119,7 @@ class OrderpageBook extends Component {
 
                         <tr >
                             <td >
-                                {this.state.books.booklistID}
+                                {this.state.orderid}
                             </td>
                             <td >
                                 {this.state.books.name}
