@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import '../css/Center.css'
 import axios from 'axios/index';
 import {
     MDBCollapse, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBFormInline, MDBIcon,
@@ -11,7 +11,6 @@ import {
     MDBTableBody,
     MDBTableHead
 } from "mdbreact";
-import { MDBBtn } from "mdbreact";
 import {Link} from "react-router-dom";
 
 import Cookies from 'js-cookie'
@@ -25,7 +24,9 @@ class OrderpageBook extends Component {
             books:[],
             username:Cookies.get("username"),
             url:Cookies.get('url'),
-            ordernumber:Cookies.get('ordernumber')
+            ordernumber:Cookies.get('ordernumber'),
+            orderid:Cookies.get('orderid')
+
 
 
 
@@ -50,6 +51,22 @@ class OrderpageBook extends Component {
     handleLogout()
     {
         window.location.href = "http://localhost:3000/Homepage#/"
+    }
+
+    handleremovefromorder(orderid)
+    {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/order/removeorder/"+orderid, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("This order record has been removed ");
+        }
+        else
+        {
+            alert("Failed to remove the order");
+        }
+        window.location.href = "http://localhost:3000/Homepage#/Order";
     }
 
 
@@ -105,7 +122,7 @@ class OrderpageBook extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a >书籍编号</a></th>
+                            <th><a >订单编号</a></th>
                             <th><a >书名</a></th>
                             <th><a >作者</a></th>
                             <th><a >价格</a></th>
@@ -117,7 +134,7 @@ class OrderpageBook extends Component {
 
                         <tr >
                             <td >
-                                {this.state.books.booklistID}
+                                {this.state.orderid}
                             </td>
                             <td >
                                 {this.state.books.name}
@@ -140,8 +157,16 @@ class OrderpageBook extends Component {
 
                     </MDBTableBody>
                 </MDBTable>
-                <img src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
+                <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
+                <MDBDropdown class="center">
+                    <MDBDropdownToggle caret color="primary">
+                        Action
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu basic>
+                        <MDBDropdownItem  onClick={()=>{this.handleremovefromorder(this.state.orderid)}}>Remove this order</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                </MDBDropdown>
 
             </a>
 

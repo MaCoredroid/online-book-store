@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-
+import '../css/Center.css'
 import axios from 'axios/index';
 import {
-    MDBCollapse, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBFormInline, MDBIcon,
+    MDBCollapse,
+    MDBContainer,
+    MDBDropdown,
+    MDBDropdownItem,
+    MDBDropdownMenu,
+    MDBDropdownToggle,
+    MDBFormInline,
+    MDBIcon,
+    MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader,
     MDBNavbar,
     MDBNavbarBrand,
     MDBNavbarNav,
-    MDBNavbarToggler, MDBNavItem,
+    MDBNavbarToggler,
+    MDBNavItem,
     MDBTable,
     MDBTableBody,
     MDBTableHead
@@ -26,7 +35,10 @@ class CartpageBook extends Component {
             username:Cookies.get("username"),
             url:Cookies.get('url'),
             cartnumber:Cookies.get('cartnumber'),
-            cartid:Cookies.get('cartid')
+            cartid:Cookies.get('cartid'),
+            value: 0,
+            modal: false
+
 
 
 
@@ -42,7 +54,35 @@ class CartpageBook extends Component {
 
 
     }
+    decrease = () => {
+        if(this.state.value<=0)
+        {
+            this.setState({ value: 0 });
+        }
+        else {
+            this.setState({value: this.state.value - 1});
+        }
+    }
 
+    increase = () => {
+        if(this.state.value<0)
+        {
+            this.setState({ value: 0 });
+        }
+        if(this.state.value>=this.state.books.stock)
+        {
+            this.setState({ value: this.state.books.stock });
+        }
+        else {
+            this.setState({value: this.state.value + 1});
+        }
+    }
+
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
     handleback()
     {
 
@@ -50,67 +90,73 @@ class CartpageBook extends Component {
 
     }
 
-    handleremovefromcart(booklistID)
+    handleremovefromcart(CartID)
     {
 
 
             let xhr = new XMLHttpRequest();
-            xhr.open("GET", this.state.url+"/cart/remove/"+booklistID, false);
+            xhr.open("GET", this.state.url+"/cart/remove/"+CartID, false);
             xhr.send();
             if (xhr.responseText === "true") {+
                 alert("Books have removed from your cart");
             } else {
                 alert("Failed to remove books from your cart");
             }
+            window.location.href = "http://localhost:3000/Homepage#/Cart";
 
     }
-    handleLogout()
+    handleChangecart()
     {
-        window.location.href = "http://localhost:3000/"
-    }
-    handlepurchase(username,isbn)
-    {
-        let number=0;
-        while(true)
-        {
-            number = parseInt(prompt("Please enter the number to add to purchase:", "0"));
-            console.log(number);
-            if(number==null || number==""|| number===0|| isNaN(number))
-            {
-                break;
-            }
-            if ((number % 1 === 0) && number > 0) {
 
-                break;
-            }
-            else {
-                alert("Please enter positive integer");
-            }
-        }
+        let number = this.state.value;
 
-        if(number==null || number==""|| number===0||isNaN(number))
+        if(number===0)
         {
 
         }
         else
         {
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Order", false);
-            xhr.send(JSON.stringify({
-                "username": username,
-                "isbn": isbn,
-                "number": number,
-
-            }));
-            console.log(xhr.status);
-            if (xhr.responseText === "TRUE") {
-                alert("Books have been ordered");
-            } else {
-                alert("Failed to order books");
+            xhr.open("GET", this.state.url + "/cart/change/" + this.state.cartid+"/number/"+this.state.value, false);
+            xhr.send();
+            if (xhr.responseText === "true")
+            {
+                    alert("The number has changed");
+                window.location.href = "http://localhost:3000/Homepage#/Cart";
             }
+            else
+            {
+                alert("Failed to change number");
+            }
+
         }
 
-
+    }
+    handleLogout()
+    {
+        window.location.href = "http://localhost:3000/"
+    }
+    handlePurchase()
+    {
+        let time=new Date().getTime();
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/cart/purchase/"+this.state.cartid+"/time/"+time.toString(), false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Books have been purchased");
+            this.setState({
+                modal: !this.state.modal
+            });
+            window.location.href = "http://localhost:3000/Homepage#/Cart";
+        }
+        else
+        {
+            alert("Failed to purchase:not enough books.");
+            this.setState({
+                modal: !this.state.modal
+            });
+        }
     }
 
 
@@ -202,14 +248,35 @@ class CartpageBook extends Component {
 
                     </MDBTableBody>
                 </MDBTable>
-                <img src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <div >
-                    <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Purchase</MDBBtn>
-                </div>
-                <div >
-                    <MDBBtn className="d-block p-2 " color="warning" onClick={()=>{this.handleremovefromcart(this.state.cartid)}}>Remove from Cart</MDBBtn>
-                </div>
-                <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
+                <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
+                <MDBDropdown class="center">
+                    <MDBDropdownToggle caret color="primary">
+                        Action
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu basic>
+                        <MDBDropdownItem  onClick={()=>{this.handleremovefromcart(this.state.cartid)}}>Remove from cart</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handlePurchase.bind(this)}>Purchase</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.toggle}>Change number</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                </MDBDropdown>
+                <MDBContainer>
+                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+                        <MDBModalHeader toggle={this.toggle}>Please choose the number</MDBModalHeader>
+                        <MDBModalBody>
+                            <div className="def-number-input number-input">
+                                <button onClick={this.decrease} className="minus"></button>
+                                <input className="quantity" name="quantity" value={this.state.value} onChange={()=> console.log('change')}
+                                       type="number" />
+                                <button onClick={this.increase} className="plus"></button>
+                            </div>
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                            <MDBBtn color="secondary" onClick={this.toggle}>Close</MDBBtn>
+                            <MDBBtn color="primary" onClick={()=>{this.handleChangecart()}}>Change</MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModal>
+                </MDBContainer>
 
             </a>
 

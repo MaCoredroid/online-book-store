@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import '../css/Center.css'
 import axios from 'axios';
 import {
     MDBCollapse, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBFormInline, MDBIcon,
@@ -11,8 +11,10 @@ import {
     MDBTableBody,
     MDBTableHead
 } from "mdbreact";
+import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import { MDBBtn } from "mdbreact";
 import {Link} from "react-router-dom";
+import "../css/Modal.css"
 
 import Cookies from 'js-cookie'
 
@@ -24,8 +26,9 @@ class HomepageBook extends Component {
 
             books:[],
             username:"",
-            url:Cookies.get('url')
-
+            url:Cookies.get('url'),
+            value: 0,
+            modal: false
 
         }
 
@@ -49,27 +52,42 @@ class HomepageBook extends Component {
             window.location.href = "http://localhost:3000/Homepage#/Homepage";
 
     }
+    decrease = () => {
+        if(this.state.value<=0)
+        {
+            this.setState({ value: 0 });
+        }
+        else {
+            this.setState({value: this.state.value - 1});
+        }
+    }
+
+    increase = () => {
+        if(this.state.value<0)
+        {
+            this.setState({ value: 0 });
+        }
+        if(this.state.value>=this.state.books.stock)
+        {
+            this.setState({ value: this.state.books.stock });
+        }
+        else {
+            this.setState({value: this.state.value + 1});
+        }
+    }
+
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
+
     handlecart(username,isbn)
     {
-        let number=0;
-        while(true)
-        {
-            number = parseInt(prompt("Please enter the number to add to cart :", "0"));
-            console.log(number);
-            if(number==null || number==""|| number===0|| isNaN(number))
-            {
-                break;
-            }
-            if ((number % 1 === 0) && number > 0) {
 
-                break;
-            }
-            else {
-                alert("Please enter positive integer");
-            }
-        }
+        let number = this.state.value;
 
-        if(number==null || number==""|| number===0||isNaN(number))
+        if(number===0)
         {
 
         }
@@ -81,6 +99,9 @@ class HomepageBook extends Component {
             xhr.send();
             if (xhr.responseText === "true") {
                 alert("Books have been added to your cart");
+                this.setState({
+                    modal: !this.state.modal
+                });
             } else {
                 alert("Failed to add books to your cart");
             }
@@ -188,11 +209,34 @@ class HomepageBook extends Component {
 
                     </MDBTableBody>
                 </MDBTable>
-                <img src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <div >
-                    <MDBBtn className="d-block p-2 " color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
-                </div>
-                <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
+                <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
+                <MDBDropdown class="center">
+                    <MDBDropdownToggle caret color="primary">
+                        Action
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu basic>
+                        <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.toggle}>Add to cart</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                </MDBDropdown>
+                <MDBContainer>
+                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+                        <MDBModalHeader toggle={this.toggle}>Please choose the number</MDBModalHeader>
+                        <MDBModalBody>
+                            <div className="def-number-input number-input">
+                                <button onClick={this.decrease} className="minus"></button>
+                                <input className="quantity" name="quantity" value={this.state.value} onChange={()=> console.log('change')}
+                                       type="number" />
+                                <button onClick={this.increase} className="plus"></button>
+                            </div>
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                            <MDBBtn color="secondary" onClick={this.toggle}>Close</MDBBtn>
+                            <MDBBtn color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add</MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModal>
+                </MDBContainer>
+
 
             </a>
 

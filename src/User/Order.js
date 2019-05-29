@@ -45,7 +45,7 @@ class Order extends Component {
     componentDidMount()
     {
 
-        axios.get(this.state.url+`/order/`+this.state.username).then(res => {
+        axios.get(this.state.url+`/order/getorder/`+this.state.username).then(res => {
                 this.setState(
                     {
                         books: res.data,
@@ -58,8 +58,9 @@ class Order extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(isbn,number) {
+    handleLink(isbn,number,id) {
         Cookies.set('ordernumber',number);
+        Cookies.set('orderid',id);
         let res = isbn.substring(isbn.length - 17,isbn.length);
         window.location.href = "http://localhost:3000"+"/Homepage#/orderpage/detail/" + res
 
@@ -228,7 +229,7 @@ class Order extends Component {
                                     <td>
                                         {(new Date(parseInt(item.timestamp))).toString()}
                                     </td>
-                                    <td onClick={() => {this.handleLink(item.isbn,item.number)}}>
+                                    <td onClick={() => {this.handleLink(item.isbn,item.number,item.OrderID)}}>
                                         查看详情
                                     </td>
                                 </tr>
