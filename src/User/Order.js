@@ -45,7 +45,7 @@ class Order extends Component {
     componentDidMount()
     {
 
-        axios.get(this.state.url+`/order/`+this.state.username).then(res => {
+        axios.get(this.state.url+`/order/getorder/`+this.state.username).then(res => {
                 this.setState(
                     {
                         books: res.data,

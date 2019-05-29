@@ -11,7 +11,6 @@ import {
     MDBTableBody,
     MDBTableHead
 } from "mdbreact";
-import { MDBBtn } from "mdbreact";
 import {Link} from "react-router-dom";
 
 import Cookies from 'js-cookie'
@@ -52,6 +51,22 @@ class OrderpageBook extends Component {
     handleLogout()
     {
         window.location.href = "http://localhost:3000/Homepage#/"
+    }
+
+    handleremovefromorder(orderid)
+    {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/order/removeorder/"+orderid, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("This order record has been removed ");
+        }
+        else
+        {
+            alert("Failed to remove the order");
+        }
+        window.location.href = "http://localhost:3000/Homepage#/Order";
     }
 
 
@@ -143,7 +158,15 @@ class OrderpageBook extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
+                <MDBDropdown class="center">
+                    <MDBDropdownToggle caret color="primary">
+                        Action
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu basic>
+                        <MDBDropdownItem  onClick={()=>{this.handleremovefromorder(this.state.orderid)}}>Remove this order</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                </MDBDropdown>
 
             </a>
 

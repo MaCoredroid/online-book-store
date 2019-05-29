@@ -152,7 +152,7 @@ class CartpageBook extends Component {
         }
         else
         {
-            alert("Failed to purchase:not enough books");
+            alert("Failed to purchase:not enough books.");
             this.setState({
                 modal: !this.state.modal
             });
