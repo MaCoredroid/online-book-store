@@ -36,6 +36,8 @@ class CartpageBook extends Component {
             url:Cookies.get('url'),
             cartnumber:Cookies.get('cartnumber'),
             cartid:Cookies.get('cartid'),
+            value: 0,
+            modal: false
 
 
 
@@ -52,7 +54,31 @@ class CartpageBook extends Component {
 
 
     }
+    decrease = () => {
+        if(this.state.value<=0)
+        {
+            this.setState({ value: 0 });
+        }
+        else {
+            this.setState({value: this.state.value - 1});
+        }
+    }
 
+    increase = () => {
+        if(this.state.value<0)
+        {
+            this.setState({ value: 0 });
+        }
+        else {
+            this.setState({value: this.state.value + 1});
+        }
+    }
+
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
     handleback()
     {
 
@@ -60,12 +86,12 @@ class CartpageBook extends Component {
 
     }
 
-    handleremovefromcart(booklistID)
+    handleremovefromcart(CartID)
     {
 
 
             let xhr = new XMLHttpRequest();
-            xhr.open("GET", this.state.url+"/cart/remove/"+booklistID, false);
+            xhr.open("GET", this.state.url+"/cart/remove/"+CartID, false);
             xhr.send();
             if (xhr.responseText === "true") {+
                 alert("Books have removed from your cart");
@@ -73,6 +99,29 @@ class CartpageBook extends Component {
                 alert("Failed to remove books from your cart");
             }
             window.location.href = "http://localhost:3000/Homepage#/Cart";
+
+    }
+    handleChangecart()
+    {
+
+        let number = this.state.value;
+
+        if(number===0)
+        {
+
+        }
+        else
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url + "/cart/change/" + this.state.cartid+"/number/"+this.state.value, false);
+            xhr.send();
+            if (xhr.responseText === "true") {
+                    alert("The number has changed");
+            } else {
+                alert("Failed to change number");
+            }
+            window.location.href = "http://localhost:3000/Homepage#/Cart";
+        }
 
     }
     handleLogout()
@@ -221,9 +270,27 @@ class CartpageBook extends Component {
                     <MDBDropdownMenu basic>
                         <MDBDropdownItem  onClick={()=>{this.handleremovefromcart(this.state.cartid)}}>Remove from cart</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Purchase</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.toggle}>Change number</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
+                <MDBContainer>
+                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+                        <MDBModalHeader toggle={this.toggle}>Please choose the number</MDBModalHeader>
+                        <MDBModalBody>
+                            <div className="def-number-input number-input">
+                                <button onClick={this.decrease} className="minus"></button>
+                                <input className="quantity" name="quantity" value={this.state.value} onChange={()=> console.log('change')}
+                                       type="number" />
+                                <button onClick={this.increase} className="plus"></button>
+                            </div>
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                            <MDBBtn color="secondary" onClick={this.toggle}>Close</MDBBtn>
+                            <MDBBtn color="primary" onClick={()=>{this.handleChangecart()}}>Change</MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModal>
+                </MDBContainer>
 
             </a>
 
