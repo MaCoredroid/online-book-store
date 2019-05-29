@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import '../css/Center.css'
 import axios from 'axios/index';
 import {
     MDBCollapse, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBFormInline, MDBIcon,
@@ -202,7 +202,7 @@ class CartpageBook extends Component {
 
                     </MDBTableBody>
                 </MDBTable>
-                <img src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
+                <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
                 <div >
                     <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Purchase</MDBBtn>
                 </div>
