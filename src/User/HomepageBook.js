@@ -95,6 +95,9 @@ class HomepageBook extends Component {
             xhr.send();
             if (xhr.responseText === "true") {
                 alert("Books have been added to your cart");
+                this.setState({
+                    modal: !this.state.modal
+                });
             } else {
                 alert("Failed to add books to your cart");
             }

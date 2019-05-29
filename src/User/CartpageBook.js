@@ -2,11 +2,20 @@ import React, { Component } from 'react';
 import '../css/Center.css'
 import axios from 'axios/index';
 import {
-    MDBCollapse, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBFormInline, MDBIcon,
+    MDBCollapse,
+    MDBContainer,
+    MDBDropdown,
+    MDBDropdownItem,
+    MDBDropdownMenu,
+    MDBDropdownToggle,
+    MDBFormInline,
+    MDBIcon,
+    MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader,
     MDBNavbar,
     MDBNavbarBrand,
     MDBNavbarNav,
-    MDBNavbarToggler, MDBNavItem,
+    MDBNavbarToggler,
+    MDBNavItem,
     MDBTable,
     MDBTableBody,
     MDBTableHead
@@ -26,7 +35,8 @@ class CartpageBook extends Component {
             username:Cookies.get("username"),
             url:Cookies.get('url'),
             cartnumber:Cookies.get('cartnumber'),
-            cartid:Cookies.get('cartid')
+            cartid:Cookies.get('cartid'),
+
 
 
 
@@ -62,6 +72,7 @@ class CartpageBook extends Component {
             } else {
                 alert("Failed to remove books from your cart");
             }
+            window.location.href = "http://localhost:3000/Homepage#/Cart";
 
     }
     handleLogout()
@@ -203,13 +214,16 @@ class CartpageBook extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <div >
-                    <MDBBtn className="d-block p-2 " color="info" onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Purchase</MDBBtn>
-                </div>
-                <div >
-                    <MDBBtn className="d-block p-2 " color="warning" onClick={()=>{this.handleremovefromcart(this.state.cartid)}}>Remove from Cart</MDBBtn>
-                </div>
-                <MDBBtn className="d-block p-2 " rounded color="secondary" onClick={this.handleback}>Back</MDBBtn>
+                <MDBDropdown class="center">
+                    <MDBDropdownToggle caret color="primary">
+                        Action
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu basic>
+                        <MDBDropdownItem  onClick={()=>{this.handleremovefromcart(this.state.cartid)}}>Remove from cart</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Purchase</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                </MDBDropdown>
 
             </a>
 
