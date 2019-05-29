@@ -69,6 +69,10 @@ class CartpageBook extends Component {
         {
             this.setState({ value: 0 });
         }
+        if(this.state.value>=this.state.books.stock)
+        {
+            this.setState({ value: this.state.books.stock });
+        }
         else {
             this.setState({value: this.state.value + 1});
         }
