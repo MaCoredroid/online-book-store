@@ -115,12 +115,16 @@ class CartpageBook extends Component {
             let xhr = new XMLHttpRequest();
             xhr.open("GET", this.state.url + "/cart/change/" + this.state.cartid+"/number/"+this.state.value, false);
             xhr.send();
-            if (xhr.responseText === "true") {
+            if (xhr.responseText === "true")
+            {
                     alert("The number has changed");
-            } else {
+                window.location.href = "http://localhost:3000/Homepage#/Cart";
+            }
+            else
+            {
                 alert("Failed to change number");
             }
-            window.location.href = "http://localhost:3000/Homepage#/Cart";
+
         }
 
     }
@@ -128,49 +132,27 @@ class CartpageBook extends Component {
     {
         window.location.href = "http://localhost:3000/"
     }
-    handlepurchase(username,isbn)
+    handlePurchase()
     {
-        let number=0;
-        while(true)
+        let time=new Date().getTime();
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/cart/purchase/"+this.state.cartid+"/time/"+time.toString(), false);
+        xhr.send();
+        if (xhr.responseText === "true")
         {
-            number = parseInt(prompt("Please enter the number to add to purchase:", "0"));
-            console.log(number);
-            if(number==null || number==""|| number===0|| isNaN(number))
-            {
-                break;
-            }
-            if ((number % 1 === 0) && number > 0) {
-
-                break;
-            }
-            else {
-                alert("Please enter positive integer");
-            }
-        }
-
-        if(number==null || number==""|| number===0||isNaN(number))
-        {
-
+            alert("Books have been purchased");
+            this.setState({
+                modal: !this.state.modal
+            });
+            window.location.href = "http://localhost:3000/Homepage#/Cart";
         }
         else
         {
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", " http://localhost:8080/Javaweb_war_exploded/Order", false);
-            xhr.send(JSON.stringify({
-                "username": username,
-                "isbn": isbn,
-                "number": number,
-
-            }));
-            console.log(xhr.status);
-            if (xhr.responseText === "TRUE") {
-                alert("Books have been ordered");
-            } else {
-                alert("Failed to order books");
-            }
+            alert("Failed to purchase:not enough books");
+            this.setState({
+                modal: !this.state.modal
+            });
         }
-
-
     }
 
 
@@ -269,7 +251,7 @@ class CartpageBook extends Component {
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
                         <MDBDropdownItem  onClick={()=>{this.handleremovefromcart(this.state.cartid)}}>Remove from cart</MDBDropdownItem>
-                        <MDBDropdownItem onClick={()=>{this.handlepurchase(this.state.username,this.props.match.params.id)}}>Purchase</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handlePurchase.bind(this)}>Purchase</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.toggle}>Change number</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
