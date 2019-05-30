@@ -142,7 +142,7 @@ class Homepage extends Component {
 
     render() {
         return (
-           <a>
+           <div className='background-component'>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
                         <strong className="white-text">Homepage</strong>
@@ -231,14 +231,14 @@ class Homepage extends Component {
                     </MDBTableBody>
                 </MDBTable>
 
-               <MDBContainer className="mt-5 p-3" style={{ backgroundColor: "#fff" }}>
+               <MDBContainer className="mt-5 p-3" >
                    <div className="mdb-lightbox p-3">
                        <MDBRow>
                            {this.renderImages()}
                        </MDBRow>
                    </div>
                </MDBContainer>
-            </a>
+            </div>
 
 
 

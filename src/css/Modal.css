@@ -60,3 +60,8 @@
     height: 2rem;
     color: #495057;
 }
+
+.background-component {
+    background: url(/src/img/back.jpg) no-repeat center center fixed;
+    background-size: cover;
+}

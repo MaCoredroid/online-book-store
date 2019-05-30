@@ -28,49 +28,38 @@ class Userstatistics extends Component {
         super(props);
         this.state = {
             isOpen: false,
-            books: [
+            info: [
 
 
 
             ],
-            booksCp: [
+            orders: [
 
 
 
             ],
-            startDate: new Date(),
-            endDate: new Date()
+            carts:[
+
+            ],
+            startDate: new Date().getDate(),
+            endDate: new Date().getDate(),
+            username:Cookies.get("username"),
+            cartisshowing:true,
+
+
+
         };
-        this.handledateChange= this.handledateChange.bind(this);
-        this.handledateChange1= this.handledateChange1.bind(this);
     }
     componentDidMount()
     {
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`,
-            {
-                params: {
-                    flag:"FALSE",
-                    username:Cookies.get("username"),
-                }
-            }
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        books: res.data,
-                        booksCp: res.data
-                    });
-            });
-        this.setState({username:Cookies.get("username")});
+
+
 
     }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
     handleLink(isbn) {
-        Cookies.set('cart',0);
-        Cookies.set('homepage',0);
-        Cookies.set('order',1);
         return "/detail/" + isbn
     }
     handleLogout()
@@ -112,7 +101,7 @@ class Userstatistics extends Component {
             books: list
         })
     }
-    handledateChange(date)
+    handlestartdateChange(date)
     {
         this.setState({
             startDate: date
@@ -137,7 +126,7 @@ class Userstatistics extends Component {
                     });
             });
     }
-    handledateChange1(date)
+    handleenddateChange1(date)
     {
         this.setState({
             endDate: date
@@ -275,6 +264,16 @@ class Userstatistics extends Component {
                     dateFormat="MMMM d, yyyy h:mm aa"
                     timeCaption="time"
                 />
+                <MDBDropdown class="center">
+                    <MDBDropdownToggle caret color="primary">
+                        Action
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu basic>
+                        <MDBDropdownItem  onClick={this.viewcart.bind(this)}>View Cart Statistics</MDBDropdownItem>
+                        <MDBDropdownItem  onClick={this.vieworder.bind(this)}>View Order Statistics</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                </MDBDropdown>
 
 
             </paper>

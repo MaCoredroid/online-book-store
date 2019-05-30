@@ -122,7 +122,7 @@ class HomepageBook extends Component {
     render()
     {
         return(
-            <a>
+            <div className='background-component'>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
                         <strong className="white-text">BOOK</strong>
@@ -238,7 +238,7 @@ class HomepageBook extends Component {
                 </MDBContainer>
 
 
-            </a>
+            </div>
 
         )
     }
