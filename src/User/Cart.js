@@ -100,54 +100,18 @@ class Cart extends Component {
             books: list
         })
     }
-    renderImages = () => {
-        let  images  = [];
-        let flag=true;
-        for (let i = 0; i < this.state.books.length; i++) {
-            for(let j=0;j<images.length;j++)
-            {
-                if(images[j]===this.state.books[i].isbn)
-                {
-                    flag=false;
-                    break;
-                }
-
-            }
-            if(flag===true) {
-                images.push(this.state.books[i].isbn);
-            }
-        }
-        let photoIndex = 0;
-        let url=Cookies.get('url');
-        return images.map(imageSrc => {
-            photoIndex++;
-            const privateKey = photoIndex;
-            return (
-                <MDBCol md="3" key={photoIndex}>
-                    <figure >
-                        <img
-                            height="300px"
-                            width="200px"
-
-                            src={url+"/image/"+imageSrc}
-                            alt="Gallery"
-                            className="img-fluid z-depth-1"
-                        />
-                    </figure>
-                </MDBCol>
-            );
-        })
-    }
     render() {
         return (
-            <paper>
+            <div>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Cart</strong>
+                        <strong className="dark-text">BOOK</strong>
                     </MDBNavbarBrand>
+
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
+                        <strong className="dark-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
+
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
                         <MDBNavbarNav left>
@@ -158,34 +122,32 @@ class Cart extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
+
                         </MDBNavbarNav>
+
                         <MDBNavbarNav right>
-                            <MDBNavItem>
-                                <MDBFormInline waves>
-                                    <div className="md-form my-0">
-                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
-                                    </div>
-                                </MDBFormInline>
-                            </MDBNavItem>
+
+
                             <MDBNavItem>
                                 <MDBDropdown>
                                     <MDBDropdownToggle nav caret>
                                         <MDBIcon icon="user" />
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
-                                        <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
 
+                                        <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
                         </MDBNavbarNav>
                     </MDBCollapse>
+
                 </MDBNavbar>
 
                 <MDBTable>
@@ -233,14 +195,7 @@ class Cart extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-                <MDBContainer className="mt-5 p-3" style={{ backgroundColor: "#fff" }}>
-                    <div className="mdb-lightbox p-3">
-                        <MDBRow>
-                            {this.renderImages()}
-                        </MDBRow>
-                    </div>
-                </MDBContainer>
-            </paper>
+            </div>
 
 
 

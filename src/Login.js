@@ -3,7 +3,8 @@ import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBCard, MDBCardBody, MDBInput } 
 import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import './css/Login.css'
-
+import { MDBFreeBird, MDBCardTitle, MDBEdgeHeader } from
+        "mdbreact";
 
 class Login extends Component {
     submitHandler = event => {
@@ -43,20 +44,21 @@ class Login extends Component {
         return (
 
 
-                <MDBContainer>
-                    <MDBRow>
-                        <MDBCol md="6">
-                            <form onSubmit={this.submitHandler}>
-                                <MDBCard >
-                                    <div className="header pt-3 grey lighten-2">
-                                        <MDBRow className="d-flex justify-content-start">
-                                            <h3 className="deep-grey-text mt-3 mb-4 pb-1 mx-5">
-
-                                                Log in
-                                            </h3>
-                                        </MDBRow>
-                                    </div>
-                                    <MDBCardBody className="mx-4 mt-4">
+                <MDBContainer >
+                    <MDBEdgeHeader color="white"></MDBEdgeHeader>
+                    <MDBFreeBird>
+                        <MDBRow>
+                            <MDBCol md="6" lg="5" className="mx-auto float-none white ">
+                                <MDBCard>
+                                <div className="header pt-3 grey lighten-2">
+                                    <MDBRow className="d-flex justify-content-start">
+                                        <h3 className="deep-grey-text mt-3 mb-4 pb-1 mx-5">
+                                            Log in
+                                        </h3>
+                                    </MDBRow>
+                                </div>
+                                <MDBCardBody className="mx-4 mt-4">
+                                    <form onSubmit={this.submitHandler}>
                                         <MDBInput label="username"
                                                   group type="text"
                                                   validate
@@ -93,12 +95,14 @@ class Login extends Component {
 
                                             </a>
                                         </p>
-                                    </MDBCardBody>
+                                    </form>
+                                </MDBCardBody>
                                 </MDBCard>
-                            </form>
-                        </MDBCol>
-                    </MDBRow>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBFreeBird>
                 </MDBContainer>
+
 
 
 

@@ -102,6 +102,7 @@ class HomepageBook extends Component {
                 this.setState({
                     modal: !this.state.modal
                 });
+                window.location.href = "http://localhost:3000/Homepage#/Cart";
             } else {
                 alert("Failed to add books to your cart");
             }
@@ -122,14 +123,14 @@ class HomepageBook extends Component {
     render()
     {
         return(
-            <a>
+            <div>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">BOOK</strong>
+                        <strong className="dark-text">BOOK</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
+                        <strong className="dark-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
@@ -210,7 +211,7 @@ class HomepageBook extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <MDBDropdown class="center">
+                <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
                         Action
                     </MDBDropdownToggle>
@@ -238,7 +239,7 @@ class HomepageBook extends Component {
                 </MDBContainer>
 
 
-            </a>
+            </div>
 
         )
     }

@@ -142,52 +142,53 @@ class Homepage extends Component {
 
     render() {
         return (
-           <a>
-                <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
-                    <MDBNavbarBrand>
-                        <strong className="white-text">Homepage</strong>
-                    </MDBNavbarBrand>
-                    <MDBNavbarBrand>
-                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
-                    </MDBNavbarBrand>
-                    <MDBNavbarToggler onClick={this.toggleCollapse} />
-                    <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-                        <MDBNavbarNav left>
-                            <MDBNavItem>
-                                <MDBDropdown>
-                                    <MDBDropdownToggle nav caret>
-                                        <span className="mr-2">Dropdown</span>
-                                    </MDBDropdownToggle>
-                                    <MDBDropdownMenu>
-                                        <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
-                                    </MDBDropdownMenu>
-                                </MDBDropdown>
-                            </MDBNavItem>
-                        </MDBNavbarNav>
-                        <MDBNavbarNav right>
-                            <MDBNavItem>
-                                <MDBFormInline waves>
-                                    <div className="md-form my-0">
-                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
-                                    </div>
-                                </MDBFormInline>
-                            </MDBNavItem>
-                            <MDBNavItem>
-                                <MDBDropdown>
-                                    <MDBDropdownToggle nav caret>
-                                        <MDBIcon icon="user" />
-                                    </MDBDropdownToggle>
-                                    <MDBDropdownMenu className="dropdown-default" right>
-                                        <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
-                                    </MDBDropdownMenu>
-                                </MDBDropdown>
-                            </MDBNavItem>
-                        </MDBNavbarNav>
-                    </MDBCollapse>
-                </MDBNavbar>
+           <div>
+               <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
+                   <MDBNavbarBrand>
+                       <strong className="dark-text">BOOK</strong>
+                   </MDBNavbarBrand>
+
+                   <MDBNavbarBrand>
+                       <strong className="dark-text">Weclome,  User {this.state.username}           </strong>
+                   </MDBNavbarBrand>
+
+                   <MDBNavbarToggler onClick={this.toggleCollapse} />
+                   <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
+                       <MDBNavbarNav left>
+                           <MDBNavItem>
+                               <MDBDropdown>
+                                   <MDBDropdownToggle nav caret>
+                                       <span className="mr-2">Dropdown</span>
+                                   </MDBDropdownToggle>
+                                   <MDBDropdownMenu>
+                                       <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
+                                       <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
+                                       <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
+                                       <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
+                                   </MDBDropdownMenu>
+                               </MDBDropdown>
+                           </MDBNavItem>
+
+                       </MDBNavbarNav>
+
+                       <MDBNavbarNav right>
+
+
+                           <MDBNavItem>
+                               <MDBDropdown>
+                                   <MDBDropdownToggle nav caret>
+                                       <MDBIcon icon="user" />
+                                   </MDBDropdownToggle>
+                                   <MDBDropdownMenu className="dropdown-default" right>
+
+                                       <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
+                                   </MDBDropdownMenu>
+                               </MDBDropdown>
+                           </MDBNavItem>
+                       </MDBNavbarNav>
+                   </MDBCollapse>
+
+               </MDBNavbar>
 
                 <MDBTable>
                     <MDBTableHead>
@@ -231,14 +232,14 @@ class Homepage extends Component {
                     </MDBTableBody>
                 </MDBTable>
 
-               <MDBContainer className="mt-5 p-3" style={{ backgroundColor: "#fff" }}>
+               <MDBContainer className="mt-5 p-3" >
                    <div className="mdb-lightbox p-3">
                        <MDBRow>
                            {this.renderImages()}
                        </MDBRow>
                    </div>
                </MDBContainer>
-            </a>
+            </div>
 
 
 

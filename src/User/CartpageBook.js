@@ -148,7 +148,7 @@ class CartpageBook extends Component {
             this.setState({
                 modal: !this.state.modal
             });
-            window.location.href = "http://localhost:3000/Homepage#/Cart";
+            window.location.href = "http://localhost:3000/Homepage#/Order";
         }
         else
         {
@@ -167,10 +167,11 @@ class CartpageBook extends Component {
             <a>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">BOOK</strong>
+                        <strong className="dark-text">BOOK</strong>
                     </MDBNavbarBrand>
+
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
+                        <strong className="dark-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
@@ -191,6 +192,7 @@ class CartpageBook extends Component {
                             </MDBNavItem>
 
                         </MDBNavbarNav>
+
                         <MDBNavbarNav right>
 
 
@@ -249,7 +251,7 @@ class CartpageBook extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <MDBDropdown class="center">
+                <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
                         Action
                     </MDBDropdownToggle>
