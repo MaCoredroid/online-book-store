@@ -406,7 +406,3 @@
     transform: translateX(-50%) translateY(-50%);
 }
 
-.background-component {
-    background: url(/src/img/back.jpg) no-repeat center center fixed;
-    background-size: cover;
-}

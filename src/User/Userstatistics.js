@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon,
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon,MDBInput, MDBContainer
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from "axios/index";
 import Cookies from "js-cookie";
 import DatePicker from "react-datepicker/es";
-
 import "react-datepicker/dist/react-datepicker.css";
 
 
@@ -28,23 +27,24 @@ class Userstatistics extends Component {
         super(props);
         this.state = {
             isOpen: false,
-            info: [
-
-
-
-            ],
             orders: [
-
-
 
             ],
             carts:[
 
             ],
-            startDate: new Date().getDate(),
-            endDate: new Date().getDate(),
+            books:[
+
+            ],
+            booksCp: [
+
+            ],
+            startDate: new Date(),
+            endDate: new Date(),
+            url:Cookies.get('url'),
             username:Cookies.get("username"),
             cartisshowing:true,
+
 
 
 
@@ -52,16 +52,28 @@ class Userstatistics extends Component {
     }
     componentDidMount()
     {
+        axios.get(this.state.url+`/cart/`+this.state.username).then(res => {
+            this.setState(
+                {
+                    carts: res.data,
+                    cartscp:res.data,
 
+                });
+        });
+        axios.get(this.state.url+`/order/getorder/`+this.state.username).then(res => {
+            this.setState(
+                {
+                    orders: res.data,
+                    orderscp: res.data
+                });
+        });
+        this.handledateChange();
 
 
     }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(isbn) {
-        return "/detail/" + isbn
-    }
     handleLogout()
     {
         window.location.href = "http://localhost:3000/"
@@ -92,6 +104,30 @@ class Userstatistics extends Component {
         }
         return res
     }
+    handledateChange(){
+        let tempbooks=[];
+        if(this.state.cartisshowing==true) {
+            tempbooks = this.state.carts;
+        }
+        else {
+            tempbooks = this.state.orders;
+        }
+        let res=[];
+        for(let i=0;i<tempbooks.length;i++)
+        {
+            if(tempbooks[i].timestamp>=this.state.startDate.getDate()&&tempbooks[i].timestamp<=this.state.endDate.getDate())
+            {
+                res.push(tempbooks[i]);
+            }
+        }
+        this.setState({
+            books: res,
+            booksCp:res
+        }
+
+    )
+
+    }
     handleChange() {
         let pattern = document.getElementById('filter').value
         let list = this.state.booksCp.filter((item) => {
@@ -101,66 +137,18 @@ class Userstatistics extends Component {
             books: list
         })
     }
-    handlestartdateChange(date)
-    {
-        this.setState({
-            startDate: date
-        });
-        let start = this.state.startDate.getTime();
-        let end = this.state.endDate.getTime();
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`,
-            {
-                params: {
-                    start:start,
-                    end:end,
-                    flag:"TRUE",
-                    username:Cookies.get("username"),
-                }
-            }
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        books: res.data,
-                        booksCp: res.data
-                    });
-            });
-    }
-    handleenddateChange1(date)
-    {
-        this.setState({
-            endDate: date
-        });
-        let start = this.state.startDate.getTime();
-        let end = this.state.endDate.getTime();
-        axios.get(`http://localhost:8080/Javaweb_war_exploded/Order`,
-            {
-                params: {
-                    start:start,
-                    end:end,
-                    flag:"TRUE",
-                    username:Cookies.get("username"),
-                }
-            }
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        books: res.data,
-                        booksCp: res.data
-                    });
-            });
-    }
     render() {
         return (
-            <paper>
+            <div>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="white-text">Statistics</strong>
+                        <strong className="dark-text">BOOK</strong>
                     </MDBNavbarBrand>
+
                     <MDBNavbarBrand>
-                        <strong className="white-text">Weclome,  User {this.state.username}           </strong>
+                        <strong className="dark-text">Weclome,  User {this.state.username}           </strong>
                     </MDBNavbarBrand>
+
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
                         <MDBNavbarNav left>
@@ -171,34 +159,32 @@ class Userstatistics extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
                                         <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
                                         <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
+                                        <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
+
                         </MDBNavbarNav>
+
                         <MDBNavbarNav right>
-                            <MDBNavItem>
-                                <MDBFormInline waves>
-                                    <div className="md-form my-0">
-                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
-                                    </div>
-                                </MDBFormInline>
-                            </MDBNavItem>
+
+
                             <MDBNavItem>
                                 <MDBDropdown>
                                     <MDBDropdownToggle nav caret>
                                         <MDBIcon icon="user" />
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
-                                        <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
 
+                                        <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
                         </MDBNavbarNav>
                     </MDBCollapse>
+
                 </MDBNavbar>
 
                 <MDBTable>
@@ -209,30 +195,34 @@ class Userstatistics extends Component {
                             <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
                             <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
+                            <th><a onClick={() => { this.handleSort("timestamp") }}>生成时间</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-
-                        <tr >
-                            <td >
-                                {this.state.books.name}
-                            </td>
-                            <td>
-                                {this.state.books.author}
-                            </td>
-                            <td>
-                                {this.state.books.price / 100}
-                            </td>
-                            <td>
-                                {this.state.books.isbn}
-                            </td>
-                            <td>
-                                {this.state.books.stock}
-                            </td>
-
-
-                        </tr>
-
+                        {this.state.books.map((item, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td >
+                                        {item.name}
+                                    </td>
+                                    <td>
+                                        {item.author}
+                                    </td>
+                                    <td>
+                                        {item.price / 100}
+                                    </td>
+                                    <td>
+                                        {item.isbn}
+                                    </td>
+                                    <td>
+                                        {item.number}
+                                    </td>
+                                    <td>
+                                        {(new Date(parseInt(item.timestamp))).toString()}
+                                    </td>
+                                </tr>
+                            )
+                        })}
                     </MDBTableBody>
                 </MDBTable>
                 <p>
@@ -248,35 +238,30 @@ class Userstatistics extends Component {
                     dateFormat="MMMM d, yyyy h:mm aa"
                     timeCaption="time"
                 />
-                    <p>
-
-                    </p>
                 <p>
                     To:
                 </p>
 
                 <DatePicker
                     selected={this.state.endDate}
-                    onChange={this.handledateChange1}
+                    onChange={this.handledateChange}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={15}
                     dateFormat="MMMM d, yyyy h:mm aa"
                     timeCaption="time"
                 />
-                <MDBDropdown class="center">
+                <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
                         Action
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
-                        <MDBDropdownItem  onClick={this.viewcart.bind(this)}>View Cart Statistics</MDBDropdownItem>
-                        <MDBDropdownItem  onClick={this.vieworder.bind(this)}>View Order Statistics</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
 
 
-            </paper>
+            </div>
 
 
 
