@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import {MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBCard, MDBCardBody} from 'mdbreact';
+import {
+    MDBContainer,
+    MDBRow,
+    MDBCol,
+    MDBBtn,
+    MDBInput,
+    MDBCard,
+    MDBCardBody,
+    MDBEdgeHeader,
+    MDBFreeBird
+} from 'mdbreact';
 import {Link} from "react-router-dom";
 import Cookies from "js-cookie";
 class Register extends Component
@@ -56,8 +66,10 @@ class Register extends Component
     {
         return (
                 <MDBContainer>
+                    <MDBEdgeHeader color="white"></MDBEdgeHeader>
+                    <MDBFreeBird>
                     <MDBRow>
-                        <MDBCol md="6">
+                        <MDBCol md="6" lg="5" className="mx-auto float-none white ">
                             <MDBCard>
                                 <MDBCardBody>
                                     <form  onSubmit={this.submitHandler}>
@@ -113,6 +125,7 @@ class Register extends Component
                             </MDBCard>
                         </MDBCol>
                     </MDBRow>
+                    </MDBFreeBird>
                 </MDBContainer>
         );
     }
