@@ -48,9 +48,10 @@ class CartpageBook extends Component {
     componentDidMount() {
 
         axios.get(this.state.url+`/Booklist/`+this.props.match.params.id).then(res => {
-            this.setState({ books: res.data });
+            this.setState({ books: res.data,
+            value:this.state.cartnumber
+            });
         });
-
 
 
     }
@@ -167,7 +168,7 @@ class CartpageBook extends Component {
             <a>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="dark-text">BOOK</strong>
+                        <strong className="dark-text">Carts</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>

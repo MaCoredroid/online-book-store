@@ -76,7 +76,7 @@ class OrderpageBook extends Component {
             <a>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="dark-text">BOOK</strong>
+                        <strong className="dark-text">Orders</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>

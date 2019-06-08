@@ -38,7 +38,10 @@ class Cart extends Component {
 
             ],
             url:Cookies.get('url'),
-            username:Cookies.get("username")
+            username:Cookies.get("username"),
+            images: [
+
+            ]
         };
     }
     componentDidMount()
@@ -49,6 +52,15 @@ class Cart extends Component {
                     books: res.data,
                 });
         });
+        axios.get(this.state.url+`/isbnlist`,
+        )
+            .then(res => {
+                this.setState(
+                    {
+                        images: res.data,
+
+                    });
+            });
 
     }
     toggleCollapse = () => {
@@ -100,12 +112,41 @@ class Cart extends Component {
             books: list
         })
     }
+    handlepictureLink(imageSrc)
+    {
+        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
+        window.location.href = "/Homepage#/homepage/detail/" + res;
+    }
+    renderImages = () => {
+        let photoIndex = 0;
+        const { images } = this.state;
+        let url=Cookies.get('url');
+        return images.map(imageSrc => {
+            photoIndex++;
+            const privateKey = photoIndex;
+            return (
+                <MDBCol md="3" key={photoIndex}>
+                    <figure >
+                        <img
+                            height="300px"
+                            width="200px"
+
+                            src={url+"/image/"+imageSrc}
+                            alt="Gallery"
+                            className="img-fluid z-depth-1"
+                            onClick={() => {this.handlepictureLink(imageSrc)}}
+                        />
+                    </figure>
+                </MDBCol>
+            );
+        })
+    }
     render() {
         return (
             <div>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="dark-text">BOOK</strong>
+                        <strong className="dark-text">Carts</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>
@@ -195,6 +236,13 @@ class Cart extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
+                <MDBContainer className="mt-5 p-3" >
+                    <div className="mdb-lightbox p-3">
+                        <MDBRow>
+                            {this.renderImages()}
+                        </MDBRow>
+                    </div>
+                </MDBContainer>
             </div>
 
 

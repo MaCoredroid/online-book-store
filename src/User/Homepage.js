@@ -31,7 +31,7 @@ class Homepage extends Component {
             booksCp: [
 
             ],
-            username:"",
+            username:Cookies.get("username"),
             photoIndex: 0,
             images: [
 
@@ -59,7 +59,6 @@ class Homepage extends Component {
 
                     });
             });
-        this.setState({username:Cookies.get("username")});
     }
 
     toggleCollapse = () => {
@@ -145,7 +144,7 @@ class Homepage extends Component {
            <div>
                <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                    <MDBNavbarBrand>
-                       <strong className="dark-text">BOOK</strong>
+                       <strong className="dark-text">Books</strong>
                    </MDBNavbarBrand>
 
                    <MDBNavbarBrand>
