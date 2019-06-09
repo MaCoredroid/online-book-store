@@ -50,6 +50,8 @@ class Userstatistics extends Component {
 
 
         };
+        this.handlestartdateChange= this.handlestartdateChange.bind(this);
+        this.handleenddateChange= this.handleenddateChange.bind(this);
     }
     componentDidMount()
     {
@@ -151,6 +153,16 @@ class Userstatistics extends Component {
     }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/Homepage#/"+ where;
+    }
+    handlestartdateChange(date){
+        this.setState({
+            startDate: date
+        }, this.handledateChange);
+    }
+    handleenddateChange(date){
+        this.setState({
+            endDate: date
+        }, this.handledateChange);
     }
     render() {
         return (
@@ -255,20 +267,20 @@ class Userstatistics extends Component {
 
                 <DatePicker
                     selected={this.state.startDate}
-                    onChange={this.handledateChange}
+                    onChange={this.handlestartdateChange}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={15}
                     dateFormat="MMMM d, yyyy h:mm aa"
                     timeCaption="time"
                 />
-               
+
                     To:
 
 
                 <DatePicker
                     selected={this.state.endDate}
-                    onChange={this.handledateChange}
+                    onChange={this.handleenddateChange}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={15}
@@ -277,7 +289,7 @@ class Userstatistics extends Component {
                 />
                 <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
-                        Action
+                        Change
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
                         <MDBDropdownItem onClick={this.handleOrder.bind(this)}>Order</MDBDropdownItem>
