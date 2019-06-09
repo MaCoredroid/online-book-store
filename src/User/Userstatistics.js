@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon,MDBInput, MDBContainer
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBInput, MDBContainer, MDBModal
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
@@ -50,6 +50,8 @@ class Userstatistics extends Component {
 
 
         };
+        this.handlestartdateChange= this.handlestartdateChange.bind(this);
+        this.handleenddateChange= this.handleenddateChange.bind(this);
     }
     componentDidMount()
     {
@@ -149,6 +151,19 @@ class Userstatistics extends Component {
             cartisshowing:true,
         },this.handledateChange)
     }
+    handleNavLink(where){
+        window.location.href = "http://localhost:3000/Homepage#/"+ where;
+    }
+    handlestartdateChange(date){
+        this.setState({
+            startDate: date
+        }, this.handledateChange);
+    }
+    handleenddateChange(date){
+        this.setState({
+            endDate: date
+        }, this.handledateChange);
+    }
     render() {
         return (
             <div>
@@ -170,10 +185,10 @@ class Userstatistics extends Component {
                                         <span className="mr-2">Dropdown</span>
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
-                                        <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Order")}>Order</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Cart")}>Cart</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Homepage")}>Homepage</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Userstatistics")}>Statistics</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
@@ -202,18 +217,27 @@ class Userstatistics extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
-                            <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
-                            <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
-                            <th><a onClick={() => { this.handleSort("timestamp") }}>生成时间</a></th>
+                            { this.state.cartisshowing ? <th><a onClick={() => { this.handleSort("CartID") }}>CartID</a></th> : <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th> }
+                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
+                            <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
+                            <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
+                            <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
+                            <th><a onClick={() => { this.handleSort("number") }}>Number</a></th>
+                            <th><a onClick={() => { this.handleSort("timestamp") }}>Time</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
                         {this.state.books.map((item, index) => {
                             return (
                                 <tr key={index}>
+                                    { this.state.cartisshowing ?
+                                    <td >
+                                        {item.CartID}
+                                    </td> :
+                                    <td >
+                                        {item.OrderID}
+                                    </td>
+                                    }
                                     <td >
                                         {item.name}
                                     </td>
@@ -237,26 +261,26 @@ class Userstatistics extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-                <p>
+
                     Start from:
-                </p>
+
 
                 <DatePicker
                     selected={this.state.startDate}
-                    onChange={this.handledateChange}
+                    onChange={this.handlestartdateChange}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={15}
                     dateFormat="MMMM d, yyyy h:mm aa"
                     timeCaption="time"
                 />
-                <p>
+
                     To:
-                </p>
+
 
                 <DatePicker
                     selected={this.state.endDate}
-                    onChange={this.handledateChange}
+                    onChange={this.handleenddateChange}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={15}
@@ -265,7 +289,7 @@ class Userstatistics extends Component {
                 />
                 <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
-                        Action
+                        Change
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
                         <MDBDropdownItem onClick={this.handleOrder.bind(this)}>Order</MDBDropdownItem>

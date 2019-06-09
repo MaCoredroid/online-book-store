@@ -138,6 +138,9 @@ class Homepage extends Component {
             );
         })
     }
+    handleNavLink(where){
+        window.location.href = "http://localhost:3000/Homepage#/"+ where;
+    }
 
     render() {
         return (
@@ -160,10 +163,10 @@ class Homepage extends Component {
                                        <span className="mr-2">Dropdown</span>
                                    </MDBDropdownToggle>
                                    <MDBDropdownMenu>
-                                       <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                       <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
-                                       <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
-                                       <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
+                                       <MDBDropdownItem onClick={()=>this.handleNavLink("Order")}>Order</MDBDropdownItem>
+                                       <MDBDropdownItem onClick={()=>this.handleNavLink("Cart")}>Cart</MDBDropdownItem>
+                                       <MDBDropdownItem onClick={()=>this.handleNavLink("Homepage")}>Homepage</MDBDropdownItem>
+                                       <MDBDropdownItem onClick={()=>this.handleNavLink("Userstatistics")}>Statistics</MDBDropdownItem>
                                    </MDBDropdownMenu>
                                </MDBDropdown>
                            </MDBNavItem>

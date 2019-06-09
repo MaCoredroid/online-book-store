@@ -55,7 +55,8 @@ class Register extends Component
         }
         if(xhr.responseText==="true")
         {
-            alert("Registration success!");
+            alert("Registration success! Please log in");
+            window.location.href = "http://localhost:3000/"
             return;
         }
 
