@@ -126,7 +126,7 @@ class HomepageBook extends Component {
             <div>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="dark-text">BOOK</strong>
+                        <strong className="dark-text">Books</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>
@@ -175,12 +175,12 @@ class HomepageBook extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a >书籍编号</a></th>
-                            <th><a >书名</a></th>
-                            <th><a >作者</a></th>
-                            <th><a >价格</a></th>
-                            <th><a >isbn</a></th>
-                            <th><a >库存</a></th>
+                            <th><a >BookID</a></th>
+                            <th><a >Name</a></th>
+                            <th><a >Author</a></th>
+                            <th><a >Price</a></th>
+                            <th><a >Isbn</a></th>
+                            <th><a >Stock</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>

@@ -19,7 +19,6 @@ let order = {
     stock: true,
     OrderID:true,
     timestamp:true,
-    number:true
 };
 let orderBy = 'name';
 class Order extends Component {
@@ -39,7 +38,10 @@ class Order extends Component {
 
             ],
             url:Cookies.get('url'),
-            username:Cookies.get("username")
+            username:Cookies.get("username"),
+            images: [
+
+            ]
         };
     }
     componentDidMount()
@@ -50,6 +52,15 @@ class Order extends Component {
                     {
                         books: res.data,
                         booksCp: res.data
+                    });
+            });
+        axios.get(this.state.url+`/isbnlist`,
+        )
+            .then(res => {
+                this.setState(
+                    {
+                        images: res.data,
+
                     });
             });
 
@@ -104,12 +115,41 @@ class Order extends Component {
             books: list
         })
     }
+    handlepictureLink(imageSrc)
+    {
+        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
+        window.location.href = "/Homepage#/homepage/detail/" + res;
+    }
+    renderImages = () => {
+        let photoIndex = 0;
+        const { images } = this.state;
+        let url=Cookies.get('url');
+        return images.map(imageSrc => {
+            photoIndex++;
+            const privateKey = photoIndex;
+            return (
+                <MDBCol md="3" key={photoIndex}>
+                    <figure >
+                        <img
+                            height="300px"
+                            width="200px"
+
+                            src={url+"/image/"+imageSrc}
+                            alt="Gallery"
+                            className="img-fluid z-depth-1"
+                            onClick={() => {this.handlepictureLink(imageSrc)}}
+                        />
+                    </figure>
+                </MDBCol>
+            );
+        })
+    }
     render() {
         return (
             <div>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="dark-text">BOOK</strong>
+                        <strong className="dark-text">Orders</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>
@@ -157,13 +197,13 @@ class Order extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("OrderID") }}>订单编号</a></th>
-                            <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
-                            <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
-                            <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
-                            <th><a onClick={() => { this.handleSort("timestamp") }}>生成时间</a></th>
+                            <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th>
+                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
+                            <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
+                            <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
+                            <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
+                            <th><a onClick={() => { this.handleSort("stock") }}>Number</a></th>
+                            <th><a onClick={() => { this.handleSort("timestamp") }}>Time</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -192,13 +232,20 @@ class Order extends Component {
                                         {(new Date(parseInt(item.timestamp))).toString()}
                                     </td>
                                     <td onClick={() => {this.handleLink(item.isbn,item.number,item.OrderID)}}>
-                                        查看详情
+                                        Details
                                     </td>
                                 </tr>
                             )
                         })}
                     </MDBTableBody>
                 </MDBTable>
+                <MDBContainer className="mt-5 p-3" >
+                    <div className="mdb-lightbox p-3">
+                        <MDBRow>
+                            {this.renderImages()}
+                        </MDBRow>
+                    </div>
+                </MDBContainer>
             </div>
 
 

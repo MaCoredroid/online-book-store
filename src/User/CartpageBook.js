@@ -48,9 +48,10 @@ class CartpageBook extends Component {
     componentDidMount() {
 
         axios.get(this.state.url+`/Booklist/`+this.props.match.params.id).then(res => {
-            this.setState({ books: res.data });
+            this.setState({ books: res.data,
+            value:this.state.cartnumber
+            });
         });
-
 
 
     }
@@ -167,7 +168,7 @@ class CartpageBook extends Component {
             <a>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="dark-text">BOOK</strong>
+                        <strong className="dark-text">Carts</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>
@@ -215,12 +216,12 @@ class CartpageBook extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a >购物车编号</a></th>
-                            <th><a >书名</a></th>
-                            <th><a >作者</a></th>
-                            <th><a >价格</a></th>
-                            <th><a >isbn</a></th>
-                            <th><a >数量</a></th>
+                            <th><a >CartID</a></th>
+                            <th><a >Name</a></th>
+                            <th><a >Author</a></th>
+                            <th><a >Price</a></th>
+                            <th><a >Isbn</a></th>
+                            <th><a >Number</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>

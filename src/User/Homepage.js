@@ -31,7 +31,7 @@ class Homepage extends Component {
             booksCp: [
 
             ],
-            username:"",
+            username:Cookies.get("username"),
             photoIndex: 0,
             images: [
 
@@ -59,7 +59,6 @@ class Homepage extends Component {
 
                     });
             });
-        this.setState({username:Cookies.get("username")});
     }
 
     toggleCollapse = () => {
@@ -145,7 +144,7 @@ class Homepage extends Component {
            <div>
                <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                    <MDBNavbarBrand>
-                       <strong className="dark-text">BOOK</strong>
+                       <strong className="dark-text">Books</strong>
                    </MDBNavbarBrand>
 
                    <MDBNavbarBrand>
@@ -193,12 +192,12 @@ class Homepage extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("booklistID") }}>书籍编号</a></th>
-                            <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
-                            <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
-                            <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>库存</a></th>
+                            <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>
+                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
+                            <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
+                            <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
+                            <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
+                            <th><a onClick={() => { this.handleSort("stock") }}>Stock</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -224,7 +223,7 @@ class Homepage extends Component {
                                         {item.stock}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(item.isbn)}>查看详情</Link>
+                                        <Link to={this.handleLink(item.isbn)}>Details</Link>
                                     </td>
                                 </tr>
                             )
