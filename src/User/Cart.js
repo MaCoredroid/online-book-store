@@ -194,13 +194,13 @@ class Cart extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("CartID") }}>购物车编号</a></th>
-                            <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
-                            <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
-                            <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
-                            <th><a onClick={() => { this.handleSort("timestamp") }}>生成时间</a></th>
+                            <th><a onClick={() => { this.handleSort("CartID") }}>CartID</a></th>
+                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
+                            <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
+                            <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
+                            <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
+                            <th><a onClick={() => { this.handleSort("stock") }}>Number</a></th>
+                            <th><a onClick={() => { this.handleSort("timestamp") }}>Time</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -229,7 +229,7 @@ class Cart extends Component {
                                         {(new Date(parseInt(item.timestamp))).toString()}
                                     </td>
                                     <td onClick={() => {this.handleLink(item.isbn,item.number,item.CartID)}}>
-                                        查看详情
+                                        Details
                                     </td>
                                 </tr>
                             )

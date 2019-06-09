@@ -20,6 +20,7 @@ let order = {
     price: true,
     isbn: true,
     stock: true,
+    timestamp:true
 };
 let orderBy = 'name';
 class Userstatistics extends Component {
@@ -39,7 +40,7 @@ class Userstatistics extends Component {
             booksCp: [
 
             ],
-            startDate: new Date(),
+            startDate: new Date().setFullYear(new Date().getFullYear() - 1),
             endDate: new Date(),
             url:Cookies.get('url'),
             username:Cookies.get("username"),
@@ -56,7 +57,8 @@ class Userstatistics extends Component {
             this.setState(
                 {
                     carts: res.data,
-                    cartscp:res.data,
+                    books: res.data,
+                    booksCp:res.data
 
                 });
         });
@@ -64,10 +66,9 @@ class Userstatistics extends Component {
             this.setState(
                 {
                     orders: res.data,
-                    orderscp: res.data
                 });
         });
-        this.handledateChange();
+        this.handledateChange.bind(this);
 
 
     }
@@ -106,16 +107,18 @@ class Userstatistics extends Component {
     }
     handledateChange(){
         let tempbooks=[];
-        if(this.state.cartisshowing==true) {
+        if(this.state.cartisshowing===true) {
             tempbooks = this.state.carts;
         }
         else {
             tempbooks = this.state.orders;
         }
         let res=[];
+        let start=new Date(this.state.startDate).getTime();
+        let end=new Date(this.state.endDate).getTime();
         for(let i=0;i<tempbooks.length;i++)
         {
-            if(tempbooks[i].timestamp>=this.state.startDate.getDate()&&tempbooks[i].timestamp<=this.state.endDate.getDate())
+            if(tempbooks[i].timestamp>=start&&tempbooks[i].timestamp<=end)
             {
                 res.push(tempbooks[i]);
             }
@@ -124,8 +127,7 @@ class Userstatistics extends Component {
             books: res,
             booksCp:res
         }
-
-    )
+        )
 
     }
     handleChange() {
@@ -136,6 +138,16 @@ class Userstatistics extends Component {
         this.setState({
             books: list
         })
+    }
+    handleOrder(){
+        this.setState({
+            cartisshowing:false,
+        }, this.handledateChange)
+    }
+    handleCart(){
+        this.setState({
+            cartisshowing:true,
+        },this.handledateChange)
     }
     render() {
         return (
@@ -256,7 +268,8 @@ class Userstatistics extends Component {
                         Action
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
-                        <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handleOrder.bind(this)}>Order</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handleCart.bind(this)}>Cart</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
 

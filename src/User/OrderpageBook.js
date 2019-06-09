@@ -124,12 +124,12 @@ class OrderpageBook extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a >订单编号</a></th>
-                            <th><a >书名</a></th>
-                            <th><a >作者</a></th>
-                            <th><a >价格</a></th>
-                            <th><a >isbn</a></th>
-                            <th><a >数量</a></th>
+                            <th><a >OrderID</a></th>
+                            <th><a >Name</a></th>
+                            <th><a >Author</a></th>
+                            <th><a >Price</a></th>
+                            <th><a >Isbn</a></th>
+                            <th><a >Number</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
