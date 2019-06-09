@@ -149,6 +149,9 @@ class Userstatistics extends Component {
             cartisshowing:true,
         },this.handledateChange)
     }
+    handleNavLink(where){
+        window.location.href = "http://localhost:3000/Homepage#/"+ where;
+    }
     render() {
         return (
             <div>
@@ -170,10 +173,10 @@ class Userstatistics extends Component {
                                         <span className="mr-2">Dropdown</span>
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
-                                        <MDBDropdownItem ><Link to="/Order" >Order</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Cart" >Cart</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Homepage" >Homepage</Link></MDBDropdownItem>
-                                        <MDBDropdownItem ><Link to="/Userstatistics" >Statistics</Link></MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Order")}>Order</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Cart")}>Cart</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Homepage")}>Homepage</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Userstatistics")}>Statistics</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
@@ -202,12 +205,12 @@ class Userstatistics extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("name") }}>书名</a></th>
-                            <th><a onClick={() => { this.handleSort("author") }}>作者</a></th>
-                            <th><a onClick={() => { this.handleSort("price") }}>价格</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>数量</a></th>
-                            <th><a onClick={() => { this.handleSort("timestamp") }}>生成时间</a></th>
+                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
+                            <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
+                            <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
+                            <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
+                            <th><a onClick={() => { this.handleSort("number") }}>Number</a></th>
+                            <th><a onClick={() => { this.handleSort("timestamp") }}>Time</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
