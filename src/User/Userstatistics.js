@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon,MDBInput, MDBContainer
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBInput, MDBContainer, MDBModal
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
@@ -205,6 +205,7 @@ class Userstatistics extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
+                            { this.state.cartisshowing ? <th><a onClick={() => { this.handleSort("CartID") }}>CartID</a></th> : <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th> }
                             <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
@@ -217,6 +218,14 @@ class Userstatistics extends Component {
                         {this.state.books.map((item, index) => {
                             return (
                                 <tr key={index}>
+                                    { this.state.cartisshowing ?
+                                    <td >
+                                        {item.CartID}
+                                    </td> :
+                                    <td >
+                                        {item.OrderID}
+                                    </td>
+                                    }
                                     <td >
                                         {item.name}
                                     </td>
@@ -240,9 +249,9 @@ class Userstatistics extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-                <p>
+
                     Start from:
-                </p>
+
 
                 <DatePicker
                     selected={this.state.startDate}
@@ -253,9 +262,9 @@ class Userstatistics extends Component {
                     dateFormat="MMMM d, yyyy h:mm aa"
                     timeCaption="time"
                 />
-                <p>
+               
                     To:
-                </p>
+
 
                 <DatePicker
                     selected={this.state.endDate}
