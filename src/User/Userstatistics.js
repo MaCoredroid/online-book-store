@@ -40,8 +40,8 @@ class Userstatistics extends Component {
             booksCp: [
 
             ],
-            startDate: new Date().setFullYear(new Date().getFullYear() - 1),
-            endDate: new Date(),
+            startDate: new Date().setDate(new Date().getDate() - 365),
+            endDate:new Date(),
             url:Cookies.get('url'),
             username:Cookies.get("username"),
             cartisshowing:true,
@@ -163,6 +163,37 @@ class Userstatistics extends Component {
         this.setState({
             endDate: date
         }, this.handledateChange);
+    }
+    handleDate(number)
+    {
+        if(number===1)
+        {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 365),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+        if(number===2)
+        {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 30),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+        if(number==3)
+        {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 7),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+        if(number==4)
+        {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 1),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
     }
     render() {
         return (
@@ -320,6 +351,10 @@ class Userstatistics extends Component {
                     <MDBDropdownMenu basic>
                         <MDBDropdownItem onClick={this.handleOrder.bind(this)}>Order</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleCart.bind(this)}>Cart</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(1)}>In one year</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(2)}>In one month</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(3)}>In one week</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(4)}>In one day</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
 
