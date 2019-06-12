@@ -40,8 +40,8 @@ class Userstatistics extends Component {
             booksCp: [
 
             ],
-            startDate: new Date().setFullYear(new Date().getFullYear() - 1),
-            endDate: new Date(),
+            startDate: new Date().setDate(new Date().getDate() - 365),
+            endDate:new Date(),
             url:Cookies.get('url'),
             username:Cookies.get("username"),
             cartisshowing:true,
@@ -164,6 +164,37 @@ class Userstatistics extends Component {
             endDate: date
         }, this.handledateChange);
     }
+    handleDate(number)
+    {
+        if(number===1)
+        {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 365),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+        if(number===2)
+        {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 30),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+        if(number==3)
+        {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 7),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+        if(number==4)
+        {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 1),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+    }
     render() {
         return (
             <div>
@@ -214,6 +245,57 @@ class Userstatistics extends Component {
 
                 </MDBNavbar>
 
+                <p>Start from:</p>
+
+
+                <DatePicker
+                    selected={this.state.startDate}
+                    onChange={this.handlestartdateChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    timeCaption="time"
+                    popperClassName="some-custom-class"
+                    popperPlacement="top-end"
+                    popperModifiers={{
+                        offset: {
+                            enabled: true,
+                            offset: '5px, 10px'
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                            boundariesElement: 'viewport'
+                        }
+                    }}
+                />
+                <p> </p>
+                <p>To:</p>
+
+
+                <DatePicker
+                    selected={this.state.endDate}
+                    onChange={this.handleenddateChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    timeCaption="time"
+                    popperClassName="some-custom-class"
+                    popperPlacement="top-end"
+                    popperModifiers={{
+                        offset: {
+                            enabled: true,
+                            offset: '5px, 10px'
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                            boundariesElement: 'viewport'
+                        }
+                    }}
+                />
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
@@ -262,31 +344,6 @@ class Userstatistics extends Component {
                     </MDBTableBody>
                 </MDBTable>
 
-                    Start from:
-
-
-                <DatePicker
-                    selected={this.state.startDate}
-                    onChange={this.handlestartdateChange}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                    timeCaption="time"
-                />
-
-                    To:
-
-
-                <DatePicker
-                    selected={this.state.endDate}
-                    onChange={this.handleenddateChange}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                    timeCaption="time"
-                />
                 <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
                         Change
@@ -294,6 +351,10 @@ class Userstatistics extends Component {
                     <MDBDropdownMenu basic>
                         <MDBDropdownItem onClick={this.handleOrder.bind(this)}>Order</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleCart.bind(this)}>Cart</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(1)}>In one year</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(2)}>In one month</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(3)}>In one week</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(4)}>In one day</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
 

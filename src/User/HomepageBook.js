@@ -25,10 +25,12 @@ class HomepageBook extends Component {
 
 
             books:[],
-            username:"",
+            username:Cookies.get("username"),
             url:Cookies.get('url'),
             value: 0,
-            modal: false
+            value1:0,
+            modal: false,
+            model1:false
 
         }
 
@@ -38,7 +40,6 @@ class HomepageBook extends Component {
         axios.get(this.state.url+`/Booklist/`+this.props.match.params.id).then(res => {
             this.setState({ books: res.data });
         });
-        this.setState({username:Cookies.get("username")});
 
 
 
@@ -75,12 +76,41 @@ class HomepageBook extends Component {
             this.setState({value: this.state.value + 1});
         }
     }
+    decrease1 = () => {
+        if(this.state.value1<=0)
+        {
+            this.setState({ value1: 0 });
+        }
+        else {
+            this.setState({value1: this.state.value1 - 1});
+        }
+    }
+
+    increase1 = () => {
+        if(this.state.value1<0)
+        {
+            this.setState({ value1: 0 });
+        }
+        if(this.state.value1>=this.state.books.stock)
+        {
+            this.setState({ value1: this.state.books.stock });
+        }
+        else {
+            this.setState({value1: this.state.value1 + 1});
+        }
+    }
 
     toggle = () => {
         this.setState({
             modal: !this.state.modal
         });
     }
+    toggle1 = () => {
+        this.setState({
+            modal1: !this.state.modal1
+        });
+    }
+
 
     handlecart(username,isbn)
     {
@@ -110,7 +140,6 @@ class HomepageBook extends Component {
 
 
 
-
     }
 
     handleLogout()
@@ -120,7 +149,31 @@ class HomepageBook extends Component {
     handleNavLink(where){
         window.location.href = "http://localhost:3000/Homepage#/"+ where;
     }
+    handlePurchase(username, isbn)
+    {
+        let number = this.state.value1;
 
+        if(number===0)
+        {
+
+        }
+        else
+        {
+            let time=new Date().getTime();
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url+"/booklist/diredtlyOrder/username/"+this.state.username+"/isbn/"+isbn+"/number/"+number+"/time/"+time, false);
+            xhr.send();
+            if (xhr.responseText === "true") {
+                alert("Books have been directly purchase.");
+                this.setState({
+                    modal: !this.state.modal1
+                });
+                window.location.href = "http://localhost:3000/Homepage#/Order";
+            } else {
+                alert("Failed to directly purchase books!");
+            }
+        }
+    }
 
     render()
     {
@@ -220,6 +273,7 @@ class HomepageBook extends Component {
                     <MDBDropdownMenu basic>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.toggle}>Add to cart</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.toggle1}>Directly Purchase</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
                 <MDBContainer>
@@ -235,7 +289,24 @@ class HomepageBook extends Component {
                         </MDBModalBody>
                         <MDBModalFooter>
                             <MDBBtn color="secondary" onClick={this.toggle}>Close</MDBBtn>
-                            <MDBBtn color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add</MDBBtn>
+                            <MDBBtn color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModal>
+                </MDBContainer>
+                <MDBContainer>
+                    <MDBModal isOpen={this.state.modal1} toggle={this.toggle1}>
+                        <MDBModalHeader toggle={this.toggle1}>Please choose the number</MDBModalHeader>
+                        <MDBModalBody>
+                            <div className="def-number-input number-input">
+                                <button onClick={this.decrease1} className="minus"></button>
+                                <input className="quantity" name="quantity" value={this.state.value1} onChange={()=> console.log('change')}
+                                       type="number" />
+                                <button onClick={this.increase1} className="plus"></button>
+                            </div>
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                            <MDBBtn color="secondary" onClick={this.toggle1}>Close</MDBBtn>
+                            <MDBBtn color="primary" onClick={()=>{this.handlePurchase(this.state.username,this.props.match.params.id)}}>Directly Purchase</MDBBtn>
                         </MDBModalFooter>
                     </MDBModal>
                 </MDBContainer>
