@@ -214,6 +214,57 @@ class Userstatistics extends Component {
 
                 </MDBNavbar>
 
+                <p>Start from:</p>
+
+
+                <DatePicker
+                    selected={this.state.startDate}
+                    onChange={this.handlestartdateChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    timeCaption="time"
+                    popperClassName="some-custom-class"
+                    popperPlacement="top-end"
+                    popperModifiers={{
+                        offset: {
+                            enabled: true,
+                            offset: '5px, 10px'
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                            boundariesElement: 'viewport'
+                        }
+                    }}
+                />
+                <p> </p>
+                <p>To:</p>
+
+
+                <DatePicker
+                    selected={this.state.endDate}
+                    onChange={this.handleenddateChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    timeCaption="time"
+                    popperClassName="some-custom-class"
+                    popperPlacement="top-end"
+                    popperModifiers={{
+                        offset: {
+                            enabled: true,
+                            offset: '5px, 10px'
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                            boundariesElement: 'viewport'
+                        }
+                    }}
+                />
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
@@ -262,31 +313,6 @@ class Userstatistics extends Component {
                     </MDBTableBody>
                 </MDBTable>
 
-                    Start from:
-
-
-                <DatePicker
-                    selected={this.state.startDate}
-                    onChange={this.handlestartdateChange}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                    timeCaption="time"
-                />
-
-                    To:
-
-
-                <DatePicker
-                    selected={this.state.endDate}
-                    onChange={this.handleenddateChange}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                    timeCaption="time"
-                />
                 <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
                         Change
