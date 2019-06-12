@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBRow, MDBContainer, MDBCol
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBRow, MDBContainer, MDBCol, MDBBtn
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
@@ -119,6 +119,30 @@ class Order extends Component {
     {
         let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
         window.location.href = "/Homepage#/homepage/detail/" + res;
+    }
+    handleClearAll()
+    {
+        let xhr = new XMLHttpRequest();
+        let key = prompt("Are you sure? Type your username to confirm", "Your username");
+        if(key===this.state.username)
+        {
+
+        }
+        else
+        {
+            return;
+        }
+        xhr.open("GET", this.state.url+"/order/clearall/username/"+this.state.username+"/username/"+this.state.username, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("All orders record has been removed ");
+        }
+        else
+        {
+            alert("Failed to remove all the orders");
+        }
+        window.location.reload();
     }
     renderImages = () => {
         let photoIndex = 0;
@@ -249,6 +273,7 @@ class Order extends Component {
                         </MDBRow>
                     </div>
                 </MDBContainer>
+                <MDBBtn className="fixed-bottom" color="danger" onClick={()=>this.handleClearAll()}>Clear all</MDBBtn>
             </div>
 
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBRow, MDBContainer, MDBCol
+    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBRow, MDBContainer, MDBCol, MDBBtn
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
@@ -144,6 +144,30 @@ class Cart extends Component {
     handleNavLink(where){
         window.location.href = "http://localhost:3000/Homepage#/"+ where;
     }
+    handleClearAll()
+    {
+        let xhr = new XMLHttpRequest();
+        let key = prompt("Are you sure? Type your username to confirm", "Your username");
+        if(key===this.state.username)
+        {
+
+        }
+        else
+        {
+            return;
+        }
+        xhr.open("GET", this.state.url+"/cart/clearall/username/"+this.state.username+"/username/"+this.state.username, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("All carts record has been removed ");
+        }
+        else
+        {
+            alert("Failed to remove all the carts");
+        }
+        window.location.reload();
+    }
     render() {
         return (
             <div>
@@ -246,6 +270,7 @@ class Cart extends Component {
                         </MDBRow>
                     </div>
                 </MDBContainer>
+                <MDBBtn className="fixed-bottom" color="danger" onClick={()=>this.handleClearAll()}>Clear all</MDBBtn>
             </div>
 
 
