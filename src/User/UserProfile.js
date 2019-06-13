@@ -15,7 +15,7 @@ import {
     MDBNavbarNav,
     MDBNavItem,
     MDBIcon,
-    MDBNavbar
+    MDBNavbar, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBInput
 } from "mdbreact";
 import axios from "axios/index";
 import Cookies from "js-cookie";
@@ -31,6 +31,8 @@ class UserProfile extends Component {
             url: Cookies.get('url'),
             username: Cookies.get("username"),
             user: [],
+            modal: false,
+
 
         }
 
@@ -55,6 +57,11 @@ class UserProfile extends Component {
     handleLogout()
     {
         window.location.href = "http://localhost:3000/"
+    }
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal
+        });
     }
     render()
     {
@@ -97,7 +104,7 @@ class UserProfile extends Component {
                                         <MDBIcon icon="user" />
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
-
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("UserProfile")}>UserProfile</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
@@ -120,19 +127,36 @@ class UserProfile extends Component {
                                     You must provide your password to change your username, password or email.
                                 </p>
                                 <p className="lead">
-                                    <MDBDropdown >
-                                        <MDBDropdownToggle caret color="primary">
-                                            Change
-                                        </MDBDropdownToggle>
-                                        <MDBDropdownMenu basic>
-                                            <MDBDropdownItem  >Remove this order</MDBDropdownItem>
-                                            <MDBDropdownItem >Back</MDBDropdownItem>
-                                        </MDBDropdownMenu>
-                                    </MDBDropdown>
+                                    <MDBBtn color="primary" onClick={this.toggle}>Change</MDBBtn>
                                 </p>
                             </MDBJumbotron>
                         </MDBCol>
                     </MDBRow>
+                </MDBContainer>
+                <MDBContainer>
+                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+                        <MDBModalHeader toggle={this.toggle}>Please input your password</MDBModalHeader>
+                        <MDBModalBody>
+                            <MDBInput
+                                label="Your password"
+
+                                type="password"
+                                validate
+                                containerClass="mb-0"
+                                id={"password"}
+                            />
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                            <p>
+                                <MDBBtn color="info" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Change Email</MDBBtn>
+                                <MDBBtn color="warning" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Change Username</MDBBtn>
+                            </p>
+                            <p>
+                                <MDBBtn color="danger" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Change Password</MDBBtn>
+                                <MDBBtn color="secondary" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Close</MDBBtn>
+                            </p>
+                        </MDBModalFooter>
+                    </MDBModal>
                 </MDBContainer>
             </div>
         );
