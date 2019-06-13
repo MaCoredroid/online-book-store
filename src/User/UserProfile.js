@@ -63,6 +63,79 @@ class UserProfile extends Component {
             modal: !this.state.modal
         });
     }
+    handleChangeUsername()
+    {
+        let pattern = document.getElementById('password').value;
+        let xhm = new XMLHttpRequest();
+        xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
+        xhm.send();
+        if (xhm.responseText === "true") {
+        }
+        else
+        {
+            alert("Wrong password!")
+            return;
+        }
+        let xhr = new XMLHttpRequest();
+        let key = prompt("Are you sure? Type your new username", this.state.username);
+        if(key===this.state.username)
+        {
+            return;
+        }
+        if(key===null)
+        {
+            return;
+        }
+
+        xhr.open("GET", this.state.url+"/userprofile/change/username/"+this.state.username+"/newusername/"+key, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Username has been changed");
+            Cookies.set('username', key);
+        }
+        else
+        {
+            alert("Failed to change username");
+        }
+        window.location.reload();
+    }
+    handleChangeEmail()
+    {
+        let pattern = document.getElementById('password').value;
+        let xhm = new XMLHttpRequest();
+        xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
+        xhm.send();
+        if (xhm.responseText === "true") {
+        }
+        else
+        {
+            alert("Wrong password!")
+            return;
+        }
+        let xhr = new XMLHttpRequest();
+        let key = prompt("Are you sure? Type your new email", this.state.user.email);
+        if(key===this.state.user.email)
+        {
+            return;
+        }
+        if(key===null)
+        {
+            return;
+        }
+
+        xhr.open("GET", this.state.url+"/userprofile/change/username/"+this.state.username+"/newemail/"+key, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Email has been changed");
+        }
+        else
+        {
+            alert("Failed to change Email");
+        }
+        window.location.reload();
+    }
     render()
     {
         return (
@@ -148,8 +221,8 @@ class UserProfile extends Component {
                         </MDBModalBody>
                         <MDBModalFooter>
                             <p>
-                                <MDBBtn color="info" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Change Email</MDBBtn>
-                                <MDBBtn color="warning" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Change Username</MDBBtn>
+                                <MDBBtn color="info" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.handleChangeEmail.bind(this)}>Change Email</MDBBtn>
+                                <MDBBtn color="warning" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.handleChangeUsername.bind(this)}>Change Username</MDBBtn>
                             </p>
                             <p>
                                 <MDBBtn color="danger" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Change Password</MDBBtn>
