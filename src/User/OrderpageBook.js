@@ -75,7 +75,7 @@ class OrderpageBook extends Component {
     render()
     {
         return(
-            <a>
+            <div>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
                         <strong className="dark-text">Orders</strong>
@@ -172,7 +172,7 @@ class OrderpageBook extends Component {
                     </MDBDropdownMenu>
                 </MDBDropdown>
 
-            </a>
+            </div>
 
         )
     }
