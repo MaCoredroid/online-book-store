@@ -154,6 +154,7 @@ class Cart extends Component {
         }
         else
         {
+            alert("Please input correct username!");
             return;
         }
         xhr.open("GET", this.state.url+"/cart/clearall/username/"+this.state.username+"/username/"+this.state.username, false);

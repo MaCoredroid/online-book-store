@@ -130,6 +130,7 @@ class Order extends Component {
         }
         else
         {
+            alert("Please input correct username!");
             return;
         }
         xhr.open("GET", this.state.url+"/order/clearall/username/"+this.state.username+"/username/"+this.state.username, false);

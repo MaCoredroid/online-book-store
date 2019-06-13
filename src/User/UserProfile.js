@@ -136,6 +136,52 @@ class UserProfile extends Component {
         }
         window.location.reload();
     }
+    handleChangePassword()
+    {
+        let pattern = document.getElementById('password').value;
+        let xhm = new XMLHttpRequest();
+        xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
+        xhm.send();
+        if (xhm.responseText === "true") {
+        }
+        else
+        {
+            alert("Wrong password!")
+            return;
+        }
+        let key = prompt("Are you sure? Type your new password", "********");
+        if(key===this.state.user.email)
+        {
+            return;
+        }
+        if(key===null)
+        {
+            return;
+        }
+        let key1 = prompt("Are you sure? Type your new password again", "********");
+        if(key1===key)
+        {
+
+        }
+        else
+        {
+            alert("Password doesn't match!")
+            return;
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/userprofile/change/username/"+this.state.username+"/newpassword/"+key, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Password has been changed! Please log in again");
+            window.location.href = "http://localhost:3000/";
+        }
+        else
+        {
+            alert("Failed to change password");
+        }
+    }
+
     render()
     {
         return (
@@ -225,7 +271,7 @@ class UserProfile extends Component {
                                 <MDBBtn color="warning" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.handleChangeUsername.bind(this)}>Change Username</MDBBtn>
                             </p>
                             <p>
-                                <MDBBtn color="danger" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Change Password</MDBBtn>
+                                <MDBBtn color="danger" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.handleChangePassword.bind(this)}>Change Password</MDBBtn>
                                 <MDBBtn color="secondary" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Close</MDBBtn>
                             </p>
                         </MDBModalFooter>
