@@ -75,7 +75,7 @@ class OrderpageBook extends Component {
     render()
     {
         return(
-            <a>
+            <div>
                 <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
                         <strong className="dark-text">Orders</strong>
@@ -113,7 +113,7 @@ class OrderpageBook extends Component {
                                         <MDBIcon icon="user" />
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
-
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("UserProfile")}>UserProfile</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
@@ -172,7 +172,7 @@ class OrderpageBook extends Component {
                     </MDBDropdownMenu>
                 </MDBDropdown>
 
-            </a>
+            </div>
 
         )
     }

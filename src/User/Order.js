@@ -130,6 +130,7 @@ class Order extends Component {
         }
         else
         {
+            alert("Please input correct username!");
             return;
         }
         xhr.open("GET", this.state.url+"/order/clearall/username/"+this.state.username+"/username/"+this.state.username, false);
@@ -211,7 +212,7 @@ class Order extends Component {
                                         <MDBIcon icon="user" />
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
-
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("UserProfile")}>UserProfile</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>

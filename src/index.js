@@ -13,7 +13,7 @@ import Root from "./Admin/Root"
 import Bookmanage from "./Admin/Bookmanage"
 import Statistics from "./Admin/Statistics"
 import Userstatistics from "./User/Userstatistics"
-
+import UserProfile from "./user/UserProfile"
 import * as serviceWorker from './serviceWorker';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -40,6 +40,7 @@ ReactDOM.render(
                 <Route path="/orderpage/detail/:id" component={OrderpageBook} />
                 <Route path="/cartpage/detail/:id" component={CartpageBook} />
                 <Route path="/edit/:id" component={Edit} />
+                <Route path="/UserProfile" component={UserProfile} />
             </Switch>
         </Router>, document.getElementById('create-article-form'));
 Cookies.set('url', 'http://localhost:8080');
