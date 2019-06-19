@@ -35,7 +35,8 @@ class OrderManage extends Component {
             photoIndex: 0,
             images: [
 
-            ]
+            ],
+            searchOption:"Name",
         };
     }
     componentDidMount()
@@ -97,46 +98,68 @@ class OrderManage extends Component {
         return res
     }
     handleChange() {
-        let pattern = document.getElementById('filter').value
-        let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
-        })
-        this.setState({
-            books: list
-        })
+        if(this.state.searchOption==="Name") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.name.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="Author") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.author.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="isbn") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.isbn.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+
     }
     handleLogout()
     {
         window.location.href = "http://localhost:3000/"
     }
-    handlepictureLink(imageSrc)
-    {
-        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "/Homepage#/homepage/detail/" + res;
-    }
-    renderImages = () => {
-        let photoIndex = 0;
-        const { images } = this.state;
-        let url=Cookies.get('url');
-        return images.map(imageSrc => {
-            photoIndex++;
-            const privateKey = photoIndex;
-            return (
-                <MDBCol md="3" key={photoIndex}>
-                    <figure >
-                        <img
-                            height="300px"
-                            width="200px"
-
-                            src={url+"/image/"+imageSrc}
-                            alt="Gallery"
-                            className="img-fluid z-depth-1"
-                            onClick={() => {this.handlepictureLink(imageSrc)}}
-                        />
-                    </figure>
-                </MDBCol>
-            );
+    handleSearchOption(what){
+        this.setState({
+            searchOption:what
         })
+    }
+    handleUnsubscribe()
+    {
+        let key = prompt("Are you sure you want to delete your account and all your infomation? Type your username", "Your Username");
+        if(key===this.state.username)
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url+"/userprofile/unsubscribe/username/"+this.state.username, false);
+            xhr.send();
+            if (xhr.responseText === "true")
+            {
+                alert("Your account has been unsubscribed!");
+                window.location.href = "http://localhost:3000/";
+                return;
+            }
+            else
+            {
+                alert("Failed to unsubscribe your account");
+                window.location.href = "http://localhost:3000/";
+                return;
+            }
+        }
     }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/UserManage#/"+ where;
@@ -175,7 +198,25 @@ class OrderManage extends Component {
                         </MDBNavbarNav>
 
                         <MDBNavbarNav right>
-
+                            <MDBNavItem>
+                                <MDBDropdown >
+                                    <MDBDropdownToggle nav caret>
+                                        <span className="mr-2">Search by {this.state.searchOption}</span>
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Name")}>Name</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Author")}>Author</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("isbn")}>isbn</MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBFormInline waves>
+                                    <div className="md-form my-0">
+                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
+                                    </div>
+                                </MDBFormInline>
+                            </MDBNavItem>
 
                             <MDBNavItem>
                                 <MDBDropdown>
@@ -184,6 +225,7 @@ class OrderManage extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
                                         <MDBDropdownItem onClick={()=>this.handleNavLink("AdminProfile")}>AdminProfile</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleUnsubscribe()}>Unsubscribe</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
@@ -234,14 +276,6 @@ class OrderManage extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-
-                <MDBContainer className="mt-5 p-3" >
-                    <div className="mdb-lightbox p-3">
-                        <MDBRow>
-                            {this.renderImages()}
-                        </MDBRow>
-                    </div>
-                </MDBContainer>
             </div>
 
 

@@ -259,7 +259,7 @@ class UserProfile extends Component {
                     <MDBRow>
                         <MDBCol>
                             <MDBJumbotron>
-                                <h2 className="h1 display-3">Hello, {this.state.username}!</h2>
+                                <h2 className="h1 display-3">Hello, User {this.state.username}!</h2>
                                 <p className="lead">
                                     Email : {this.state.user.email}
                                 </p>
