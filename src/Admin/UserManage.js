@@ -12,12 +12,9 @@ import "../css/Homepage.css";
 
 
 let order = {
-    name: true,
-    author: true,
-    price: true,
-    isbn: true,
-    stock: true,
-    booklistID:true,
+    userID:true,
+    username:true,
+    email:true,
 };
 let orderBy = 'name';
 class UserManage extends Component {
@@ -25,10 +22,10 @@ class UserManage extends Component {
         super(props);
         this.state = {
             isOpen: false,
-            books: [
+            users: [
 
             ],
-            booksCp: [
+            usersCp: [
 
             ],
             username:Cookies.get("username"),
@@ -42,24 +39,15 @@ class UserManage extends Component {
     componentDidMount()
     {
         let url=Cookies.get('url');
-        axios.get(url+`/booklist`,
-        )
+        axios.get(url+'/admin/seeAllUser',)
             .then(res => {
                 this.setState(
                     {
-                        books: res.data,
-                        booksCp: res.data
+                        users: res.data,
+                        usersCp: res.data
                     });
             });
-        axios.get(url+`/isbnlist`,
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        images: res.data,
 
-                    });
-            });
     }
 
     toggleCollapse = () => {
@@ -215,38 +203,26 @@ class UserManage extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>
-                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
-                            <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
-                            <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>Stock</a></th>
+                            <th><a onClick={() => { this.handleSort("userID") }}>userID</a></th>
+                            <th><a onClick={() => { this.handleSort("username") }}>Username</a></th>
+                            <th><a onClick={() => { this.handleSort("email") }}>Email</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        {this.state.books.map((item, index) => {
+                        {this.state.users.map((item, index) => {
                             return (
                                 <tr key={index}>
                                     <td >
-                                        {item.booklistID}
+                                        {item.userID}
                                     </td>
                                     <td >
-                                        {item.name}
+                                        {item.username}
                                     </td>
                                     <td>
-                                        {item.author}
-                                    </td>
-                                    <td>
-                                        {item.price / 100}
-                                    </td>
-                                    <td>
-                                        {item.isbn}
-                                    </td>
-                                    <td>
-                                        {item.stock}
+                                        {item.email}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(item.isbn)}>Details</Link>
+
                                     </td>
                                 </tr>
                             )

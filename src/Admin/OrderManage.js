@@ -13,11 +13,13 @@ import "../css/Homepage.css";
 
 let order = {
     name: true,
+    username:true,
     author: true,
     price: true,
     isbn: true,
     stock: true,
-    booklistID:true,
+    OrderID:true,
+    timestamp:true,
 };
 let orderBy = 'name';
 class OrderManage extends Component {
@@ -36,28 +38,18 @@ class OrderManage extends Component {
             images: [
 
             ],
-            searchOption:"Name",
+            searchOption:"BookName",
         };
     }
     componentDidMount()
     {
         let url=Cookies.get('url');
-        axios.get(url+`/booklist`,
-        )
+        axios.get(url+'/admin/seeAllOrder',)
             .then(res => {
                 this.setState(
                     {
                         books: res.data,
                         booksCp: res.data
-                    });
-            });
-        axios.get(url+`/isbnlist`,
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        images: res.data,
-
                     });
             });
     }
@@ -98,13 +90,23 @@ class OrderManage extends Component {
         return res
     }
     handleChange() {
-        if(this.state.searchOption==="Name") {
+        if(this.state.searchOption==="BookName") {
             let pattern = document.getElementById('filter').value
             let list = this.state.booksCp.filter((item) => {
                 return item.name.indexOf(pattern) !== -1
             })
             this.setState({
                 books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="UserName") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.cartsCp.filter((item) => {
+                return item.username.indexOf(pattern) !== -1
+            })
+            this.setState({
+                carts: list
             })
             return;
         }
@@ -182,7 +184,8 @@ class OrderManage extends Component {
                                         <span className="mr-2">Search by {this.state.searchOption}</span>
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
-                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Name")}>Name</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("BookName")}>BookName</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("UserName")}>UserName</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>this.handleSearchOption("Author")}>Author</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>this.handleSearchOption("isbn")}>isbn</MDBDropdownItem>
                                     </MDBDropdownMenu>
@@ -215,12 +218,14 @@ class OrderManage extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>
-                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
+                            <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th>
+                            <th><a onClick={() => { this.handleSort("username") }}>UserName</a></th>
+                            <th><a onClick={() => { this.handleSort("name") }}>BookName</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>Stock</a></th>
+                            <th><a onClick={() => { this.handleSort("number") }}>Number</a></th>
+                            <th><a onClick={() => { this.handleSort("timestamp") }}>Time</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -228,7 +233,10 @@ class OrderManage extends Component {
                             return (
                                 <tr key={index}>
                                     <td >
-                                        {item.booklistID}
+                                        {item.OrderID}
+                                    </td>
+                                    <td >
+                                        {item.username}
                                     </td>
                                     <td >
                                         {item.name}
@@ -243,10 +251,13 @@ class OrderManage extends Component {
                                         {item.isbn}
                                     </td>
                                     <td>
-                                        {item.stock}
+                                        {item.number}
+                                    </td>
+                                    <td>
+                                        {(new Date(parseInt(item.timestamp))).toString()}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(item.isbn)}>Details</Link>
+
                                     </td>
                                 </tr>
                             )
