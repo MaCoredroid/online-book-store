@@ -15,6 +15,7 @@ import BookManage from "./Admin/BookManage"
 import CartManage from "./Admin/CartManage"
 import OrderManage from "./Admin/OrderManage"
 import Statistics from "./Admin/Statistics"
+import AdminProfile from "./Admin/AdminProfile"
 import * as serviceWorker from './serviceWorker';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -39,6 +40,7 @@ ReactDOM.render(
                 <Route exact path="/CartManage" component={CartManage} />
                 <Route exact path="/OrderManage" component={OrderManage} />
                 <Route exact path="/Statistics" component={Statistics} />
+                <Route exact path="/AdminProfile" component={AdminProfile} />
                 <Route path="/homepage/detail/:id" component={HomepageBook} />
                 <Route path="/orderpage/detail/:id" component={OrderpageBook} />
                 <Route path="/cartpage/detail/:id" component={CartpageBook} />
