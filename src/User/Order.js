@@ -146,11 +146,6 @@ class Order extends Component {
         }
 
     }
-    handlepictureLink(imageSrc)
-    {
-        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "/Homepage#/homepage/detail/" + res;
-    }
     handleClearAll()
     {
         let xhr = new XMLHttpRequest();
@@ -175,30 +170,6 @@ class Order extends Component {
             alert("Failed to remove all the orders");
         }
         window.location.reload();
-    }
-    renderImages = () => {
-        let photoIndex = 0;
-        const { images } = this.state;
-        let url=Cookies.get('url');
-        return images.map(imageSrc => {
-            photoIndex++;
-            const privateKey = photoIndex;
-            return (
-                <MDBCol md="3" key={photoIndex}>
-                    <figure >
-                        <img
-                            height="300px"
-                            width="200px"
-
-                            src={url+"/image/"+imageSrc}
-                            alt="Gallery"
-                            className="img-fluid z-depth-1"
-                            onClick={() => {this.handlepictureLink(imageSrc)}}
-                        />
-                    </figure>
-                </MDBCol>
-            );
-        })
     }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/Homepage#/"+ where;
@@ -316,13 +287,6 @@ class Order extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-                <MDBContainer className="mt-5 p-3" >
-                    <div className="mdb-lightbox p-3">
-                        <MDBRow>
-                            {this.renderImages()}
-                        </MDBRow>
-                    </div>
-                </MDBContainer>
                 <MDBBtn className="fixed-bottom" color="danger" onClick={()=>this.handleClearAll()}>Clear all</MDBBtn>
             </div>
 
