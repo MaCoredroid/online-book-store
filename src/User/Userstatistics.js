@@ -195,6 +195,28 @@ class Userstatistics extends Component {
             }, this.handledateChange);
         }
     }
+    handleUnsubscribe()
+    {
+        let key = prompt("Are you sure you want to delete your account and all your infomation? Type your username", "Your Username");
+        if(key===this.state.username)
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url+"/userprofile/unsubscribe/username/"+this.state.username, false);
+            xhr.send();
+            if (xhr.responseText === "true")
+            {
+                alert("Your account has been unsubscribed!");
+                window.location.href = "http://localhost:3000/";
+                return;
+            }
+            else
+            {
+                alert("Failed to unsubscribe your account");
+                window.location.href = "http://localhost:3000/";
+                return;
+            }
+        }
+    }
     render() {
         return (
             <div>
@@ -236,6 +258,7 @@ class Userstatistics extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
                                         <MDBDropdownItem onClick={()=>this.handleNavLink("UserProfile")}>UserProfile</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleUnsubscribe()}>Unsubscribe</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
