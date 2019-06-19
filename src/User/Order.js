@@ -41,7 +41,8 @@ class Order extends Component {
             username:Cookies.get("username"),
             images: [
 
-            ]
+            ],
+            searchOption:"Name"
         };
     }
     componentDidMount()
@@ -66,6 +67,12 @@ class Order extends Component {
 
 
     }
+    handleSearchOption(what){
+        this.setState({
+            searchOption:what
+        })
+    }
+
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
@@ -107,13 +114,37 @@ class Order extends Component {
         return res
     }
     handleChange() {
-        let pattern = document.getElementById('filter').value
-        let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
-        })
-        this.setState({
-            books: list
-        })
+        if(this.state.searchOption==="Name") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.name.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="Author") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.author.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="isbn") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.isbn.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+
     }
     handlepictureLink(imageSrc)
     {
@@ -204,7 +235,25 @@ class Order extends Component {
                         </MDBNavbarNav>
 
                         <MDBNavbarNav right>
-
+                            <MDBNavItem>
+                                <MDBDropdown >
+                                    <MDBDropdownToggle nav caret>
+                                        <span className="mr-2">Search by {this.state.searchOption}</span>
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Name")}>Name</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Author")}>Author</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("isbn")}>isbn</MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBFormInline waves>
+                                    <div className="md-form my-0">
+                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
+                                    </div>
+                                </MDBFormInline>
+                            </MDBNavItem>
 
                             <MDBNavItem>
                                 <MDBDropdown>
