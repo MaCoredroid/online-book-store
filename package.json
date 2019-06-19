@@ -19,6 +19,7 @@
     "react-image-lightbox": "^5.1.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
+    "react-switch": "^5.0.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2"
   },
