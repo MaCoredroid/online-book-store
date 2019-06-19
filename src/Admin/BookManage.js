@@ -18,6 +18,7 @@ let order = {
     isbn: true,
     stock: true,
     booklistID:true,
+    sales:true,
 };
 let orderBy = 'name';
 class BookManage extends Component {
@@ -249,6 +250,7 @@ class BookManage extends Component {
                             <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
                             <th><a onClick={() => { this.handleSort("stock") }}>Stock</a></th>
+                            <th><a onClick={() => { this.handleSort("sales") }}>Sales</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -272,6 +274,9 @@ class BookManage extends Component {
                                     </td>
                                     <td>
                                         {item.stock}
+                                    </td>
+                                    <td>
+                                        {item.sales}
                                     </td>
                                     <td >
                                         <Link to={this.handleLink(item.isbn)}>Details</Link>

@@ -8,7 +8,7 @@ import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from 'axios/index';
 import Cookies from "js-cookie";
 import "../css/Homepage.css";
-
+import Switch from "react-switch";
 
 
 let order = {
@@ -22,6 +22,7 @@ class UserManage extends Component {
         super(props);
         this.state = {
             isOpen: false,
+            url:Cookies.get('url'),
             users: [
 
             ],
@@ -49,26 +50,37 @@ class UserManage extends Component {
             });
 
     }
+    handleBlockChange(username,state) {
+        if(state===true)
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url + "/admin/block/" + username, false);
+            xhr.send();
+            this.componentDidMount();
+        }
+        else
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url + "/admin/unblock/" + username, false);
+            xhr.send();
+            this.componentDidMount();
+        }
 
+
+    }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(isbn) {
-        if(isbn!=null) {
-            let temp = isbn.substring(isbn.length - 17, isbn.length);
-            return "/homepage/detail/" + temp
-        }
-    }
     handleSort(index) {
         orderBy = index
         order[index] = !order[index]
         let list = []
-        for (let i = 0; i < this.state.books.length; i++) {
-            list.push(this.state.books[i])
+        for (let i = 0; i < this.state.users.length; i++) {
+            list.push(this.state.users[i])
         }
         list.sort(this.sort)
         this.setState({
-            books: list
+            users: list
         })
     }
     sort(a, b) {
@@ -86,33 +98,23 @@ class UserManage extends Component {
         return res
     }
     handleChange() {
-        if(this.state.searchOption==="Name") {
+        if(this.state.searchOption==="UserName") {
             let pattern = document.getElementById('filter').value
-            let list = this.state.booksCp.filter((item) => {
-                return item.name.indexOf(pattern) !== -1
+            let list = this.state.usersCp.filter((item) => {
+                return item.username.indexOf(pattern) !== -1
             })
             this.setState({
-                books: list
+                users: list
             })
             return;
         }
-        if(this.state.searchOption==="Author") {
+        if(this.state.searchOption==="Email") {
             let pattern = document.getElementById('filter').value
-            let list = this.state.booksCp.filter((item) => {
-                return item.author.indexOf(pattern) !== -1
+            let list = this.state.usersCp.filter((item) => {
+                return item.email.indexOf(pattern) !== -1
             })
             this.setState({
-                books: list
-            })
-            return;
-        }
-        if(this.state.searchOption==="isbn") {
-            let pattern = document.getElementById('filter').value
-            let list = this.state.booksCp.filter((item) => {
-                return item.isbn.indexOf(pattern) !== -1
-            })
-            this.setState({
-                books: list
+                users: list
             })
             return;
         }
@@ -170,9 +172,8 @@ class UserManage extends Component {
                                         <span className="mr-2">Search by {this.state.searchOption}</span>
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
-                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Name")}>Name</MDBDropdownItem>
-                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Author")}>Author</MDBDropdownItem>
-                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("isbn")}>isbn</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("UserName")}>UserName</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Email")}>Email</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
@@ -222,7 +223,9 @@ class UserManage extends Component {
                                         {item.email}
                                     </td>
                                     <td >
-
+                                        <label>
+                                            <Switch onChange={()=>this.handleBlockChange(item.username,item.state)} checked={item.state} />
+                                        </label>
                                     </td>
                                 </tr>
                             )
