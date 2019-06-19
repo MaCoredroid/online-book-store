@@ -11,6 +11,10 @@ import Order from "./User/Order"
 import Userstatistics from "./User/Userstatistics"
 import UserProfile from "./user/UserProfile"
 import UserManage from "./Admin/UserManage"
+import BookManage from "./Admin/BookManage"
+import CartManage from "./Admin/CartManage"
+import OrderManage from "./Admin/OrderManage"
+import Statistics from "./Admin/Statistics"
 import * as serviceWorker from './serviceWorker';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -31,6 +35,10 @@ ReactDOM.render(
                 <Route exact path="/Register" component={Register} />
                 <Route exact path="/Userstatistics" component={Userstatistics} />
                 <Route exact path="/UserManage" component={UserManage} />
+                <Route exact path="/BookManage" component={BookManage} />
+                <Route exact path="/CartManage" component={CartManage} />
+                <Route exact path="/OrderManage" component={OrderManage} />
+                <Route exact path="/Statistics" component={Statistics} />
                 <Route path="/homepage/detail/:id" component={HomepageBook} />
                 <Route path="/orderpage/detail/:id" component={OrderpageBook} />
                 <Route path="/cartpage/detail/:id" component={CartpageBook} />

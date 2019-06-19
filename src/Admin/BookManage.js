@@ -20,7 +20,7 @@ let order = {
     booklistID:true,
 };
 let orderBy = 'name';
-class UserManage extends Component {
+class BookManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -147,7 +147,7 @@ class UserManage extends Component {
             <div>
                 <MDBNavbar color="default-color" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="dark-text">UserManage</strong>
+                        <strong className="dark-text">BookManage</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>
@@ -254,4 +254,4 @@ class UserManage extends Component {
     }
 }
 
-export default UserManage;
+export default BookManage;
