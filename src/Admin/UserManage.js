@@ -12,12 +12,9 @@ import "../css/Homepage.css";
 
 
 let order = {
-    name: true,
-    author: true,
-    price: true,
-    isbn: true,
-    stock: true,
-    booklistID:true,
+    userID:true,
+    username:true,
+    email:true,
 };
 let orderBy = 'name';
 class UserManage extends Component {
@@ -25,40 +22,32 @@ class UserManage extends Component {
         super(props);
         this.state = {
             isOpen: false,
-            books: [
+            users: [
 
             ],
-            booksCp: [
+            usersCp: [
 
             ],
             username:Cookies.get("username"),
             photoIndex: 0,
             images: [
 
-            ]
+            ],
+            searchOption:"Name",
         };
     }
     componentDidMount()
     {
         let url=Cookies.get('url');
-        axios.get(url+`/booklist`,
-        )
+        axios.get(url+'/admin/seeAllUser',)
             .then(res => {
                 this.setState(
                     {
-                        books: res.data,
-                        booksCp: res.data
+                        users: res.data,
+                        usersCp: res.data
                     });
             });
-        axios.get(url+`/isbnlist`,
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        images: res.data,
 
-                    });
-            });
     }
 
     toggleCollapse = () => {
@@ -97,12 +86,41 @@ class UserManage extends Component {
         return res
     }
     handleChange() {
-        let pattern = document.getElementById('filter').value
-        let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
-        })
+        if(this.state.searchOption==="Name") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.name.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="Author") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.author.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="isbn") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.isbn.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+
+    }
+    handleSearchOption(what){
         this.setState({
-            books: list
+            searchOption:what
         })
     }
     handleLogout()
@@ -146,7 +164,25 @@ class UserManage extends Component {
                         </MDBNavbarNav>
 
                         <MDBNavbarNav right>
-
+                            <MDBNavItem>
+                                <MDBDropdown >
+                                    <MDBDropdownToggle nav caret>
+                                        <span className="mr-2">Search by {this.state.searchOption}</span>
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Name")}>Name</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Author")}>Author</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("isbn")}>isbn</MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBFormInline waves>
+                                    <div className="md-form my-0">
+                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
+                                    </div>
+                                </MDBFormInline>
+                            </MDBNavItem>
 
                             <MDBNavItem>
                                 <MDBDropdown>
@@ -167,38 +203,26 @@ class UserManage extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>
-                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
-                            <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
-                            <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>Stock</a></th>
+                            <th><a onClick={() => { this.handleSort("userID") }}>userID</a></th>
+                            <th><a onClick={() => { this.handleSort("username") }}>Username</a></th>
+                            <th><a onClick={() => { this.handleSort("email") }}>Email</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        {this.state.books.map((item, index) => {
+                        {this.state.users.map((item, index) => {
                             return (
                                 <tr key={index}>
                                     <td >
-                                        {item.booklistID}
+                                        {item.userID}
                                     </td>
                                     <td >
-                                        {item.name}
+                                        {item.username}
                                     </td>
                                     <td>
-                                        {item.author}
-                                    </td>
-                                    <td>
-                                        {item.price / 100}
-                                    </td>
-                                    <td>
-                                        {item.isbn}
-                                    </td>
-                                    <td>
-                                        {item.stock}
+                                        {item.email}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(item.isbn)}>Details</Link>
+
                                     </td>
                                 </tr>
                             )

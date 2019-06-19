@@ -181,7 +181,6 @@ class AdminProfile extends Component {
             alert("Failed to change password");
         }
     }
-
     render()
     {
         return (
@@ -238,7 +237,7 @@ class AdminProfile extends Component {
                     <MDBRow>
                         <MDBCol>
                             <MDBJumbotron>
-                                <h2 className="h1 display-3">Hello, {this.state.username}!</h2>
+                                <h2 className="h1 display-3">Hello, Admin {this.state.username}!</h2>
                                 <p className="lead">
                                     Email : {this.state.user.email}
                                 </p>

@@ -35,7 +35,8 @@ class BookManage extends Component {
             photoIndex: 0,
             images: [
 
-            ]
+            ],
+            searchOption:"Name",
         };
     }
     componentDidMount()
@@ -96,13 +97,9 @@ class BookManage extends Component {
         }
         return res
     }
-    handleChange() {
-        let pattern = document.getElementById('filter').value
-        let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
-        })
+    handleSearchOption(what){
         this.setState({
-            books: list
+            searchOption:what
         })
     }
     handleLogout()
@@ -138,10 +135,42 @@ class BookManage extends Component {
             );
         })
     }
+    handleChange() {
+        if(this.state.searchOption==="Name") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.name.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="Author") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.author.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="isbn") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.isbn.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+
+    }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/UserManage#/"+ where;
     }
-
     render() {
         return (
             <div>
@@ -175,7 +204,25 @@ class BookManage extends Component {
                         </MDBNavbarNav>
 
                         <MDBNavbarNav right>
-
+                            <MDBNavItem>
+                                <MDBDropdown >
+                                    <MDBDropdownToggle nav caret>
+                                        <span className="mr-2">Search by {this.state.searchOption}</span>
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Name")}>Name</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Author")}>Author</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("isbn")}>isbn</MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBFormInline waves>
+                                    <div className="md-form my-0">
+                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
+                                    </div>
+                                </MDBFormInline>
+                            </MDBNavItem>
 
                             <MDBNavItem>
                                 <MDBDropdown>

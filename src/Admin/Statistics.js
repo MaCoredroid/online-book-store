@@ -141,7 +141,6 @@ class Statistics extends Component {
     handleNavLink(where){
         window.location.href = "http://localhost:3000/UserManage#/"+ where;
     }
-
     render() {
         return (
             <div>

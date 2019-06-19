@@ -13,11 +13,13 @@ import "../css/Homepage.css";
 
 let order = {
     name: true,
+    username:true,
     author: true,
     price: true,
     isbn: true,
     stock: true,
-    booklistID:true,
+    OrderID:true,
+    timestamp:true,
 };
 let orderBy = 'name';
 class OrderManage extends Component {
@@ -35,28 +37,19 @@ class OrderManage extends Component {
             photoIndex: 0,
             images: [
 
-            ]
+            ],
+            searchOption:"BookName",
         };
     }
     componentDidMount()
     {
         let url=Cookies.get('url');
-        axios.get(url+`/booklist`,
-        )
+        axios.get(url+'/admin/seeAllOrder',)
             .then(res => {
                 this.setState(
                     {
                         books: res.data,
                         booksCp: res.data
-                    });
-            });
-        axios.get(url+`/isbnlist`,
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        images: res.data,
-
                     });
             });
     }
@@ -97,45 +90,55 @@ class OrderManage extends Component {
         return res
     }
     handleChange() {
-        let pattern = document.getElementById('filter').value
-        let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
-        })
-        this.setState({
-            books: list
-        })
+        if(this.state.searchOption==="BookName") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.name.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="UserName") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.cartsCp.filter((item) => {
+                return item.username.indexOf(pattern) !== -1
+            })
+            this.setState({
+                carts: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="Author") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.author.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="isbn") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.isbn.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+
     }
     handleLogout()
     {
         window.location.href = "http://localhost:3000/"
     }
-    handlepictureLink(imageSrc)
-    {
-        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "/Homepage#/homepage/detail/" + res;
-    }
-    renderImages = () => {
-        let photoIndex = 0;
-        const { images } = this.state;
-        let url=Cookies.get('url');
-        return images.map(imageSrc => {
-            photoIndex++;
-            const privateKey = photoIndex;
-            return (
-                <MDBCol md="3" key={photoIndex}>
-                    <figure >
-                        <img
-                            height="300px"
-                            width="200px"
-
-                            src={url+"/image/"+imageSrc}
-                            alt="Gallery"
-                            className="img-fluid z-depth-1"
-                            onClick={() => {this.handlepictureLink(imageSrc)}}
-                        />
-                    </figure>
-                </MDBCol>
-            );
+    handleSearchOption(what){
+        this.setState({
+            searchOption:what
         })
     }
     handleNavLink(where){
@@ -175,7 +178,26 @@ class OrderManage extends Component {
                         </MDBNavbarNav>
 
                         <MDBNavbarNav right>
-
+                            <MDBNavItem>
+                                <MDBDropdown >
+                                    <MDBDropdownToggle nav caret>
+                                        <span className="mr-2">Search by {this.state.searchOption}</span>
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("BookName")}>BookName</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("UserName")}>UserName</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("Author")}>Author</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleSearchOption("isbn")}>isbn</MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBFormInline waves>
+                                    <div className="md-form my-0">
+                                        <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
+                                    </div>
+                                </MDBFormInline>
+                            </MDBNavItem>
 
                             <MDBNavItem>
                                 <MDBDropdown>
@@ -196,12 +218,14 @@ class OrderManage extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>
-                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
+                            <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th>
+                            <th><a onClick={() => { this.handleSort("username") }}>UserName</a></th>
+                            <th><a onClick={() => { this.handleSort("name") }}>BookName</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
                             <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>Stock</a></th>
+                            <th><a onClick={() => { this.handleSort("number") }}>Number</a></th>
+                            <th><a onClick={() => { this.handleSort("timestamp") }}>Time</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -209,7 +233,10 @@ class OrderManage extends Component {
                             return (
                                 <tr key={index}>
                                     <td >
-                                        {item.booklistID}
+                                        {item.OrderID}
+                                    </td>
+                                    <td >
+                                        {item.username}
                                     </td>
                                     <td >
                                         {item.name}
@@ -224,24 +251,19 @@ class OrderManage extends Component {
                                         {item.isbn}
                                     </td>
                                     <td>
-                                        {item.stock}
+                                        {item.number}
+                                    </td>
+                                    <td>
+                                        {(new Date(parseInt(item.timestamp))).toString()}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(item.isbn)}>Details</Link>
+
                                     </td>
                                 </tr>
                             )
                         })}
                     </MDBTableBody>
                 </MDBTable>
-
-                <MDBContainer className="mt-5 p-3" >
-                    <div className="mdb-lightbox p-3">
-                        <MDBRow>
-                            {this.renderImages()}
-                        </MDBRow>
-                    </div>
-                </MDBContainer>
             </div>
 
 
