@@ -35,7 +35,8 @@ class Homepage extends Component {
             photoIndex: 0,
             images: [
 
-            ]
+            ],
+            searchOption:"Name"
         };
     }
     componentDidMount()
@@ -97,13 +98,37 @@ class Homepage extends Component {
         return res
     }
     handleChange() {
-        let pattern = document.getElementById('filter').value
-        let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
-        })
-        this.setState({
-            books: list
-        })
+        if(this.state.searchOption==="Name") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.name.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="Author") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.author.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+        if(this.state.searchOption==="isbn") {
+            let pattern = document.getElementById('filter').value
+            let list = this.state.booksCp.filter((item) => {
+                return item.isbn.indexOf(pattern) !== -1
+            })
+            this.setState({
+                books: list
+            })
+            return;
+        }
+
     }
     handleLogout()
     {
@@ -141,6 +166,11 @@ class Homepage extends Component {
     handleNavLink(where){
         window.location.href = "http://localhost:3000/Homepage#/"+ where;
     }
+    handleSearchOption(what){
+        this.setState({
+            searchOption:what
+        })
+    }
 
     render() {
         return (
@@ -174,7 +204,25 @@ class Homepage extends Component {
                        </MDBNavbarNav>
 
                        <MDBNavbarNav right>
-
+                           <MDBNavItem>
+                               <MDBDropdown >
+                                   <MDBDropdownToggle nav caret>
+                                       <span className="mr-2">Search with {this.state.searchOption}</span>
+                                   </MDBDropdownToggle>
+                                   <MDBDropdownMenu>
+                                       <MDBDropdownItem onClick={()=>this.handleSearchOption("Name")}>Name</MDBDropdownItem>
+                                       <MDBDropdownItem onClick={()=>this.handleSearchOption("Author")}>Author</MDBDropdownItem>
+                                       <MDBDropdownItem onClick={()=>this.handleSearchOption("isbn")}>isbn</MDBDropdownItem>
+                                   </MDBDropdownMenu>
+                               </MDBDropdown>
+                           </MDBNavItem>
+                           <MDBNavItem>
+                               <MDBFormInline waves>
+                                   <div className="md-form my-0">
+                                       <input id={'filter'} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" onChange={() => this.handleChange()} />
+                                   </div>
+                               </MDBFormInline>
+                           </MDBNavItem>
 
                            <MDBNavItem>
                                <MDBDropdown>
@@ -199,7 +247,7 @@ class Homepage extends Component {
                             <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
+                            <th><a onClick={() => { this.handleSort("isbn") }}>isbn</a></th>
                             <th><a onClick={() => { this.handleSort("stock") }}>Stock</a></th>
                         </tr>
                     </MDBTableHead>

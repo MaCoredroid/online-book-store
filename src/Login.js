@@ -21,17 +21,30 @@ class Login extends Component {
 
         xhr.open("GET", url+"/login/"+username+"/password/"+pattern, false);
         xhr.send();
-        if (xhr.responseText === "true") {
+        if (xhr.responseText === "user") {
             alert("Login succeed!");
             Cookies.set('username', username);
-
             window.location.href = "http://localhost:3000/Homepage#/Homepage";
+            return;
         }
-        else
-        {
+        if (xhr.responseText === "admin") {
+            alert("Login succeed!");
+            Cookies.set('username', username);
+            window.location.href = "http://localhost:3000/UserManage#/UserManage";
+            return;
+        }
+        if (xhr.responseText === "root") {
+            alert("Login succeed!");
+            Cookies.set('username', username);
+            window.location.href = "http://localhost:3000/Homepage#/Homepage";
+            return;
+        }
+
+        if(xhr.responseText === "false") {
             alert("Login failed! Please check your username and password. ")
             return;
         }
+
 
 
     };
