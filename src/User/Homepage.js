@@ -43,6 +43,10 @@ class Homepage extends Component {
     }
     componentDidMount()
     {
+        if(Cookies.get("username")==='')
+        {
+            window.location.href = "http://localhost:3000/";
+        }
         let url=Cookies.get('url');
         axios.get(url+`/booklist`,
             )
@@ -156,6 +160,7 @@ class Homepage extends Component {
     }
     handleLogout()
     {
+        Cookies.set('username','');
         window.location.href = "http://localhost:3000/"
     }
     handlepictureLink(imageSrc)

@@ -43,6 +43,10 @@ class UserProfile extends Component {
     }
     componentDidMount()
     {
+        if(Cookies.get("username")==='')
+        {
+            window.location.href = "http://localhost:3000/";
+        }
         axios.get(this.state.url+"/userprofile/username/"+this.state.username).then(res => {
             this.setState({ user: res.data });
         });
@@ -56,6 +60,7 @@ class UserProfile extends Component {
     };
     handleLogout()
     {
+        Cookies.set('username','');
         window.location.href = "http://localhost:3000/"
     }
     toggle = () => {

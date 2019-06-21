@@ -42,6 +42,10 @@ class BookManage extends Component {
     }
     componentDidMount()
     {
+        if(Cookies.get("username")==='')
+        {
+            window.location.href = "http://localhost:3000/";
+        }
         let url=Cookies.get('url');
         axios.get(url+`/booklist`,
         )
@@ -105,6 +109,7 @@ class BookManage extends Component {
     }
     handleLogout()
     {
+        Cookies.set('username','');
         window.location.href = "http://localhost:3000/"
     }
     handlepictureLink(imageSrc)

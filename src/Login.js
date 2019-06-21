@@ -21,6 +21,10 @@ class Login extends Component {
 
         xhr.open("GET", url+"/login/"+username+"/password/"+pattern, false);
         xhr.send();
+        if (xhr.responseText === "Blocked") {
+            alert("You are blocked! Please contact the admin!");
+            return;
+        }
         if (xhr.responseText === "User") {
             alert("Login succeed!");
             Cookies.set('username', username);
@@ -88,17 +92,17 @@ class Login extends Component {
                                                 Log in
                                             </MDBBtn>
                                         </div>
-                                        <p className="font-small grey-text d-flex justify-content-center">
+                                        <div className="font-small grey-text d-flex justify-content-center">
                                             Don't have an account?
-                                            <a
+                                            <div
                                                 href="#!"
                                                 className="dark-grey-text font-weight-bold ml-1"
                                             >
                                                 <Link to={"/Register"}>Register</Link>
 
 
-                                            </a>
-                                        </p>
+                                            </div>
+                                        </div>
                                     </form>
                                 </MDBCardBody>
                                 </MDBCard>

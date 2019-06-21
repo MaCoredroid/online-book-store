@@ -47,6 +47,11 @@ class Cart extends Component {
     }
     componentDidMount()
     {
+        if(Cookies.get("username")==='')
+        {
+            window.location.href = "http://localhost:3000/";
+        }
+
         axios.get(this.state.url+`/cart/`+this.state.username).then(res => {
             this.setState(
                 {
@@ -109,7 +114,8 @@ class Cart extends Component {
     }
     handleLogout()
     {
-        window.location.href = "http://localhost:3000/"
+        Cookies.set('username','');
+        window.location.href = "http://localhost:3000/";
     }
     handleChange() {
         if(this.state.searchOption==="Name") {

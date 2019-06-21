@@ -39,6 +39,10 @@ class UserManage extends Component {
     }
     componentDidMount()
     {
+        if(Cookies.get("username")==='')
+        {
+            window.location.href = "http://localhost:3000/";
+        }
         let url=Cookies.get('url');
         axios.get(url+'/admin/seeAllUser',)
             .then(res => {
@@ -127,6 +131,7 @@ class UserManage extends Component {
     }
     handleLogout()
     {
+        Cookies.set('username','');
         window.location.href = "http://localhost:3000/"
     }
     handleNavLink(where){
