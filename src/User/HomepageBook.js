@@ -36,7 +36,10 @@ class HomepageBook extends Component {
 
     }
     componentDidMount() {
-
+        if(Cookies.get("username")==='')
+        {
+            window.location.href = "http://localhost:3000/";
+        }
         axios.get(this.state.url+`/Booklist/`+this.props.match.params.id).then(res => {
             this.setState({ books: res.data });
         });
@@ -144,6 +147,7 @@ class HomepageBook extends Component {
 
     handleLogout()
     {
+        Cookies.set('username','');
         window.location.href = "http://localhost:3000/"
     }
     handleNavLink(where){

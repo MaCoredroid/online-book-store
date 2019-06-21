@@ -44,6 +44,10 @@ class CartManage extends Component {
     }
     componentDidMount()
     {
+        if(Cookies.get("username")==='')
+        {
+            window.location.href = "http://localhost:3000/";
+        }
         let url=Cookies.get('url');
         axios.get(url+'/admin/seeAllCart',)
             .then(res => {
@@ -140,6 +144,7 @@ class CartManage extends Component {
     }
     handleLogout()
     {
+        Cookies.set('username','');
         window.location.href = "http://localhost:3000/"
     }
     handleSearchOption(what){

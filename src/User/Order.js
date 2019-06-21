@@ -47,7 +47,10 @@ class Order extends Component {
     }
     componentDidMount()
     {
-
+        if(Cookies.get("username")==='')
+        {
+            window.location.href = "http://localhost:3000/";
+        }
         axios.get(this.state.url+`/order/getorder/`+this.state.username).then(res => {
                 this.setState(
                     {
@@ -85,6 +88,7 @@ class Order extends Component {
     }
     handleLogout()
     {
+        Cookies.set('username','');
         window.location.href = "http://localhost:3000/"
     }
     handleSort(index) {
