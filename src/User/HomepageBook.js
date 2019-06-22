@@ -262,6 +262,7 @@ class HomepageBook extends Component {
                             <th><a >Price</a></th>
                             <th><a >Isbn</a></th>
                             <th><a >Stock</a></th>
+                            <th><a >Sales</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -284,6 +285,9 @@ class HomepageBook extends Component {
                                     </td>
                                     <td>
                                         {this.state.books.stock}
+                                    </td>
+                                    <td>
+                                        {this.state.books.sales}
                                     </td>
 
 

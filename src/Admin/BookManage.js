@@ -283,9 +283,6 @@ class BookManage extends Component {
                                     <td>
                                         {item.sales}
                                     </td>
-                                    <td >
-                                        <Link to={this.handleLink(item.isbn)}>Details</Link>
-                                    </td>
                                 </tr>
                             )
                         })}
