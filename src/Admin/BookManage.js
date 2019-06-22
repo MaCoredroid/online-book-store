@@ -73,7 +73,7 @@ class BookManage extends Component {
     handleLink(isbn) {
         if(isbn!=null) {
             let temp = isbn.substring(isbn.length - 17, isbn.length);
-            return "/homepage/detail/" + temp
+            return "/bookmanagepagebook/detail/" + temp
         }
     }
     handleSort(index) {
@@ -282,6 +282,9 @@ class BookManage extends Component {
                                     </td>
                                     <td>
                                         {item.sales}
+                                    </td>
+                                    <td >
+                                        <Link to={this.handleLink(item.isbn)}>Details</Link>
                                     </td>
                                 </tr>
                             )

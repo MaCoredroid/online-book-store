@@ -16,6 +16,7 @@ import CartManage from "./Admin/CartManage"
 import OrderManage from "./Admin/OrderManage"
 import Statistics from "./Admin/Statistics"
 import AdminProfile from "./Admin/AdminProfile"
+import BookManagePageBook from"./Admin/BookManagePageBook"
 import * as serviceWorker from './serviceWorker';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -44,6 +45,7 @@ ReactDOM.render(
                 <Route path="/homepage/detail/:id" component={HomepageBook} />
                 <Route path="/orderpage/detail/:id" component={OrderpageBook} />
                 <Route path="/cartpage/detail/:id" component={CartpageBook} />
+                <Route path="/bookmanagepagebook/detail/:id" component={BookManagePageBook} />
                 <Route path="/UserProfile" component={UserProfile} />
             </Switch>
         </Router>, document.getElementById('create-article-form'));
