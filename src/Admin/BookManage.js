@@ -115,7 +115,7 @@ class BookManage extends Component {
     handlepictureLink(imageSrc)
     {
         let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "/Homepage#/homepage/detail/" + res;
+        window.location.href = "http://localhost:3000/UserManage#/bookmanagepagebook/detail/" + res;
     }
     renderImages = () => {
         let photoIndex = 0;

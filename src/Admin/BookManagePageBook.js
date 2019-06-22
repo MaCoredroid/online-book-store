@@ -67,6 +67,40 @@ class BookManagePageBook extends Component {
     handleNavLink(where){
         window.location.href = "http://localhost:3000/UserManage#/"+ where;
     }
+    handleChangeName(bookID)
+    {
+        let key = prompt("Input the new book name", this.state.books.name);
+        if(key==="")
+        {
+            alert("Book name can't be blank space!")
+            return;
+        }
+        if(key===this.state.books.name)
+        {
+            alert("Unchanged!")
+            return;
+        }
+        else
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url+"/admin/change/bookID/"+bookID+"/newbookname/"+key, false);
+            xhr.send();
+            if (xhr.responseText === "true")
+            {
+                alert("Change succeeded!");
+                this.componentDidMount();
+                return;
+            }
+            else
+            {
+                alert("Book name has already been taken!");
+                return;
+            }
+
+        }
+
+    }
+
     render()
     {
         return(
@@ -164,10 +198,14 @@ class BookManagePageBook extends Component {
                 </MDBTable>
                 <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
                 <MDBDropdown dropup className="fixed-bottom">
-                    <MDBDropdownToggle caret color="primary">
+                    <MDBDropdownToggle caret color="default color">
                         Action
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
+                        <MDBDropdownItem onClick={()=>this.handleChangeName(this.state.books.booklistID)}>Change Name</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleChangeAuthor}>Change Author</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleChangePrice}>Change Price</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleChangeStock}>Change Stock</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
