@@ -79,11 +79,8 @@ class Order extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(isbn,number,id) {
-        Cookies.set('ordernumber',number);
-        Cookies.set('orderid',id);
-        let res = isbn.substring(isbn.length - 17,isbn.length);
-        window.location.href = "http://localhost:3000"+"/Homepage#/orderpage/detail/" + res
+    handleLink(id) {
+        window.location.href = "http://localhost:3000"+"/Homepage#/orderpage/detail/" + id;
 
     }
     handleLogout()
@@ -281,7 +278,7 @@ class Order extends Component {
                                     <td>
                                         {(new Date(parseInt(item.timestamp))).toString()}
                                     </td>
-                                    <td onClick={() => {this.handleLink(item.isbn,item.number,item.OrderID)}}>
+                                    <td onClick={() => {this.handleLink(item.OrderID)}}>
                                         Details
                                     </td>
                                 </tr>

@@ -52,23 +52,13 @@ class Cart extends Component {
             window.location.href = "http://localhost:3000/";
         }
 
-        axios.get(this.state.url+`/cart/`+this.state.username).then(res => {
+        axios.get(this.state.url+`/cart/username/`+this.state.username).then(res => {
             this.setState(
                 {
                     books: res.data,
                     booksCp: res.data,
                 });
         });
-        axios.get(this.state.url+`/isbnlist`,
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        images: res.data,
-
-                    });
-            });
-
     }
     handleSearchOption(what){
         this.setState({
@@ -79,11 +69,8 @@ class Cart extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(isbn,number,id) {
-        Cookies.set('cartnumber',number);
-        Cookies.set('cartid',id);
-        let res = isbn.substring(isbn.length - 17,isbn.length);
-        window.location.href = "http://localhost:3000"+"/Homepage#/cartpage/detail/" + res
+    handleLink(id) {
+        window.location.href = "http://localhost:3000"+"/Homepage#/cartpage/detail/" + id;
 
     }
     handleSort(index) {
@@ -306,7 +293,7 @@ class Cart extends Component {
                                     <td>
                                         {(new Date(parseInt(item.timestamp))).toString()}
                                     </td>
-                                    <td onClick={() => {this.handleLink(item.isbn,item.number,item.CartID)}}>
+                                    <td onClick={() => {this.handleLink(item.CartID)}}>
                                         Details
                                     </td>
                                 </tr>

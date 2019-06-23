@@ -295,8 +295,8 @@ class HomepageBook extends Component {
 
                     </MDBTableBody>
                 </MDBTable>
-                <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
-                <MDBDropdown dropup className="fixed-bottom">
+                <img class="center" src={this.state.url+"/image/"+ this.state.books.booklistID} height={"289"} width={"200"}/>
+                <MDBDropdown dropup >
                     <MDBDropdownToggle caret color="primary">
                         Action
                     </MDBDropdownToggle>
@@ -319,7 +319,7 @@ class HomepageBook extends Component {
                         </MDBModalBody>
                         <MDBModalFooter>
                             <MDBBtn color="secondary" onClick={this.toggle}>Close</MDBBtn>
-                            <MDBBtn color="primary" onClick={()=>{this.handlecart(this.state.username,this.props.match.params.id)}}>Add to Cart</MDBBtn>
+                            <MDBBtn color="primary" onClick={()=>{this.handlecart(this.state.username,this.state.books.isbn)}}>Add to Cart</MDBBtn>
                         </MDBModalFooter>
                     </MDBModal>
                 </MDBContainer>
@@ -336,7 +336,7 @@ class HomepageBook extends Component {
                         </MDBModalBody>
                         <MDBModalFooter>
                             <MDBBtn color="secondary" onClick={this.toggle1}>Close</MDBBtn>
-                            <MDBBtn color="primary" onClick={()=>{this.handlePurchase(this.state.username,this.props.match.params.id)}}>Directly Purchase</MDBBtn>
+                            <MDBBtn color="primary" onClick={()=>{this.handlePurchase(this.state.username,this.state.books.isbn)}}>Directly Purchase</MDBBtn>
                         </MDBModalFooter>
                     </MDBModal>
                 </MDBContainer>
