@@ -21,6 +21,7 @@ let order = {
     OrderID:true,
     timestamp:true,
     userid:true,
+    bookid:true,
 };
 let orderBy = 'name';
 class OrderManage extends Component {
@@ -227,6 +228,7 @@ class OrderManage extends Component {
                             <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th>
                             <th><a onClick={() => { this.handleSort("userid") }}>UserID</a></th>
                             <th><a onClick={() => { this.handleSort("username") }}>UserName</a></th>
+                            <th><a onClick={() => { this.handleSort("bookid") }}>BookID</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>BookName</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
@@ -248,6 +250,9 @@ class OrderManage extends Component {
                                     </td>
                                     <td >
                                         {item.username}
+                                    </td>
+                                    <td >
+                                        {item.bookid}
                                     </td>
                                     <td >
                                         {item.name}
