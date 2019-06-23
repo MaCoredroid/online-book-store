@@ -87,7 +87,7 @@ class BookManagePageBook extends Component {
             xhr.send();
             if (xhr.responseText === "true")
             {
-                alert("Change succeeded!");
+                alert("Change book name succeeded!");
                 this.componentDidMount();
                 return;
             }
@@ -100,7 +100,50 @@ class BookManagePageBook extends Component {
         }
 
     }
+    handleChangePrice(bookID)
+    {
+        let oldprice=this.state.books.price / 100;
+        let key = prompt("Input the new book price",oldprice.toString() );
+        if(key==="")
+        {
+            alert("Book price can not be null!")
+            return;
+        }
+        if(key===oldprice.toString())
+        {
+            return;
+        }
+        let newprice = parseFloat(key);
+        if (!isFinite(newprice))
+        {
+            alert("Invaild!")
+            return;
+        }
+        let e = 1, p = 0;
+        while (Math.round(newprice * e) / e !== newprice) { e *= 10; p++; }
+        if(p>2)
+        {
+            alert("Price can have at most 2 digits of precision!")
+            return;
+        }
+        newprice=newprice*100;
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/admin/change/bookID/"+bookID+"/newbookprice/"+newprice, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Change book price succeeded!");
+            this.componentDidMount();
+            return;
+        }
+        else
+        {
+            alert("Change book price failed!");
+            return;
+        }
 
+
+    }
     render()
     {
         return(
@@ -204,7 +247,7 @@ class BookManagePageBook extends Component {
                     <MDBDropdownMenu basic>
                         <MDBDropdownItem onClick={()=>this.handleChangeName(this.state.books.booklistID)}>Change Name</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangeAuthor}>Change Author</MDBDropdownItem>
-                        <MDBDropdownItem onClick={()=>this.handleChangePrice}>Change Price</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleChangePrice(this.state.books.booklistID)}>Change Price</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangeStock}>Change Stock</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>

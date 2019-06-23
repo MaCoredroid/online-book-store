@@ -56,22 +56,6 @@ class OrderpageBook extends Component {
         Cookies.set('username','');
         window.location.href = "http://localhost:3000/Homepage#/"
     }
-
-    handleremovefromorder(orderid)
-    {
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", this.state.url+"/order/removeorder/"+orderid, false);
-        xhr.send();
-        if (xhr.responseText === "true")
-        {
-            alert("This order record has been removed ");
-        }
-        else
-        {
-            alert("Failed to remove the order");
-        }
-        window.location.href = "http://localhost:3000/Homepage#/Order";
-    }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/Homepage#/"+ where;
     }
@@ -194,7 +178,6 @@ class OrderpageBook extends Component {
                         Action
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
-                        <MDBDropdownItem  onClick={()=>{this.handleremovefromorder(this.state.orderid)}}>Remove this order</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>

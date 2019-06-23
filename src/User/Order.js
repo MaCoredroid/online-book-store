@@ -150,31 +150,6 @@ class Order extends Component {
         }
 
     }
-    handleClearAll()
-    {
-        let xhr = new XMLHttpRequest();
-        let key = prompt("Are you sure? Type your username to confirm", "Your username");
-        if(key===this.state.username)
-        {
-
-        }
-        else
-        {
-            alert("Please input correct username!");
-            return;
-        }
-        xhr.open("GET", this.state.url+"/order/clearall/username/"+this.state.username+"/username/"+this.state.username, false);
-        xhr.send();
-        if (xhr.responseText === "true")
-        {
-            alert("All orders record has been removed ");
-        }
-        else
-        {
-            alert("Failed to remove all the orders");
-        }
-        window.location.reload();
-    }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/Homepage#/"+ where;
     }
@@ -314,7 +289,6 @@ class Order extends Component {
                         })}
                     </MDBTableBody>
                 </MDBTable>
-                <MDBBtn className="fixed-bottom" color="danger" onClick={()=>this.handleClearAll()}>Clear all</MDBBtn>
             </div>
 
 

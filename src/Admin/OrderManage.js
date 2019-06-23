@@ -20,6 +20,7 @@ let order = {
     stock: true,
     OrderID:true,
     timestamp:true,
+    userid:true,
 };
 let orderBy = 'name';
 class OrderManage extends Component {
@@ -224,6 +225,7 @@ class OrderManage extends Component {
                     <MDBTableHead>
                         <tr>
                             <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th>
+                            <th><a onClick={() => { this.handleSort("userid") }}>UserID</a></th>
                             <th><a onClick={() => { this.handleSort("username") }}>UserName</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>BookName</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
@@ -231,6 +233,7 @@ class OrderManage extends Component {
                             <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
                             <th><a onClick={() => { this.handleSort("number") }}>Number</a></th>
                             <th><a onClick={() => { this.handleSort("timestamp") }}>Time</a></th>
+
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -239,6 +242,9 @@ class OrderManage extends Component {
                                 <tr key={index}>
                                     <td >
                                         {item.OrderID}
+                                    </td>
+                                    <td >
+                                        {item.userid}
                                     </td>
                                     <td >
                                         {item.username}
@@ -261,9 +267,7 @@ class OrderManage extends Component {
                                     <td>
                                         {(new Date(parseInt(item.timestamp))).toString()}
                                     </td>
-                                    <td >
 
-                                    </td>
                                 </tr>
                             )
                         })}
