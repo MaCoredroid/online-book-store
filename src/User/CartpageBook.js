@@ -56,9 +56,9 @@ class CartpageBook extends Component {
 
     }
     decrease = () => {
-        if(this.state.value<=0)
+        if(this.state.value<=1)
         {
-            this.setState({ value: 0 });
+            this.setState({ value: 1 });
         }
         else {
             this.setState({value: this.state.value - 1});
@@ -81,7 +81,9 @@ class CartpageBook extends Component {
 
     toggle = () => {
         this.setState({
+            value:this.state.books.number,
             modal: !this.state.modal
+
         });
     }
     handleback()
@@ -108,10 +110,9 @@ class CartpageBook extends Component {
     }
     handleChangecart()
     {
+        let number= this.state.value;
 
-        let number = this.state.value;
-
-        if(number===0)
+        if(number===this.state.books.number)
         {
 
         }
@@ -281,7 +282,7 @@ class CartpageBook extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img class="center" src={this.state.url+"/image/"+ this.state.books.bookid} height={"289"} width={"200"}/>
-                <MDBDropdown dropup className="fixed-bottom">
+                <MDBDropdown dropup >
                     <MDBDropdownToggle caret color="primary">
                         Action
                     </MDBDropdownToggle>

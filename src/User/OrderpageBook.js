@@ -175,7 +175,7 @@ class OrderpageBook extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img class="center" src={this.state.url+"/image/"+ this.state.books.bookid} height={"289"} width={"200"}/>
-                <MDBDropdown dropup className="fixed-bottom">
+                <MDBDropdown dropup >
                     <MDBDropdownToggle caret color="primary">
                         Action
                     </MDBDropdownToggle>
