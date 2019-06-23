@@ -24,8 +24,6 @@ class OrderpageBook extends Component {
             books:[],
             username:Cookies.get("username"),
             url:Cookies.get('url'),
-            ordernumber:Cookies.get('ordernumber'),
-            orderid:Cookies.get('orderid')
 
 
 
@@ -38,7 +36,7 @@ class OrderpageBook extends Component {
         {
             window.location.href = "http://localhost:3000/";
         }
-        axios.get(this.state.url+`/Booklist/`+this.props.match.params.id).then(res => {
+        axios.get(this.state.url+`/order/id/`+this.props.match.params.id).then(res => {
             this.setState({ books: res.data });
         });
     }
@@ -138,7 +136,8 @@ class OrderpageBook extends Component {
                     <MDBTableHead>
                         <tr>
                             <th><a >OrderID</a></th>
-                            <th><a >Name</a></th>
+                            <th><a >BookID</a></th>
+                            <th><a >Book Name</a></th>
                             <th><a >Author</a></th>
                             <th><a >Price</a></th>
                             <th><a >Isbn</a></th>
@@ -149,7 +148,10 @@ class OrderpageBook extends Component {
 
                         <tr >
                             <td >
-                                {this.state.orderid}
+                                {this.state.books.OrderID}
+                            </td>
+                            <td >
+                                {this.state.books.bookid}
                             </td>
                             <td >
                                 {this.state.books.name}
@@ -164,7 +166,7 @@ class OrderpageBook extends Component {
                                 {this.state.books.isbn}
                             </td>
                             <td>
-                                {this.state.ordernumber}
+                                {this.state.books.number}
                             </td>
 
 
@@ -172,7 +174,7 @@ class OrderpageBook extends Component {
 
                     </MDBTableBody>
                 </MDBTable>
-                <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
+                <img class="center" src={this.state.url+"/image/"+ this.state.books.bookid} height={"289"} width={"200"}/>
                 <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
                         Action

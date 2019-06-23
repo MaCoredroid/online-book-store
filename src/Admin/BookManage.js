@@ -56,7 +56,7 @@ class BookManage extends Component {
                         booksCp: res.data
                     });
             });
-        axios.get(url+`/isbnlist`,
+        axios.get(url+`/bookidlist`,
         )
             .then(res => {
                 this.setState(
@@ -70,11 +70,10 @@ class BookManage extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(isbn) {
-        if(isbn!=null) {
-            let temp = isbn.substring(isbn.length - 17, isbn.length);
-            return "/bookmanagepagebook/detail/" + temp
-        }
+    handleLink(id) {
+
+            return "/bookmanagepagebook/detail/" + id;
+
     }
     handleSort(index) {
         orderBy = index
@@ -114,8 +113,7 @@ class BookManage extends Component {
     }
     handlepictureLink(imageSrc)
     {
-        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "http://localhost:3000/UserManage#/bookmanagepagebook/detail/" + res;
+        window.location.href = "http://localhost:3000/UserManage#/bookmanagepagebook/detail/" + imageSrc;
     }
     renderImages = () => {
         let photoIndex = 0;
@@ -123,7 +121,6 @@ class BookManage extends Component {
         let url=Cookies.get('url');
         return images.map(imageSrc => {
             photoIndex++;
-            const privateKey = photoIndex;
             return (
                 <MDBCol md="3" key={photoIndex}>
                     <figure >
@@ -284,7 +281,7 @@ class BookManage extends Component {
                                         {item.sales}
                                     </td>
                                     <td >
-                                        <Link to={this.handleLink(item.isbn)}>Details</Link>
+                                        <Link to={this.handleLink(item.booklistID)}>Details</Link>
                                     </td>
                                 </tr>
                             )

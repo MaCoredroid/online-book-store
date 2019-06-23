@@ -239,7 +239,7 @@ class BookManagePageBook extends Component {
 
                     </MDBTableBody>
                 </MDBTable>
-                <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
+                <img class="center" src={this.state.url+"/image/"+ this.state.books.booklistID} height={"289"} width={"200"}/>
                 <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="default color">
                         Action

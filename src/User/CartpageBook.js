@@ -34,8 +34,6 @@ class CartpageBook extends Component {
             books:[],
             username:Cookies.get("username"),
             url:Cookies.get('url'),
-            cartnumber:Cookies.get('cartnumber'),
-            cartid:Cookies.get('cartid'),
             value: 0,
             modal: false
 
@@ -50,9 +48,8 @@ class CartpageBook extends Component {
         {
             window.location.href = "http://localhost:3000/";
         }
-        axios.get(this.state.url+`/Booklist/`+this.props.match.params.id).then(res => {
+        axios.get(this.state.url+`/cart/cartid/`+this.props.match.params.id).then(res => {
             this.setState({ books: res.data,
-            value:this.state.cartnumber
             });
         });
 
@@ -121,7 +118,7 @@ class CartpageBook extends Component {
         else
         {
             let xhr = new XMLHttpRequest();
-            xhr.open("GET", this.state.url + "/cart/change/" + this.state.cartid+"/number/"+this.state.value, false);
+            xhr.open("GET", this.state.url + "/cart/change/" + this.state.books.CartID+"/number/"+this.state.value, false);
             xhr.send();
             if (xhr.responseText === "true")
             {
@@ -145,7 +142,7 @@ class CartpageBook extends Component {
     {
         let time=new Date().getTime();
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", this.state.url+"/cart/purchase/"+this.state.cartid+"/time/"+time.toString(), false);
+        xhr.open("GET", this.state.url+"/cart/purchase/"+this.state.books.CartID+"/time/"+time.toString(), false);
         xhr.send();
         if (xhr.responseText === "true")
         {
@@ -245,6 +242,7 @@ class CartpageBook extends Component {
                     <MDBTableHead>
                         <tr>
                             <th><a >CartID</a></th>
+                            <th><a >BookID</a></th>
                             <th><a >Name</a></th>
                             <th><a >Author</a></th>
                             <th><a >Price</a></th>
@@ -256,7 +254,10 @@ class CartpageBook extends Component {
 
                         <tr >
                             <td >
-                                {this.state.cartid}
+                                {this.state.books.CartID}
+                            </td>
+                            <td >
+                                {this.state.books.bookid}
                             </td>
                             <td >
                                 {this.state.books.name}
@@ -271,7 +272,7 @@ class CartpageBook extends Component {
                                 {this.state.books.isbn}
                             </td>
                             <td>
-                                {this.state.cartnumber}
+                                {this.state.books.number}
                             </td>
 
 
@@ -279,13 +280,13 @@ class CartpageBook extends Component {
 
                     </MDBTableBody>
                 </MDBTable>
-                <img class="center" src={this.state.url+"/image/"+ this.props.match.params.id} height={"289"} width={"200"}/>
+                <img class="center" src={this.state.url+"/image/"+ this.state.books.bookid} height={"289"} width={"200"}/>
                 <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
                         Action
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
-                        <MDBDropdownItem  onClick={()=>{this.handleremovefromcart(this.state.cartid)}}>Remove from cart</MDBDropdownItem>
+                        <MDBDropdownItem  onClick={()=>{this.handleremovefromcart(this.state.books.CartID)}}>Remove from cart</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handlePurchase.bind(this)}>Purchase</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.toggle}>Change number</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
