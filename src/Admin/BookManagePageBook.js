@@ -144,6 +144,38 @@ class BookManagePageBook extends Component {
 
 
     }
+    handleChangeAuthor(bookID)
+    {
+        let key = prompt("Input the author name", this.state.books.name);
+        if(key==="")
+        {
+            alert("Author name can't be blank space!")
+            return;
+        }
+        if(key===this.state.books.author)
+        {
+            alert("Unchanged!")
+            return;
+        }
+        else
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url+"/admin/change/bookID/"+bookID+"/newauthorname/"+key, false);
+            xhr.send();
+            if (xhr.responseText === "true")
+            {
+                alert("Change author name succeeded!");
+                this.componentDidMount();
+                return;
+            }
+            else
+            {
+                alert("Change author name failed!");
+                return;
+            }
+
+        }
+    }
     render()
     {
         return(
@@ -246,9 +278,9 @@ class BookManagePageBook extends Component {
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
                         <MDBDropdownItem onClick={()=>this.handleChangeName(this.state.books.booklistID)}>Change Name</MDBDropdownItem>
-                        <MDBDropdownItem onClick={()=>this.handleChangeAuthor}>Change Author</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleChangeAuthor(this.state.books.booklistID)}>Change Author</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangePrice(this.state.books.booklistID)}>Change Price</MDBDropdownItem>
-                        <MDBDropdownItem onClick={()=>this.handleChangeStock}>Change Stock</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleChangeStock(this.state.books.booklistID)}>Change Stock</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
