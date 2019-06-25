@@ -230,7 +230,7 @@ class BookManagePageBook extends Component {
     {
         return(
             <div>
-                <MDBNavbar color="default-color" dark expand="md" className="nav-justified">
+                <MDBNavbar color="default-color" dark expand="md" className="nav-justified" >
                     <MDBNavbarBrand>
                         <strong className="dark-text">Books</strong>
                     </MDBNavbarBrand>

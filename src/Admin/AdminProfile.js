@@ -151,7 +151,7 @@ class AdminProfile extends Component {
     {
         return (
             <div>
-                <MDBNavbar color="default-color" dark expand="md" className="nav-justified">
+                <MDBNavbar color="default-color" dark expand="md" className="nav-justified" >
                     <MDBNavbarBrand>
                         <strong className="dark-text">Admin Profile</strong>
                     </MDBNavbarBrand>

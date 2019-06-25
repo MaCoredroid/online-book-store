@@ -185,7 +185,7 @@ class CartpageBook extends Component {
     {
         return(
             <a>
-                <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
+                <MDBNavbar color="indigo" dark expand="md" className="nav-justified" >
                     <MDBNavbarBrand>
                         <strong className="dark-text">Carts</strong>
                     </MDBNavbarBrand>
@@ -223,8 +223,17 @@ class CartpageBook extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
                                         <MDBDropdownItem onClick={()=>this.handleNavLink("UserProfile")}>UserProfile</MDBDropdownItem>
-                                        <MDBDropdownItem onClick={()=>this.handleUnsubscribe()}>Unsubscribe</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBDropdown>
+                                    <MDBDropdownToggle nav caret>
+                                        <MDBIcon icon="heart-broken" />
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu className="dropdown-default" right>
+                                        <MDBDropdownItem onClick={()=>this.handleUnsubscribe()}>Unsubscribe</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
