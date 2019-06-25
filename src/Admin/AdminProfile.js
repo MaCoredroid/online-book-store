@@ -47,9 +47,6 @@ class AdminProfile extends Component {
         {
             window.location.href = "http://localhost:3000/";
         }
-        axios.get(this.state.url+"/userprofile/username/"+this.state.username).then(res => {
-            this.setState({ user: res.data });
-        });
 
     }
     handleNavLink(where){
@@ -74,7 +71,7 @@ class AdminProfile extends Component {
         let xhm = new XMLHttpRequest();
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
-        if (xhm.responseText === "true") {
+        if (xhm.responseText === "Admin") {
         }
         else
         {
@@ -92,7 +89,7 @@ class AdminProfile extends Component {
             return;
         }
 
-        xhr.open("GET", this.state.url+"/userprofile/change/username/"+this.state.username+"/newusername/"+key, false);
+        xhr.open("GET", this.state.url+"/adminprofile/change/username/"+this.state.username+"/newusername/"+key, false);
         xhr.send();
         if (xhr.responseText === "true")
         {
@@ -111,7 +108,7 @@ class AdminProfile extends Component {
         let xhm = new XMLHttpRequest();
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
-        if (xhm.responseText === "true") {
+        if (xhm.responseText === "Admin") {
         }
         else
         {
@@ -138,7 +135,7 @@ class AdminProfile extends Component {
             return;
         }
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", this.state.url+"/userprofile/change/username/"+this.state.username+"/newpassword/"+key, false);
+        xhr.open("GET", this.state.url+"/adminprofile/change/username/"+this.state.username+"/newpassword/"+key, false);
         xhr.send();
         if (xhr.responseText === "true")
         {
@@ -156,11 +153,11 @@ class AdminProfile extends Component {
             <div>
                 <MDBNavbar color="default-color" dark expand="md" className="nav-justified">
                     <MDBNavbarBrand>
-                        <strong className="dark-text">User Profile</strong>
+                        <strong className="dark-text">Admin Profile</strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>
-                        <strong className="dark-text">Weclome,  User {this.state.username}           </strong>
+                        <strong className="dark-text">Weclome,  Admin {this.state.username}           </strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
