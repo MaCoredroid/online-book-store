@@ -74,7 +74,7 @@ class UserProfile extends Component {
         let xhm = new XMLHttpRequest();
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
-        if (xhm.responseText === "true") {
+        if (xhm.responseText === "User") {
         }
         else
         {
@@ -98,12 +98,12 @@ class UserProfile extends Component {
         {
             alert("Username has been changed");
             Cookies.set('username', key);
+            window.location.reload();
         }
         else
         {
             alert("Failed to change username");
         }
-        window.location.reload();
     }
     handleChangeEmail()
     {
@@ -111,7 +111,7 @@ class UserProfile extends Component {
         let xhm = new XMLHttpRequest();
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
-        if (xhm.responseText === "true") {
+        if (xhm.responseText === "User") {
         }
         else
         {
@@ -147,7 +147,7 @@ class UserProfile extends Component {
         let xhm = new XMLHttpRequest();
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
-        if (xhm.responseText === "true") {
+        if (xhm.responseText === "User") {
         }
         else
         {
