@@ -74,7 +74,7 @@ class UserProfile extends Component {
         let xhm = new XMLHttpRequest();
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
-        if (xhm.responseText === "true") {
+        if (xhm.responseText === "User") {
         }
         else
         {
@@ -98,12 +98,12 @@ class UserProfile extends Component {
         {
             alert("Username has been changed");
             Cookies.set('username', key);
+            window.location.reload();
         }
         else
         {
             alert("Failed to change username");
         }
-        window.location.reload();
     }
     handleChangeEmail()
     {
@@ -111,7 +111,7 @@ class UserProfile extends Component {
         let xhm = new XMLHttpRequest();
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
-        if (xhm.responseText === "true") {
+        if (xhm.responseText === "User") {
         }
         else
         {
@@ -147,7 +147,7 @@ class UserProfile extends Component {
         let xhm = new XMLHttpRequest();
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
-        if (xhm.responseText === "true") {
+        if (xhm.responseText === "User") {
         }
         else
         {
@@ -212,7 +212,7 @@ class UserProfile extends Component {
     {
         return (
             <div>
-                <MDBNavbar color="indigo" dark expand="md" className="nav-justified">
+                <MDBNavbar color="indigo" dark expand="md" className="nav-justified" >
                     <MDBNavbarBrand>
                         <strong className="dark-text">User Profile</strong>
                     </MDBNavbarBrand>
@@ -250,8 +250,17 @@ class UserProfile extends Component {
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default" right>
                                         <MDBDropdownItem onClick={()=>this.handleNavLink("UserProfile")}>UserProfile</MDBDropdownItem>
-                                        <MDBDropdownItem onClick={()=>this.handleUnsubscribe()}>Unsubscribe</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>{this.handleLogout()}}>Logout</MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
+                            </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBDropdown>
+                                    <MDBDropdownToggle nav caret>
+                                        <MDBIcon icon="heart-broken" />
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu className="dropdown-default" right>
+                                        <MDBDropdownItem onClick={()=>this.handleUnsubscribe()}>Unsubscribe</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>

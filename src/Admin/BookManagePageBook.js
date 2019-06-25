@@ -146,7 +146,7 @@ class BookManagePageBook extends Component {
     }
     handleChangeAuthor(bookID)
     {
-        let key = prompt("Input the author name", this.state.books.name);
+        let key = prompt("Input the author name", this.state.books.author);
         if(key==="")
         {
             alert("Author name can't be blank space!")
@@ -176,11 +176,61 @@ class BookManagePageBook extends Component {
 
         }
     }
+    handleChangeStock(bookID)
+    {
+        let key = prompt("Input the new stock", this.state.books.stock);
+        if(key==="")
+        {
+            alert("Invalid!");
+            return;
+        }
+        if(key===this.state.books.author)
+        {
+            alert("Unchanged!");
+            return;
+        }
+        let newstock = parseFloat(key);
+        if (!isFinite(newstock))
+        {
+            alert("Invaild!");
+            return;
+        }
+        if(newstock <0)
+        {
+            alert("Stock should be an positive!");
+            return;
+        }
+        let e = 1, p = 0;
+        while (Math.round(newstock * e) / e !== newstock) { e *= 10; p++; }
+        if(p!==0)
+        {
+            alert("Stock should be an int!");
+            return;
+        }
+        else
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url+"/admin/change/bookID/"+bookID+"/newstock/"+newstock, false);
+            xhr.send();
+            if (xhr.responseText === "true")
+            {
+                alert("Change stock succeeded!");
+                this.componentDidMount();
+                return;
+            }
+            else
+            {
+                alert("Change stock failed!");
+                return;
+            }
+
+        }
+    }
     render()
     {
         return(
             <div>
-                <MDBNavbar color="default-color" dark expand="md" className="nav-justified">
+                <MDBNavbar color="default-color" dark expand="md" className="nav-justified" >
                     <MDBNavbarBrand>
                         <strong className="dark-text">Books</strong>
                     </MDBNavbarBrand>

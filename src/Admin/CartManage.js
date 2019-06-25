@@ -158,7 +158,7 @@ class CartManage extends Component {
     render() {
         return (
             <div>
-                <MDBNavbar color="default-color" dark expand="md" className="nav-justified">
+                <MDBNavbar color="default-color" dark expand="md" className="nav-justified" >
                     <MDBNavbarBrand>
                         <strong className="dark-text">CartManage</strong>
                     </MDBNavbarBrand>
