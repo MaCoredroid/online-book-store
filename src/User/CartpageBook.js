@@ -148,17 +148,11 @@ class CartpageBook extends Component {
         if (xhr.responseText === "true")
         {
             alert("Books have been purchased");
-            this.setState({
-                modal: !this.state.modal
-            });
             window.location.href = "http://localhost:3000/Homepage#/Order";
         }
         else
         {
-            alert("Failed to purchase:not enough books.");
-            this.setState({
-                modal: !this.state.modal
-            });
+            alert("Failed to purchase: Not enough books.");
         }
     }
     handleNavLink(where){
