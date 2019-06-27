@@ -46,7 +46,7 @@ class Userstatistics extends Component {
             endDate:new Date(),
             url:Cookies.get('url'),
             username:Cookies.get("username"),
-            simplified:true
+            simplified:false
 
 
 
@@ -346,6 +346,7 @@ class Userstatistics extends Component {
                         }
                     }}
                 />
+                <p> </p>
                 <MDBTable>
                     {this.state.simplified?
                         <MDBTableHead>
