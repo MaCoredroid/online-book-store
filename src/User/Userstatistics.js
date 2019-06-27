@@ -151,14 +151,14 @@ class Userstatistics extends Component {
                 endDate: new Date(),
             }, this.handledateChange);
         }
-        if(number==3)
+        if(number===3)
         {
             this.setState({
                 startDate: new Date().setDate(new Date().getDate() - 7),
                 endDate: new Date(),
             }, this.handledateChange);
         }
-        if(number==4)
+        if(number===4)
         {
             this.setState({
                 startDate: new Date().setDate(new Date().getDate() - 1),
