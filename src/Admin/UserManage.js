@@ -212,6 +212,7 @@ class UserManage extends Component {
                             <th><a onClick={() => { this.handleSort("userID") }}>userID</a></th>
                             <th><a onClick={() => { this.handleSort("username") }}>Username</a></th>
                             <th><a onClick={() => { this.handleSort("email") }}>Email</a></th>
+                            <th><a>Status</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
