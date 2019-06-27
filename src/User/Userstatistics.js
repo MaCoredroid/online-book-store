@@ -20,7 +20,8 @@ let order = {
     price: true,
     isbn: true,
     stock: true,
-    timestamp:true
+    timestamp:true,
+    OrderID:true
 };
 let orderBy = 'name';
 class Userstatistics extends Component {
@@ -44,7 +45,6 @@ class Userstatistics extends Component {
             endDate:new Date(),
             url:Cookies.get('url'),
             username:Cookies.get("username"),
-            cartisshowing:true,
 
 
 
@@ -59,22 +59,12 @@ class Userstatistics extends Component {
         {
             window.location.href = "http://localhost:3000/";
         }
-        axios.get(this.state.url+`/cart/`+this.state.username).then(res => {
-            this.setState(
-                {
-                    carts: res.data,
-                    books: res.data,
-                    booksCp:res.data
-
-                });
-        });
         axios.get(this.state.url+`/order/getorder/`+this.state.username).then(res => {
             this.setState(
                 {
                     orders: res.data,
-                });
+                }, this.handledateChange);
         });
-        this.handledateChange.bind(this);
 
 
     }
@@ -114,12 +104,7 @@ class Userstatistics extends Component {
     }
     handledateChange(){
         let tempbooks=[];
-        if(this.state.cartisshowing===true) {
-            tempbooks = this.state.carts;
-        }
-        else {
-            tempbooks = this.state.orders;
-        }
+        tempbooks = this.state.orders;
         let res=[];
         let start=new Date(this.state.startDate).getTime();
         let end=new Date(this.state.endDate).getTime();
@@ -136,25 +121,6 @@ class Userstatistics extends Component {
         }
         )
 
-    }
-    handleChange() {
-        let pattern = document.getElementById('filter').value
-        let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
-        })
-        this.setState({
-            books: list
-        })
-    }
-    handleOrder(){
-        this.setState({
-            cartisshowing:false,
-        }, this.handledateChange)
-    }
-    handleCart(){
-        this.setState({
-            cartisshowing:true,
-        },this.handledateChange)
     }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/Homepage#/"+ where;
@@ -336,7 +302,7 @@ class Userstatistics extends Component {
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            { this.state.cartisshowing ? <th><a onClick={() => { this.handleSort("CartID") }}>CartID</a></th> : <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th> }
+                            <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
@@ -349,14 +315,9 @@ class Userstatistics extends Component {
                         {this.state.books.map((item, index) => {
                             return (
                                 <tr key={index}>
-                                    { this.state.cartisshowing ?
-                                    <td >
-                                        {item.CartID}
-                                    </td> :
                                     <td >
                                         {item.OrderID}
                                     </td>
-                                    }
                                     <td >
                                         {item.name}
                                     </td>
@@ -386,8 +347,6 @@ class Userstatistics extends Component {
                         Change
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
-                        <MDBDropdownItem onClick={this.handleOrder.bind(this)}>Order</MDBDropdownItem>
-                        <MDBDropdownItem onClick={this.handleCart.bind(this)}>Cart</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDate(1)}>In one year</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDate(2)}>In one month</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDate(3)}>In one week</MDBDropdownItem>
