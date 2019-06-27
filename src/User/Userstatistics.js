@@ -41,10 +41,12 @@ class Userstatistics extends Component {
             booksCp: [
 
             ],
+            simplifiedview:[],
             startDate: new Date().setDate(new Date().getDate() - 365),
             endDate:new Date(),
             url:Cookies.get('url'),
             username:Cookies.get("username"),
+            simplified:true
 
 
 
@@ -103,23 +105,56 @@ class Userstatistics extends Component {
         return res
     }
     handledateChange(){
-        let tempbooks=[];
-        tempbooks = this.state.orders;
-        let res=[];
-        let start=new Date(this.state.startDate).getTime();
-        let end=new Date(this.state.endDate).getTime();
-        for(let i=0;i<tempbooks.length;i++)
+        if(this.state.simplified===true)
         {
-            if(tempbooks[i].timestamp>=start&&tempbooks[i].timestamp<=end)
-            {
-                res.push(tempbooks[i]);
+            let tempbooks = [];
+            tempbooks = this.state.orders;
+            let res = [];
+            let start = new Date(this.state.startDate).getTime();
+            let end = new Date(this.state.endDate).getTime();
+            for (let i = 0; i < tempbooks.length; i++) {
+                let flag = false;
+                if (tempbooks[i].timestamp >= start && tempbooks[i].timestamp <= end) {
+                    for (let j = 0; j < res.length; j++) {
+                        if (res[j].bookid === tempbooks[i].bookid) {
+                            res[j].sales += tempbooks[i].number;
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag === false) {
+                        let book = {
+                            "bookid": tempbooks[i].bookid,
+                            "name": tempbooks[i].name,
+                            "sales": tempbooks[i].number
+                        }
+                        res.push(book);
+                    }
+                }
             }
+            this.setState({
+                simplifiedview:res,
+                }
+            )
         }
-        this.setState({
-            books: res,
-            booksCp:res
+        else
+        {
+            let tempbooks = [];
+            tempbooks = this.state.orders;
+            let res = [];
+            let start = new Date(this.state.startDate).getTime();
+            let end = new Date(this.state.endDate).getTime();
+            for (let i = 0; i < tempbooks.length; i++) {
+                if (tempbooks[i].timestamp >= start && tempbooks[i].timestamp <= end) {
+                    res.push(tempbooks[i]);
+                }
+            }
+            this.setState({
+                    books: res,
+                    booksCp: res
+                }
+            )
         }
-        )
 
     }
     handleNavLink(where){
@@ -187,6 +222,18 @@ class Userstatistics extends Component {
                 return;
             }
         }
+    }
+    handlewhole()
+    {
+        this.setState({
+            simplified:false,
+        },this.handledateChange)
+    }
+    handlesimplied()
+    {
+        this.setState({
+            simplified:true,
+        },this.handledateChange)
     }
     render() {
         return (
@@ -300,6 +347,15 @@ class Userstatistics extends Component {
                     }}
                 />
                 <MDBTable>
+                    {this.state.simplified?
+                        <MDBTableHead>
+                            <tr>
+                                <th><a >BookID</a></th>
+                                <th><a >BookName</a></th>
+                                <th><a >Number</a></th>
+                            </tr>
+                        </MDBTableHead>
+                        :
                     <MDBTableHead>
                         <tr>
                             <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th>
@@ -311,35 +367,56 @@ class Userstatistics extends Component {
                             <th><a onClick={() => { this.handleSort("timestamp") }}>Time</a></th>
                         </tr>
                     </MDBTableHead>
-                    <MDBTableBody>
-                        {this.state.books.map((item, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td >
-                                        {item.OrderID}
-                                    </td>
-                                    <td >
-                                        {item.name}
-                                    </td>
-                                    <td>
-                                        {item.author}
-                                    </td>
-                                    <td>
-                                        {item.price / 100}
-                                    </td>
-                                    <td>
-                                        {item.isbn}
-                                    </td>
-                                    <td>
-                                        {item.number}
-                                    </td>
-                                    <td>
-                                        {(new Date(parseInt(item.timestamp))).toString()}
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </MDBTableBody>
+                    }
+                    {this.state.simplified ?
+                        <MDBTableBody>
+                            {this.state.simplifiedview.map((item, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td >
+                                            {item.bookid}
+                                        </td>
+                                        <td >
+                                            {item.name}
+                                        </td>
+                                        <td >
+                                            {item.sales}
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </MDBTableBody>
+                        :
+                        <MDBTableBody>
+                            {this.state.books.map((item, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>
+                                            {item.OrderID}
+                                        </td>
+                                        <td>
+                                            {item.name}
+                                        </td>
+                                        <td>
+                                            {item.author}
+                                        </td>
+                                        <td>
+                                            {item.price / 100}
+                                        </td>
+                                        <td>
+                                            {item.isbn}
+                                        </td>
+                                        <td>
+                                            {item.number}
+                                        </td>
+                                        <td>
+                                            {(new Date(parseInt(item.timestamp))).toString()}
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </MDBTableBody>
+                    }
                 </MDBTable>
 
                 <MDBDropdown dropup className="fixed-bottom">
@@ -347,6 +424,8 @@ class Userstatistics extends Component {
                         Change
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
+                        <MDBDropdownItem onClick={this.handlewhole.bind(this)}>Complicated view</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handlesimplied.bind(this)}>Simplified view</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDate(1)}>In one year</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDate(2)}>In one month</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDate(3)}>In one week</MDBDropdownItem>
