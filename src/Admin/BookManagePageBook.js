@@ -30,7 +30,8 @@ class BookManagePageBook extends Component {
             value: 0,
             value1:0,
             modal: false,
-            model1:false
+            model1:false,
+            file:false
 
         }
 
@@ -226,6 +227,33 @@ class BookManagePageBook extends Component {
 
         }
     }
+    toggle = () => {
+        this.setState({
+            file: !this.state.file
+        });
+    }
+    handleChangeCover()
+    {
+        const data = new FormData();
+        let  fileInput = document.getElementById('inputGroupFile01');
+        let file = fileInput.files[0]
+        data.append('file', file);
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', this.state.url+"/setimage/"+this.state.books.booklistID,false);
+        xhr.send(data);
+        if (xhr.responseText === "true")
+        {
+            alert("Change cover succeeded!");
+            location.reload();
+            return;
+        }
+        else
+        {
+            alert("Change stock failed!");
+            return;
+        }
+    }
+
     render()
     {
         return(
@@ -327,6 +355,7 @@ class BookManagePageBook extends Component {
                         Action
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
+                        <MDBDropdownItem onClick={this.toggle}>Change Cover</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangeName(this.state.books.booklistID)}>Change Name</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangeAuthor(this.state.books.booklistID)}>Change Author</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangePrice(this.state.books.booklistID)}>Change Price</MDBDropdownItem>
@@ -334,6 +363,31 @@ class BookManagePageBook extends Component {
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
+                <MDBModal isOpen={this.state.file} toggle={this.toggle} >
+                    <MDBModalHeader toggle={this.toggle}>Only png file is allowed</MDBModalHeader>
+                    <MDBModalBody>
+                        <div className="input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="inputGroupFileAddon01">
+                                    Upload
+                                </span>
+                            </div>
+                            <div className="custom-file">
+                                <input
+                                    type="file"
+                                    className="custom-file-input"
+                                    id="inputGroupFile01"
+                                    aria-describedby="inputGroupFileAddon01"
+                                />
+                                <label className="custom-file-label" htmlFor="inputGroupFile01">
+                                    Choose file
+                                </label>
+                            </div>
+                        </div>
+                        <MDBBtn  onClick={()=>this.handleChangeCover()}>Confirm</MDBBtn>
+                        <MDBBtn  onClick={this.toggle}>Back</MDBBtn>
+                    </MDBModalBody>
+                </MDBModal>
 
             </div>
 

@@ -8,143 +8,171 @@ import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from 'axios/index';
 import Cookies from "js-cookie";
 import "../css/Homepage.css";
+import DatePicker from "react-datepicker/es";
 
 
 
-let order = {
-    name: true,
-    author: true,
-    price: true,
-    isbn: true,
-    stock: true,
-    booklistID:true,
-};
-let orderBy = 'name';
 class Statistics extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isOpen: false,
-            books: [
-
-            ],
-            booksCp: [
-
-            ],
-            username:Cookies.get("username"),
-            photoIndex: 0,
-            images: [
-
-            ]
+            orders: [],
+            username: Cookies.get("username"),
+            sales: [],
+            user:[],
+            startDate: new Date().setDate(new Date().getDate() - 7),
+            endDate: new Date(),
+            salesisshowing: false
         };
+        this.handlestartdateChange = this.handlestartdateChange.bind(this);
+        this.handleenddateChange = this.handleenddateChange.bind(this);
     }
-    componentDidMount()
-    {
-        if(Cookies.get("username")==='')
-        {
+
+    componentDidMount() {
+        if (Cookies.get("username") === '') {
             window.location.href = "http://localhost:3000/";
         }
-        let url=Cookies.get('url');
-        axios.get(url+`/booklist`,
-        )
+        let url = Cookies.get('url');
+        axios.get(url + '/admin/seeAllOrder',)
             .then(res => {
                 this.setState(
                     {
-                        books: res.data,
-                        booksCp: res.data
-                    });
-            });
-        axios.get(url+`/isbnlist`,
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        images: res.data,
-
-                    });
+                        orders: res.data,
+                        sales: []
+                    }, this.handledateChange);
             });
     }
 
     toggleCollapse = () => {
-        this.setState({ isOpen: !this.state.isOpen });
+        this.setState({isOpen: !this.state.isOpen});
     };
-    handleLink(isbn) {
-        if(isbn!=null) {
-            let temp = isbn.substring(isbn.length - 17, isbn.length);
-            return "/homepage/detail/" + temp
-        }
-    }
-    handleSort(index) {
-        orderBy = index
-        order[index] = !order[index]
-        let list = []
-        for (let i = 0; i < this.state.books.length; i++) {
-            list.push(this.state.books[i])
-        }
-        list.sort(this.sort)
-        this.setState({
-            books: list
-        })
-    }
-    sort(a, b) {
-        let res = 0;
-        if (a[orderBy] < b[orderBy]) {
-            res = -1
-        } else if (a[orderBy] > b[orderBy]) {
-            res = 1
-        } else {
-            res = 0
-        }
-        if (!order[orderBy]) {
-            res = 0 - res
-        }
-        return res
-    }
-    handleChange() {
-        let pattern = document.getElementById('filter').value
-        let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
-        })
-        this.setState({
-            books: list
-        })
-    }
-    handleLogout()
-    {
-        Cookies.set('username','');
+
+    handleLogout() {
+        Cookies.set('username', '');
         window.location.href = "http://localhost:3000/"
     }
-    handlepictureLink(imageSrc)
-    {
-        let res = imageSrc.substring(imageSrc.length - 17,imageSrc.length);
-        window.location.href = "/Homepage#/homepage/detail/" + res;
-    }
-    renderImages = () => {
-        let photoIndex = 0;
-        const { images } = this.state;
-        let url=Cookies.get('url');
-        return images.map(imageSrc => {
-            photoIndex++;
-            const privateKey = photoIndex;
-            return (
-                <MDBCol md="3" key={photoIndex}>
-                    <figure >
-                        <img
-                            height="300px"
-                            width="200px"
 
-                            src={url+"/image/"+imageSrc}
-                            alt="Gallery"
-                            className="img-fluid z-depth-1"
-                            onClick={() => {this.handlepictureLink(imageSrc)}}
-                        />
-                    </figure>
-                </MDBCol>
-            );
-        })
+    handleNavLink(where) {
+        window.location.href = "http://localhost:3000/UserManage#/" + where;
     }
-    handleNavLink(where){
-        window.location.href = "http://localhost:3000/UserManage#/"+ where;
+
+    handledateChange() {
+        if(this.state.salesisshowing===true) {
+            let tempbooks = this.state.orders;
+            let res = [];
+            let start = new Date(this.state.startDate).getTime();
+            let end = new Date(this.state.endDate).getTime();
+            for (let i = 0; i < tempbooks.length; i++) {
+                let flag = false;
+                if (tempbooks[i].timestamp >= start && tempbooks[i].timestamp <= end) {
+                    for (let j = 0; j < res.length; j++) {
+                        if (res[j].bookid === tempbooks[i].bookid) {
+                            res[j].sales += tempbooks[i].number;
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag === false) {
+                        let book = {
+                            "bookid": tempbooks[i].bookid,
+                            "name": tempbooks[i].name,
+                            "sales": tempbooks[i].number
+                        }
+                        res.push(book);
+                    }
+                }
+            }
+            this.setState({
+                    sales: res
+                }
+            )
+        }
+        else
+        {
+            let tempbooks = this.state.orders;
+            let res = [];
+            let start = new Date(this.state.startDate).getTime();
+            let end = new Date(this.state.endDate).getTime();
+            for (let i = 0; i < tempbooks.length; i++) {
+                let flag = false;
+                if (tempbooks[i].timestamp >= start && tempbooks[i].timestamp <= end) {
+                    for (let j = 0; j < res.length; j++) {
+                        if (res[j].userid === tempbooks[i].userid) {
+                            res[j].money += tempbooks[i].number * tempbooks[i].price/100;
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag === false) {
+                        let book = {
+                            "userid": tempbooks[i].userid,
+                            "name": tempbooks[i].username,
+                            "money": tempbooks[i].number * tempbooks[i].price/100,
+                        }
+                        res.push(book);
+                    }
+                }
+            }
+            this.setState({
+                    user: res
+                }
+            )
+        }
+
+    }
+
+    handlestartdateChange(date) {
+        this.setState({
+            startDate: date
+        }, this.handledateChange);
+    }
+
+    handleenddateChange(date) {
+        this.setState({
+            endDate: date
+        }, this.handledateChange);
+    }
+
+    handleDate(number) {
+        if (number === 1) {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 365),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+        if (number === 2) {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 30),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+        if (number === 3) {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 7),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+        if (number === 4) {
+            this.setState({
+                startDate: new Date().setDate(new Date().getDate() - 1),
+                endDate: new Date(),
+            }, this.handledateChange);
+        }
+    }
+
+    handleUser()
+    {
+        this.setState({
+            salesisshowing: false,
+        },this.handledateChange)
+
+    }
+    handleSales()
+    {
+        this.setState({
+            salesisshowing: true,
+        },this.handledateChange)
     }
     render() {
         return (
@@ -196,56 +224,126 @@ class Statistics extends Component {
                     </MDBCollapse>
 
                 </MDBNavbar>
+                <p>Start from:</p>
 
+
+                <DatePicker
+                    selected={this.state.startDate}
+                    onChange={this.handlestartdateChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    timeCaption="time"
+                    popperClassName="some-custom-class"
+                    popperPlacement="top-end"
+                    popperModifiers={{
+                        offset: {
+                            enabled: true,
+                            offset: '5px, 10px'
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                            boundariesElement: 'viewport'
+                        }
+                    }}
+                />
+                <p> </p>
+                <p>To:</p>
+
+
+                <DatePicker
+                    selected={this.state.endDate}
+                    onChange={this.handleenddateChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    timeCaption="time"
+                    popperClassName="some-custom-class"
+                    popperPlacement="top-end"
+                    popperModifiers={{
+                        offset: {
+                            enabled: true,
+                            offset: '5px, 10px'
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                            boundariesElement: 'viewport'
+                        }
+                    }}
+                />
+                <p> </p>
+                <p> </p>
                 <MDBTable>
                     <MDBTableHead>
+                        {this.state.salesisshowing?
                         <tr>
-                            <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>
-                            <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
-                            <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
-                            <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
-                            <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
-                            <th><a onClick={() => { this.handleSort("stock") }}>Stock</a></th>
+                            <th><a>BookID</a></th>
+                            <th><a>BookName</a></th>
+                            <th><a>Sales</a></th>
                         </tr>
+                            :
+                        <tr>
+                            <th><a>UserID</a></th>
+                            <th><a>UserName</a></th>
+                            <th><a>Total Amount</a></th>
+                        </tr>
+                        }
                     </MDBTableHead>
+                    {this.state.salesisshowing?
                     <MDBTableBody>
-                        {this.state.books.map((item, index) => {
+                        {this.state.sales.map((item, index) => {
                             return (
                                 <tr key={index}>
                                     <td >
-                                        {item.booklistID}
+                                        {item.bookid}
                                     </td>
                                     <td >
                                         {item.name}
                                     </td>
-                                    <td>
-                                        {item.author}
-                                    </td>
-                                    <td>
-                                        {item.price / 100}
-                                    </td>
-                                    <td>
-                                        {item.isbn}
-                                    </td>
-                                    <td>
-                                        {item.stock}
-                                    </td>
                                     <td >
-                                        <Link to={this.handleLink(item.isbn)}>Details</Link>
+                                        {item.sales}
                                     </td>
                                 </tr>
                             )
                         })}
                     </MDBTableBody>
+                        :
+                    <MDBTableBody>
+                        {this.state.user.map((item, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td >
+                                        {item.userid}
+                                    </td>
+                                    <td >
+                                        {item.name}
+                                    </td>
+                                    <td >
+                                        {item.money}
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </MDBTableBody>
+                    }
                 </MDBTable>
-
-                <MDBContainer className="mt-5 p-3" >
-                    <div className="mdb-lightbox p-3">
-                        <MDBRow>
-                            {this.renderImages()}
-                        </MDBRow>
-                    </div>
-                </MDBContainer>
+                <MDBDropdown dropup className="fixed-bottom">
+                    <MDBDropdownToggle caret color="primary">
+                        Change
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu basic>
+                        <MDBDropdownItem onClick={this.handleUser.bind(this)}>Users</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handleSales.bind(this)}>Sales</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(1)}>In one year</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(2)}>In one month</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(3)}>In one week</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDate(4)}>In one day</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                </MDBDropdown>
             </div>
 
 

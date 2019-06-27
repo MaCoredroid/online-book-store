@@ -20,7 +20,8 @@ let order = {
     price: true,
     isbn: true,
     stock: true,
-    timestamp:true
+    timestamp:true,
+    OrderID:true
 };
 let orderBy = 'name';
 class Userstatistics extends Component {
@@ -40,11 +41,12 @@ class Userstatistics extends Component {
             booksCp: [
 
             ],
+            simplifiedview:[],
             startDate: new Date().setDate(new Date().getDate() - 365),
             endDate:new Date(),
             url:Cookies.get('url'),
             username:Cookies.get("username"),
-            cartisshowing:true,
+            simplified:false
 
 
 
@@ -59,22 +61,12 @@ class Userstatistics extends Component {
         {
             window.location.href = "http://localhost:3000/";
         }
-        axios.get(this.state.url+`/cart/`+this.state.username).then(res => {
-            this.setState(
-                {
-                    carts: res.data,
-                    books: res.data,
-                    booksCp:res.data
-
-                });
-        });
         axios.get(this.state.url+`/order/getorder/`+this.state.username).then(res => {
             this.setState(
                 {
                     orders: res.data,
-                });
+                }, this.handledateChange);
         });
-        this.handledateChange.bind(this);
 
 
     }
@@ -113,48 +105,57 @@ class Userstatistics extends Component {
         return res
     }
     handledateChange(){
-        let tempbooks=[];
-        if(this.state.cartisshowing===true) {
-            tempbooks = this.state.carts;
-        }
-        else {
-            tempbooks = this.state.orders;
-        }
-        let res=[];
-        let start=new Date(this.state.startDate).getTime();
-        let end=new Date(this.state.endDate).getTime();
-        for(let i=0;i<tempbooks.length;i++)
+        if(this.state.simplified===true)
         {
-            if(tempbooks[i].timestamp>=start&&tempbooks[i].timestamp<=end)
-            {
-                res.push(tempbooks[i]);
+            let tempbooks = [];
+            tempbooks = this.state.orders;
+            let res = [];
+            let start = new Date(this.state.startDate).getTime();
+            let end = new Date(this.state.endDate).getTime();
+            for (let i = 0; i < tempbooks.length; i++) {
+                let flag = false;
+                if (tempbooks[i].timestamp >= start && tempbooks[i].timestamp <= end) {
+                    for (let j = 0; j < res.length; j++) {
+                        if (res[j].bookid === tempbooks[i].bookid) {
+                            res[j].sales += tempbooks[i].number;
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag === false) {
+                        let book = {
+                            "bookid": tempbooks[i].bookid,
+                            "name": tempbooks[i].name,
+                            "sales": tempbooks[i].number
+                        }
+                        res.push(book);
+                    }
+                }
             }
+            this.setState({
+                simplifiedview:res,
+                }
+            )
         }
-        this.setState({
-            books: res,
-            booksCp:res
+        else
+        {
+            let tempbooks = [];
+            tempbooks = this.state.orders;
+            let res = [];
+            let start = new Date(this.state.startDate).getTime();
+            let end = new Date(this.state.endDate).getTime();
+            for (let i = 0; i < tempbooks.length; i++) {
+                if (tempbooks[i].timestamp >= start && tempbooks[i].timestamp <= end) {
+                    res.push(tempbooks[i]);
+                }
+            }
+            this.setState({
+                    books: res,
+                    booksCp: res
+                }
+            )
         }
-        )
 
-    }
-    handleChange() {
-        let pattern = document.getElementById('filter').value
-        let list = this.state.booksCp.filter((item) => {
-            return item.name.indexOf(pattern) !== -1
-        })
-        this.setState({
-            books: list
-        })
-    }
-    handleOrder(){
-        this.setState({
-            cartisshowing:false,
-        }, this.handledateChange)
-    }
-    handleCart(){
-        this.setState({
-            cartisshowing:true,
-        },this.handledateChange)
     }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/Homepage#/"+ where;
@@ -185,14 +186,14 @@ class Userstatistics extends Component {
                 endDate: new Date(),
             }, this.handledateChange);
         }
-        if(number==3)
+        if(number===3)
         {
             this.setState({
                 startDate: new Date().setDate(new Date().getDate() - 7),
                 endDate: new Date(),
             }, this.handledateChange);
         }
-        if(number==4)
+        if(number===4)
         {
             this.setState({
                 startDate: new Date().setDate(new Date().getDate() - 1),
@@ -221,6 +222,18 @@ class Userstatistics extends Component {
                 return;
             }
         }
+    }
+    handlewhole()
+    {
+        this.setState({
+            simplified:false,
+        },this.handledateChange)
+    }
+    handlesimplied()
+    {
+        this.setState({
+            simplified:true,
+        },this.handledateChange)
     }
     render() {
         return (
@@ -333,10 +346,20 @@ class Userstatistics extends Component {
                         }
                     }}
                 />
+                <p> </p>
                 <MDBTable>
+                    {this.state.simplified?
+                        <MDBTableHead>
+                            <tr>
+                                <th><a >BookID</a></th>
+                                <th><a >BookName</a></th>
+                                <th><a >Number</a></th>
+                            </tr>
+                        </MDBTableHead>
+                        :
                     <MDBTableHead>
                         <tr>
-                            { this.state.cartisshowing ? <th><a onClick={() => { this.handleSort("CartID") }}>CartID</a></th> : <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th> }
+                            <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
                             <th><a onClick={() => { this.handleSort("author") }}>Author</a></th>
                             <th><a onClick={() => { this.handleSort("price") }}>Price</a></th>
@@ -345,40 +368,56 @@ class Userstatistics extends Component {
                             <th><a onClick={() => { this.handleSort("timestamp") }}>Time</a></th>
                         </tr>
                     </MDBTableHead>
-                    <MDBTableBody>
-                        {this.state.books.map((item, index) => {
-                            return (
-                                <tr key={index}>
-                                    { this.state.cartisshowing ?
-                                    <td >
-                                        {item.CartID}
-                                    </td> :
-                                    <td >
-                                        {item.OrderID}
-                                    </td>
-                                    }
-                                    <td >
-                                        {item.name}
-                                    </td>
-                                    <td>
-                                        {item.author}
-                                    </td>
-                                    <td>
-                                        {item.price / 100}
-                                    </td>
-                                    <td>
-                                        {item.isbn}
-                                    </td>
-                                    <td>
-                                        {item.number}
-                                    </td>
-                                    <td>
-                                        {(new Date(parseInt(item.timestamp))).toString()}
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </MDBTableBody>
+                    }
+                    {this.state.simplified ?
+                        <MDBTableBody>
+                            {this.state.simplifiedview.map((item, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td >
+                                            {item.bookid}
+                                        </td>
+                                        <td >
+                                            {item.name}
+                                        </td>
+                                        <td >
+                                            {item.sales}
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </MDBTableBody>
+                        :
+                        <MDBTableBody>
+                            {this.state.books.map((item, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>
+                                            {item.OrderID}
+                                        </td>
+                                        <td>
+                                            {item.name}
+                                        </td>
+                                        <td>
+                                            {item.author}
+                                        </td>
+                                        <td>
+                                            {item.price / 100}
+                                        </td>
+                                        <td>
+                                            {item.isbn}
+                                        </td>
+                                        <td>
+                                            {item.number}
+                                        </td>
+                                        <td>
+                                            {(new Date(parseInt(item.timestamp))).toString()}
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </MDBTableBody>
+                    }
                 </MDBTable>
 
                 <MDBDropdown dropup className="fixed-bottom">
@@ -386,8 +425,8 @@ class Userstatistics extends Component {
                         Change
                     </MDBDropdownToggle>
                     <MDBDropdownMenu basic>
-                        <MDBDropdownItem onClick={this.handleOrder.bind(this)}>Order</MDBDropdownItem>
-                        <MDBDropdownItem onClick={this.handleCart.bind(this)}>Cart</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handlewhole.bind(this)}>Complicated view</MDBDropdownItem>
+                        <MDBDropdownItem onClick={this.handlesimplied.bind(this)}>Simplified view</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDate(1)}>In one year</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDate(2)}>In one month</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDate(3)}>In one week</MDBDropdownItem>

@@ -35,6 +35,7 @@ class UserManage extends Component {
 
             ],
             searchOption:"Name",
+            salesisshowing:true
         };
     }
     componentDidMount()
