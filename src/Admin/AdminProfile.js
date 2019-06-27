@@ -15,11 +15,21 @@ import {
     MDBNavbarNav,
     MDBNavItem,
     MDBIcon,
-    MDBNavbar, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBInput
+    MDBNavbar,
+    MDBModal,
+    MDBModalHeader,
+    MDBModalBody,
+    MDBModalFooter,
+    MDBInput,
+    MDBEdgeHeader,
+    MDBFreeBird,
+    MDBCard,
+    MDBCardBody
 } from "mdbreact";
 import axios from "axios/index";
 import Cookies from "js-cookie";
 import "react-datepicker/dist/react-datepicker.css";
+import {Link} from "react-router-dom";
 
 
 
@@ -32,7 +42,7 @@ class AdminProfile extends Component {
             username: Cookies.get("username"),
             user: [],
             modal: false,
-
+            register: false
 
         }
 
@@ -63,6 +73,12 @@ class AdminProfile extends Component {
     toggle = () => {
         this.setState({
             modal: !this.state.modal
+        });
+    }
+    toggle1= () =>
+    {
+        this.setState({
+            register: !this.state.register
         });
     }
     handleChangeUsername()
@@ -147,6 +163,22 @@ class AdminProfile extends Component {
             alert("Failed to change password");
         }
     }
+    handleAddAnotherAdmin()
+    {
+        let pattern = document.getElementById('password').value;
+        let xhm = new XMLHttpRequest();
+        xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
+        xhm.send();
+        if (xhm.responseText === "Admin") {
+            this.toggle1();
+        }
+        else
+        {
+            alert("Wrong password!")
+            return;
+        }
+
+    }
     render()
     {
         return (
@@ -209,7 +241,7 @@ class AdminProfile extends Component {
                                     You must provide your password to change your username, password or email.
                                 </p>
                                 <p className="lead">
-                                    <MDBBtn color="primary" onClick={this.toggle}>Change</MDBBtn>
+                                    <MDBBtn  onClick={this.toggle}>Change</MDBBtn>
                                 </p>
                             </MDBJumbotron>
                         </MDBCol>
@@ -234,9 +266,55 @@ class AdminProfile extends Component {
                                 <MDBBtn color="danger" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.handleChangePassword.bind(this)}>Change Password</MDBBtn>
                             </p>
                             <p>
+                                <MDBBtn color="info" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.handleAddAnotherAdmin.bind(this)}>Add Admin</MDBBtn>
                                 <MDBBtn color="secondary" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Close</MDBBtn>
                             </p>
                         </MDBModalFooter>
+                    </MDBModal>
+                </MDBContainer>
+                <MDBContainer >
+                    <MDBModal size="lg" isOpen={this.state.register} toggle={this.toggle1}>
+                        <MDBModalHeader toggle={this.toggle1}>Add another admin</MDBModalHeader>
+                        <MDBModalBody>
+                                        <form  onSubmit={this.submitHandler}>
+                                            <div className="grey-text">
+                                                <MDBInput
+                                                    label="Admin Username"
+                                                    icon="user"
+                                                    id={"username"}
+                                                    group
+                                                    type="text"
+                                                    validate
+
+                                                />
+                                                <MDBInput
+                                                    label="Password"
+                                                    id={"password"}
+                                                    icon="lock"
+                                                    group
+                                                    type="password"
+                                                    validate
+
+                                                />
+                                                <MDBInput
+                                                    label="Confirm Password"
+                                                    icon="exclamation-triangle"
+                                                    id={"passwordag"}
+                                                    group
+                                                    type="password"
+                                                    validate
+
+                                                />
+                                            </div>
+                                            <div className="text-center">
+                                                <MDBBtn color="primary" type="submit">Register</MDBBtn>
+                                            </div>
+                                            <p> </p>
+                                            <div className="text-center">
+                                                <p onClick={this.toggle1}>Back</p>
+                                            </div>
+                                        </form>
+                        </MDBModalBody>
                     </MDBModal>
                 </MDBContainer>
             </div>

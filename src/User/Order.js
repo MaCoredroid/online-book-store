@@ -58,15 +58,6 @@ class Order extends Component {
                         booksCp: res.data
                     });
             });
-        axios.get(this.state.url+`/isbnlist`,
-        )
-            .then(res => {
-                this.setState(
-                    {
-                        images: res.data,
-
-                    });
-            });
 
 
     }
