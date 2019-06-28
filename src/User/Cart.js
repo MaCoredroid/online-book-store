@@ -69,8 +69,15 @@ class Cart extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
-    handleLink(id) {
-        window.location.href = "http://localhost:3000"+"/Homepage#/cartpage/detail/" + id;
+    handleLink(id,status) {
+        if(status===true)
+        {
+            window.location.href = "http://localhost:3000" + "/Homepage#/cartpage/detail/" + id;
+        }
+        else
+        {
+            alert("Sorry, But this book is not available right now!")
+        }
 
     }
     handleSort(index) {
@@ -302,7 +309,7 @@ class Cart extends Component {
                                     <td>
                                         {(new Date(parseInt(item.timestamp))).toString()}
                                     </td>
-                                    <td onClick={() => {this.handleLink(item.CartID)}}>
+                                    <td onClick={() => {this.handleLink(item.CartID,item.status)}}>
                                         Details
                                     </td>
                                 </tr>

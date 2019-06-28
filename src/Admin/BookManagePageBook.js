@@ -264,7 +264,7 @@ class BookManagePageBook extends Component {
                     </MDBNavbarBrand>
 
                     <MDBNavbarBrand>
-                        <strong className="dark-text">Weclome,  User {this.state.username}           </strong>
+                        <strong className="dark-text">Weclome,  Admin {this.state.username}           </strong>
                     </MDBNavbarBrand>
 
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
