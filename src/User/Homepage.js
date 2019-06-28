@@ -48,7 +48,7 @@ class Homepage extends Component {
             window.location.href = "http://localhost:3000/";
         }
         let url=Cookies.get('url');
-        axios.get(url+`/booklist`,
+        axios.get(url+`/userbooklist`,
             )
             .then(res => {
                 this.setState(
@@ -57,7 +57,7 @@ class Homepage extends Component {
                     booksCp: res.data
                     });
             });
-        axios.get(url+`/bookidlist`,
+        axios.get(url+`/userbookidlist`,
             )
             .then(res => {
                 this.setState(

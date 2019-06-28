@@ -8,6 +8,7 @@ import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from 'axios/index';
 import Cookies from "js-cookie";
 import "../css/Homepage.css";
+import Switch from "react-switch";
 
 
 
@@ -25,6 +26,7 @@ class BookManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            url: Cookies.get('url'),
             isOpen: false,
             books: [
 
@@ -171,6 +173,24 @@ class BookManage extends Component {
         }
 
     }
+    handleBlockChange(bookid,state) {
+        if(state===true)
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url + "/admin/blockbook/bookID/" + bookid, false);
+            xhr.send();
+            this.componentDidMount();
+        }
+        else
+        {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", this.state.url + "/admin/unblockbook/bookID/" + bookid, false);
+            xhr.send();
+            this.componentDidMount();
+        }
+
+
+    }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/UserManage#/"+ where;
     }
@@ -253,6 +273,7 @@ class BookManage extends Component {
                             <th><a onClick={() => { this.handleSort("isbn") }}>Isbn</a></th>
                             <th><a onClick={() => { this.handleSort("stock") }}>Stock</a></th>
                             <th><a onClick={() => { this.handleSort("sales") }}>Sales</a></th>
+                            <th><a>Status</a></th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -279,6 +300,11 @@ class BookManage extends Component {
                                     </td>
                                     <td>
                                         {item.sales}
+                                    </td>
+                                    <td >
+
+                                            <Switch onChange={()=>this.handleBlockChange(item.booklistID,item.status)} checked={item.status} height={20} width={40}/>
+
                                     </td>
                                     <td >
                                         <Link to={this.handleLink(item.booklistID)}>Details</Link>

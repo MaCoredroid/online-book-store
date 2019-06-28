@@ -230,9 +230,9 @@ class UserManage extends Component {
                                         {item.email}
                                     </td>
                                     <td >
-                                        <label>
-                                            <Switch onChange={()=>this.handleBlockChange(item.username,item.state)} checked={item.state} />
-                                        </label>
+
+                                            <Switch onChange={()=>this.handleBlockChange(item.username,item.state)} checked={item.state} height={20} width={40}/>
+
                                     </td>
                                 </tr>
                             )
