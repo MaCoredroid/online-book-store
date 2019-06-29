@@ -42,8 +42,8 @@ class AdminProfile extends Component {
             username: Cookies.get("username"),
             user: [],
             modal: false,
-            register: false
-
+            register: false,
+            changePassword:false
         }
 
 
@@ -57,9 +57,6 @@ class AdminProfile extends Component {
         {
             window.location.href = "http://localhost:3000/";
         }
-        axios.get(this.state.url+"/adminprofile/username/"+this.state.username).then(res => {
-            this.setState({ user: res.data });
-        });
 
     }
     handleNavLink(where){
@@ -84,13 +81,21 @@ class AdminProfile extends Component {
             register: !this.state.register
         });
     }
+    toggle2= () =>
+    {
+        this.setState({
+            changePassword: !this.state.changePassword
+        });
+    }
     handleChangeUsername()
     {
         let pattern = document.getElementById('password').value;
         let xhm = new XMLHttpRequest();
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
-        if (xhm.responseText === "Admin") {
+        if (xhm.responseText === "Admin")
+        {
+            this.toggle();
         }
         else
         {
@@ -128,43 +133,14 @@ class AdminProfile extends Component {
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
         if (xhm.responseText === "Admin") {
+            this.toggle();
         }
         else
         {
             alert("Wrong password!")
             return;
         }
-        let key = prompt("Are you sure? Type your new password", "********");
-        if(key===this.state.user.email)
-        {
-            return;
-        }
-        if(key===null)
-        {
-            return;
-        }
-        let key1 = prompt("Are you sure? Type your new password again", "********");
-        if(key1===key)
-        {
-
-        }
-        else
-        {
-            alert("Password doesn't match!")
-            return;
-        }
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", this.state.url+"/adminprofile/change/username/"+this.state.username+"/newpassword/"+key, false);
-        xhr.send();
-        if (xhr.responseText === "true")
-        {
-            alert("Password has been changed! Please log in again");
-            window.location.href = "http://localhost:3000/";
-        }
-        else
-        {
-            alert("Failed to change password");
-        }
+        this.toggle2();
     }
     handleAddAnotherAdmin()
     {
@@ -173,6 +149,7 @@ class AdminProfile extends Component {
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
         if (xhm.responseText === "Admin") {
+            this.toggle();
             this.toggle1();
         }
         else
@@ -226,6 +203,39 @@ class AdminProfile extends Component {
             this.toggle1();
             return;
         }
+
+
+
+    };
+    submitHandler1 = event => {
+        event.preventDefault();
+        let pattern = document.getElementById('password1').value;
+        let patternag = document.getElementById('password1ag').value;
+        if(pattern!==patternag)
+        {
+            alert("Two passwords don't match");
+            return;
+        }
+
+        if(pattern.length<6)
+        {
+            alert("Password has to contain at least 6 characters");
+            return;
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/adminprofile/change/username/"+this.state.username+"/newpassword/"+pattern, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Password has been changed! Please log in again");
+            Cookies.set('username','');
+            window.location.href = "http://localhost:3000/";
+        }
+        else
+        {
+            alert("Failed to change password");
+        }
+
 
 
 
@@ -287,9 +297,6 @@ class AdminProfile extends Component {
                         <MDBCol>
                             <MDBJumbotron>
                                 <h2 className="h1 display-3">Hello, Admin {this.state.username}!</h2>
-                                <p className="lead">
-                                    Email : {this.state.user.email}
-                                </p>
                                 <hr className="my-2" />
                                 <p>
                                     You must provide your password to change your username, password or email.
@@ -378,6 +385,42 @@ class AdminProfile extends Component {
                                                 <p onClick={this.toggle1}>Back</p>
                                             </div>
                                         </form>
+                        </MDBModalBody>
+                    </MDBModal>
+                </MDBContainer>
+                <MDBContainer >
+                    <MDBModal isOpen={this.state.changePassword} toggle={this.toggle2}>
+                        <MDBModalHeader toggle={this.toggle2}>Input New Password</MDBModalHeader>
+                        <MDBModalBody>
+                            <form  onSubmit={this.submitHandler1}>
+                                <div className="grey-text">
+                                    <MDBInput
+                                        label="New Password"
+                                        id={"password1"}
+                                        icon="lock"
+                                        group
+                                        type="password"
+                                        validate
+
+                                    />
+                                    <MDBInput
+                                        label="Confirm New Password"
+                                        icon="exclamation-triangle"
+                                        id={"password1ag"}
+                                        group
+                                        type="password"
+                                        validate
+
+                                    />
+                                </div>
+                                <div className="text-center">
+                                    <MDBBtn color="primary" type="submit">Change</MDBBtn>
+                                </div>
+                                <p> </p>
+                                <div className="text-center">
+                                    <p onClick={this.toggle2}>Back</p>
+                                </div>
+                            </form>
                         </MDBModalBody>
                     </MDBModal>
                 </MDBContainer>
