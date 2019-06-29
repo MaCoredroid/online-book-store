@@ -31,7 +31,8 @@ class BookManagePageBook extends Component {
             value1:0,
             modal: false,
             model1:false,
-            file:false
+            file:false,
+            pic:null
 
         }
 
@@ -45,7 +46,7 @@ class BookManagePageBook extends Component {
             this.setState({ books: res.data });
         });
 
-
+        this.handlePicChange=this.handlePicChange.bind(this);
 
 
 
@@ -253,7 +254,13 @@ class BookManagePageBook extends Component {
             return;
         }
     }
+    handlePicChange(event)
+    {
+        this.setState({
+            pic: URL.createObjectURL(event.target.files[0])
+        })
 
+    }
     render()
     {
         return(
@@ -367,25 +374,24 @@ class BookManagePageBook extends Component {
                     <MDBModalHeader toggle={this.toggle}>Only png file is allowed</MDBModalHeader>
                     <MDBModalBody>
                         <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="inputGroupFileAddon01">
-                                    Upload
-                                </span>
-                            </div>
                             <div className="custom-file">
                                 <input
                                     type="file"
                                     className="custom-file-input"
                                     id="inputGroupFile01"
                                     aria-describedby="inputGroupFileAddon01"
+                                    onChange={this.handlePicChange}
                                 />
                                 <label className="custom-file-label" htmlFor="inputGroupFile01">
                                     Choose file
                                 </label>
                             </div>
                         </div>
+                        <p></p>
+                        <p>
+                            <img src={this.state.pic} height={"289"} width={"200"}/>
+                        </p>
                         <MDBBtn  onClick={()=>this.handleChangeCover()}>Confirm</MDBBtn>
-                        <MDBBtn  onClick={this.toggle}>Back</MDBBtn>
                     </MDBModalBody>
                 </MDBModal>
 
