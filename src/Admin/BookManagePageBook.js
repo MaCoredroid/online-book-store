@@ -228,6 +228,24 @@ class BookManagePageBook extends Component {
 
         }
     }
+    handleDelete(bookID)
+    {
+        alert("This is dangerous!")
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/admin/deletebook/bookid/"+bookID, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Delete book succeeded!");
+            this.handleback();
+            return;
+        }
+        else
+        {
+            alert("Delete book failed!");
+            return;
+        }
+    }
     toggle = () => {
         this.setState({
             file: !this.state.file
@@ -236,7 +254,7 @@ class BookManagePageBook extends Component {
     handleChangeCover()
     {
         const data = new FormData();
-        let  fileInput = document.getElementById('inputGroupFile01');
+        let fileInput = document.getElementById('inputGroupFile01');
         let file = fileInput.files[0]
         data.append('file', file);
         let xhr = new XMLHttpRequest();
@@ -367,6 +385,7 @@ class BookManagePageBook extends Component {
                         <MDBDropdownItem onClick={()=>this.handleChangeAuthor(this.state.books.booklistID)}>Change Author</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangePrice(this.state.books.booklistID)}>Change Price</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangeStock(this.state.books.booklistID)}>Change Stock</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDelete(this.state.books.booklistID)}>Delete</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
