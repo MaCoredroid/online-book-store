@@ -183,13 +183,13 @@ class Cart extends Component {
             if (xhr.responseText === "true")
             {
                 alert("Your account has been unsubscribed!");
+                Cookies.set('username','');
                 window.location.href = "http://localhost:3000/";
                 return;
             }
             else
             {
                 alert("Failed to unsubscribe your account");
-                window.location.href = "http://localhost:3000/";
                 return;
             }
         }

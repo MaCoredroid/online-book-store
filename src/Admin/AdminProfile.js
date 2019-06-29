@@ -209,8 +209,8 @@ class AdminProfile extends Component {
     };
     submitHandler1 = event => {
         event.preventDefault();
-        let pattern = document.getElementById('password').value;
-        let patternag = document.getElementById('passwordag').value;
+        let pattern = document.getElementById('password1').value;
+        let patternag = document.getElementById('password1ag').value;
         if(pattern!==patternag)
         {
             alert("Two passwords don't match");
@@ -228,6 +228,7 @@ class AdminProfile extends Component {
         if (xhr.responseText === "true")
         {
             alert("Password has been changed! Please log in again");
+            Cookies.set('username','');
             window.location.href = "http://localhost:3000/";
         }
         else
@@ -395,7 +396,7 @@ class AdminProfile extends Component {
                                 <div className="grey-text">
                                     <MDBInput
                                         label="New Password"
-                                        id={"password"}
+                                        id={"password1"}
                                         icon="lock"
                                         group
                                         type="password"
@@ -405,7 +406,7 @@ class AdminProfile extends Component {
                                     <MDBInput
                                         label="Confirm New Password"
                                         icon="exclamation-triangle"
-                                        id={"passwordag"}
+                                        id={"password1ag"}
                                         group
                                         type="password"
                                         validate

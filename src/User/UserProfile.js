@@ -32,7 +32,7 @@ class UserProfile extends Component {
             username: Cookies.get("username"),
             user: [],
             modal: false,
-
+            changePassword:false
 
         }
 
@@ -58,6 +58,12 @@ class UserProfile extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
+    toggle2= () =>
+    {
+        this.setState({
+            changePassword: !this.state.changePassword
+        });
+    }
     handleLogout()
     {
         Cookies.set('username','');
@@ -75,6 +81,7 @@ class UserProfile extends Component {
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
         if (xhm.responseText === "User") {
+            this.toggle();
         }
         else
         {
@@ -112,6 +119,7 @@ class UserProfile extends Component {
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
         if (xhm.responseText === "User") {
+            this.toggle();
         }
         else
         {
@@ -148,44 +156,48 @@ class UserProfile extends Component {
         xhm.open("GET", this.state.url+"/login/"+this.state.username+"/password/"+pattern, false);
         xhm.send();
         if (xhm.responseText === "User") {
+            this.toggle();
         }
         else
         {
             alert("Wrong password!")
             return;
         }
-        let key = prompt("Are you sure? Type your new password", "********");
-        if(key===this.state.user.email)
+        this.toggle2();
+    }
+    submitHandler1 = event => {
+        event.preventDefault();
+        let pattern = document.getElementById('password').value;
+        let patternag = document.getElementById('passwordag').value;
+        if(pattern!==patternag)
         {
+            alert("Two passwords don't match");
             return;
         }
-        if(key===null)
-        {
-            return;
-        }
-        let key1 = prompt("Are you sure? Type your new password again", "********");
-        if(key1===key)
-        {
 
-        }
-        else
+        if(pattern.length<6)
         {
-            alert("Password doesn't match!")
+            alert("Password has to contain at least 6 characters");
             return;
         }
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", this.state.url+"/userprofile/change/username/"+this.state.username+"/newpassword/"+key, false);
+        xhr.open("GET", this.state.url+"/userprofile/change/username/"+this.state.username+"/newpassword/"+pattern, false);
         xhr.send();
         if (xhr.responseText === "true")
         {
             alert("Password has been changed! Please log in again");
+            Cookies.set('username','');
             window.location.href = "http://localhost:3000/";
         }
         else
         {
             alert("Failed to change password");
         }
-    }
+
+
+
+
+    };
     handleUnsubscribe()
     {
         let key = prompt("Are you sure you want to delete your account and all your infomation? Type your username", "Your Username");
@@ -197,6 +209,7 @@ class UserProfile extends Component {
             if (xhr.responseText === "true")
             {
                 alert("Your account has been unsubscribed!");
+                Cookies.set('username','');
                 window.location.href = "http://localhost:3000/";
                 return;
             }
@@ -311,6 +324,42 @@ class UserProfile extends Component {
                                 <MDBBtn color="secondary" style={{ height: 50, width:200, marginTop: 10 }} onClick={this.toggle}>Close</MDBBtn>
                             </p>
                         </MDBModalFooter>
+                    </MDBModal>
+                </MDBContainer>
+                <MDBContainer >
+                    <MDBModal isOpen={this.state.changePassword} toggle={this.toggle2}>
+                        <MDBModalHeader toggle={this.toggle2}>Input New Password</MDBModalHeader>
+                        <MDBModalBody>
+                            <form  onSubmit={this.submitHandler1}>
+                                <div className="grey-text">
+                                    <MDBInput
+                                        label="New Password"
+                                        id={"password"}
+                                        icon="lock"
+                                        group
+                                        type="password"
+                                        validate
+
+                                    />
+                                    <MDBInput
+                                        label="Confirm New Password"
+                                        icon="exclamation-triangle"
+                                        id={"passwordag"}
+                                        group
+                                        type="password"
+                                        validate
+
+                                    />
+                                </div>
+                                <div className="text-center">
+                                    <MDBBtn color="primary" type="submit">Change</MDBBtn>
+                                </div>
+                                <p> </p>
+                                <div className="text-center">
+                                    <p onClick={this.toggle2}>Back</p>
+                                </div>
+                            </form>
+                        </MDBModalBody>
                     </MDBModal>
                 </MDBContainer>
             </div>
