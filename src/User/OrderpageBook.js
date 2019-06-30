@@ -141,7 +141,7 @@ class OrderpageBook extends Component {
 
                 </MDBNavbar>
 
-                <MDBTable>
+                <MDBTable responsive small fixed bordered hover>
                     <MDBTableHead>
                         <tr>
                             <th><a >OrderID</a></th>

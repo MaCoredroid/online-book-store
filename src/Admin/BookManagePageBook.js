@@ -82,6 +82,10 @@ class BookManagePageBook extends Component {
             alert("Unchanged!")
             return;
         }
+        if(key===null)
+        {
+            return;
+        }
         else
         {
             let xhr = new XMLHttpRequest();
@@ -112,6 +116,10 @@ class BookManagePageBook extends Component {
             return;
         }
         if(key===oldprice.toString())
+        {
+            return;
+        }
+        if(key===null)
         {
             return;
         }
@@ -154,6 +162,10 @@ class BookManagePageBook extends Component {
             alert("Author name can't be blank space!")
             return;
         }
+        if(key===null)
+        {
+            return;
+        }
         if(key===this.state.books.author)
         {
             alert("Unchanged!")
@@ -184,6 +196,10 @@ class BookManagePageBook extends Component {
         if(key==="")
         {
             alert("Invalid!");
+            return;
+        }
+        if(key===null)
+        {
             return;
         }
         if(key===this.state.books.stock)
@@ -232,6 +248,10 @@ class BookManagePageBook extends Component {
     {
         alert("This is dangerous! This will delete all the related carts!");
         let key = prompt("Input the admin username", "Admin Username");
+        if(key===null)
+        {
+            return;
+        }
         if(key===this.state.username)
         {
 
@@ -259,6 +279,10 @@ class BookManagePageBook extends Component {
     handleChangeIsbn(bookid)
     {
         let key = prompt("Input the new isbn", this.state.books.isbn);
+        if(key===null)
+        {
+            return;
+        }
         if(key==="")
         {
             alert("Invalid!");
@@ -306,7 +330,7 @@ class BookManagePageBook extends Component {
         }
         else
         {
-            alert("Change stock failed!");
+            alert("Change cover failed!");
             return;
         }
     }
@@ -370,7 +394,7 @@ class BookManagePageBook extends Component {
                 </MDBNavbar>
 
 
-                <MDBTable>
+                <MDBTable responsive small fixed bordered hover>
                     <MDBTableHead>
                         <tr>
                             <th><a >BookID</a></th>
@@ -429,7 +453,7 @@ class BookManagePageBook extends Component {
                     </MDBDropdownMenu>
                 </MDBDropdown>
                 <MDBModal isOpen={this.state.file} toggle={this.toggle} >
-                    <MDBModalHeader toggle={this.toggle}>Only png file is allowed</MDBModalHeader>
+                    <MDBModalHeader toggle={this.toggle}>Only png or jpg file is allowed</MDBModalHeader>
                     <MDBModalBody>
                         <div className="input-group">
                             <div className="custom-file">

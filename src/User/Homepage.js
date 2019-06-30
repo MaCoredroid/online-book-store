@@ -37,6 +37,9 @@ class Homepage extends Component {
             images: [
 
             ],
+            imagesCp:[
+
+            ],
             searchOption:"Name",
             url:Cookies.get("url")
         };
@@ -63,7 +66,7 @@ class Homepage extends Component {
                 this.setState(
                     {
                         images: res.data,
-
+                        imagesCp:res.data,
                     });
             });
     }
@@ -108,8 +111,22 @@ class Homepage extends Component {
             let list = this.state.booksCp.filter((item) => {
                 return item.name.indexOf(pattern) !== -1
             })
+            let imagelist=[];
+            for(let i=0;i<list.length;i++)
+            {
+                for(let j=0;j<this.state.imagesCp.length;j++)
+                {
+                    if(list[i].booklistID.toString()===this.state.imagesCp[j])
+                    {
+                        imagelist.push(list[i].booklistID);
+                        break;
+                    }
+
+                }
+            }
             this.setState({
-                books: list
+                books: list,
+                images:imagelist
             })
             return;
         }
@@ -118,8 +135,22 @@ class Homepage extends Component {
             let list = this.state.booksCp.filter((item) => {
                 return item.author.indexOf(pattern) !== -1
             })
+            let imagelist=[];
+            for(let i=0;i<list.length;i++)
+            {
+                for(let j=0;j<this.state.imagesCp.length;j++)
+                {
+                    if(list[i].booklistID.toString()===this.state.imagesCp[j])
+                    {
+                        imagelist.push(list[i].booklistID);
+                        break;
+                    }
+
+                }
+            }
             this.setState({
-                books: list
+                books: list,
+                images:imagelist
             })
             return;
         }
@@ -128,8 +159,22 @@ class Homepage extends Component {
             let list = this.state.booksCp.filter((item) => {
                 return item.isbn.indexOf(pattern) !== -1
             })
+            let imagelist=[];
+            for(let i=0;i<list.length;i++)
+            {
+                for(let j=0;j<this.state.imagesCp.length;j++)
+                {
+                    if(list[i].booklistID.toString()===this.state.imagesCp[j])
+                    {
+                        imagelist.push(list[i].booklistID);
+                        break;
+                    }
+
+                }
+            }
             this.setState({
-                books: list
+                books: list,
+                images:imagelist
             })
             return;
         }
@@ -275,7 +320,7 @@ class Homepage extends Component {
 
                </MDBNavbar>
 
-                <MDBTable>
+                <MDBTable responsive small fixed bordered hover scrollY maxHeight="400px">
                     <MDBTableHead>
                         <tr>
                             <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>

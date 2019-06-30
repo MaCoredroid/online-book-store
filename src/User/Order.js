@@ -241,7 +241,7 @@ class Order extends Component {
 
                 </MDBNavbar>
 
-                <MDBTable>
+                <MDBTable responsive small fixed bordered hover>
                     <MDBTableHead>
                         <tr>
                             <th><a onClick={() => { this.handleSort("OrderID") }}>OrderID</a></th>

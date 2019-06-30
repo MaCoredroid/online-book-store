@@ -277,7 +277,7 @@ class Statistics extends Component {
                 />
                 <p> </p>
                 <p> </p>
-                <MDBTable>
+                <MDBTable responsive small fixed bordered hover>
                     <MDBTableHead>
                         {this.state.salesisshowing?
                         <tr>
