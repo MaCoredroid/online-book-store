@@ -54,6 +54,9 @@ class BookManage extends Component {
             images: [
 
             ],
+            imagesCp:[
+
+            ],
             searchOption:"Name",
             add:false,
             pic:null
@@ -81,6 +84,7 @@ class BookManage extends Component {
                 this.setState(
                     {
                         images: res.data,
+                        imagesCp:res.data
 
                     });
             });
@@ -175,8 +179,22 @@ class BookManage extends Component {
             let list = this.state.booksCp.filter((item) => {
                 return item.name.indexOf(pattern) !== -1
             })
+            let imagelist=[];
+            for(let i=0;i<list.length;i++)
+            {
+                for(let j=0;j<this.state.imagesCp.length;j++)
+                {
+                    if(list[i].booklistID.toString()===this.state.imagesCp[j])
+                    {
+                        imagelist.push(list[i].booklistID);
+                        break;
+                    }
+
+                }
+            }
             this.setState({
-                books: list
+                books: list,
+                images:imagelist
             })
             return;
         }
@@ -185,8 +203,22 @@ class BookManage extends Component {
             let list = this.state.booksCp.filter((item) => {
                 return item.author.indexOf(pattern) !== -1
             })
+            let imagelist=[];
+            for(let i=0;i<list.length;i++)
+            {
+                for(let j=0;j<this.state.imagesCp.length;j++)
+                {
+                    if(list[i].booklistID.toString()===this.state.imagesCp[j])
+                    {
+                        imagelist.push(list[i].booklistID);
+                        break;
+                    }
+
+                }
+            }
             this.setState({
-                books: list
+                books: list,
+                images:imagelist
             })
             return;
         }
@@ -195,13 +227,29 @@ class BookManage extends Component {
             let list = this.state.booksCp.filter((item) => {
                 return item.isbn.indexOf(pattern) !== -1
             })
+            let imagelist=[];
+            for(let i=0;i<list.length;i++)
+            {
+                for(let j=0;j<this.state.imagesCp.length;j++)
+                {
+                    if(list[i].booklistID.toString()===this.state.imagesCp[j])
+                    {
+                        imagelist.push(list[i].booklistID);
+                        break;
+                    }
+
+                }
+            }
             this.setState({
-                books: list
+                books: list,
+                images:imagelist
             })
             return;
         }
 
     }
+
+
     handleBlockChange(bookid,state) {
         if(state===true)
         {
@@ -374,7 +422,7 @@ class BookManage extends Component {
 
                 </MDBNavbar>
 
-                <MDBTable responsive small fixed bordered hover>
+                <MDBTable responsive small fixed bordered hover scrollY maxHeight="400px">
                     <MDBTableHead >
                         <tr>
                             <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>
