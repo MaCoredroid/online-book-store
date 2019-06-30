@@ -230,7 +230,17 @@ class BookManagePageBook extends Component {
     }
     handleDelete(bookID)
     {
-        alert("This is dangerous!")
+        alert("This is dangerous! This will delete all the related carts!");
+        let key = prompt("Input the admin username", "Admin Username");
+        if(key===this.state.username)
+        {
+
+        }
+        else
+        {
+            alert("This is not your username");
+            return;
+        }
         let xhr = new XMLHttpRequest();
         xhr.open("GET", this.state.url+"/admin/deletebook/bookid/"+bookID, false);
         xhr.send();
@@ -243,6 +253,34 @@ class BookManagePageBook extends Component {
         else
         {
             alert("Delete book failed!");
+            return;
+        }
+    }
+    handleChangeIsbn(bookid)
+    {
+        let key = prompt("Input the new isbn", this.state.books.isbn);
+        if(key==="")
+        {
+            alert("Invalid!");
+            return;
+        }
+        if(key===this.state.books.isbn)
+        {
+            alert("Unchanged!");
+            return;
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/admin/change/bookID/"+bookid+"/newisbn/"+key, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Change isbn succeeded!");
+            this.componentDidMount();
+            return;
+        }
+        else
+        {
+            alert("Change isbn failed!");
             return;
         }
     }
@@ -385,6 +423,7 @@ class BookManagePageBook extends Component {
                         <MDBDropdownItem onClick={()=>this.handleChangeAuthor(this.state.books.booklistID)}>Change Author</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangePrice(this.state.books.booklistID)}>Change Price</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangeStock(this.state.books.booklistID)}>Change Stock</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleChangeIsbn(this.state.books.booklistID)}>Change Isbn</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleDelete(this.state.books.booklistID)}>Delete</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
