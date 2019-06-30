@@ -31,7 +31,8 @@ class BookManagePageBook extends Component {
             value1:0,
             modal: false,
             model1:false,
-            file:false
+            file:false,
+            pic:null
 
         }
 
@@ -45,7 +46,7 @@ class BookManagePageBook extends Component {
             this.setState({ books: res.data });
         });
 
-
+        this.handlePicChange=this.handlePicChange.bind(this);
 
 
 
@@ -185,7 +186,7 @@ class BookManagePageBook extends Component {
             alert("Invalid!");
             return;
         }
-        if(key===this.state.books.author)
+        if(key===this.state.books.stock)
         {
             alert("Unchanged!");
             return;
@@ -227,6 +228,62 @@ class BookManagePageBook extends Component {
 
         }
     }
+    handleDelete(bookID)
+    {
+        alert("This is dangerous! This will delete all the related carts!");
+        let key = prompt("Input the admin username", "Admin Username");
+        if(key===this.state.username)
+        {
+
+        }
+        else
+        {
+            alert("This is not your username");
+            return;
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/admin/deletebook/bookid/"+bookID, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Delete book succeeded!");
+            this.handleback();
+            return;
+        }
+        else
+        {
+            alert("Delete book failed!");
+            return;
+        }
+    }
+    handleChangeIsbn(bookid)
+    {
+        let key = prompt("Input the new isbn", this.state.books.isbn);
+        if(key==="")
+        {
+            alert("Invalid!");
+            return;
+        }
+        if(key===this.state.books.isbn)
+        {
+            alert("Unchanged!");
+            return;
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/admin/change/bookID/"+bookid+"/newisbn/"+key, false);
+        xhr.send();
+        if (xhr.responseText === "true")
+        {
+            alert("Change isbn succeeded!");
+            this.componentDidMount();
+            return;
+        }
+        else
+        {
+            alert("Change isbn failed!");
+            return;
+        }
+    }
     toggle = () => {
         this.setState({
             file: !this.state.file
@@ -235,7 +292,7 @@ class BookManagePageBook extends Component {
     handleChangeCover()
     {
         const data = new FormData();
-        let  fileInput = document.getElementById('inputGroupFile01');
+        let fileInput = document.getElementById('inputGroupFile01');
         let file = fileInput.files[0]
         data.append('file', file);
         let xhr = new XMLHttpRequest();
@@ -253,7 +310,13 @@ class BookManagePageBook extends Component {
             return;
         }
     }
+    handlePicChange(event)
+    {
+        this.setState({
+            pic: URL.createObjectURL(event.target.files[0])
+        })
 
+    }
     render()
     {
         return(
@@ -360,6 +423,8 @@ class BookManagePageBook extends Component {
                         <MDBDropdownItem onClick={()=>this.handleChangeAuthor(this.state.books.booklistID)}>Change Author</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangePrice(this.state.books.booklistID)}>Change Price</MDBDropdownItem>
                         <MDBDropdownItem onClick={()=>this.handleChangeStock(this.state.books.booklistID)}>Change Stock</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleChangeIsbn(this.state.books.booklistID)}>Change Isbn</MDBDropdownItem>
+                        <MDBDropdownItem onClick={()=>this.handleDelete(this.state.books.booklistID)}>Delete</MDBDropdownItem>
                         <MDBDropdownItem onClick={this.handleback}>Back</MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
@@ -367,25 +432,24 @@ class BookManagePageBook extends Component {
                     <MDBModalHeader toggle={this.toggle}>Only png file is allowed</MDBModalHeader>
                     <MDBModalBody>
                         <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="inputGroupFileAddon01">
-                                    Upload
-                                </span>
-                            </div>
                             <div className="custom-file">
                                 <input
                                     type="file"
                                     className="custom-file-input"
                                     id="inputGroupFile01"
                                     aria-describedby="inputGroupFileAddon01"
+                                    onChange={this.handlePicChange}
                                 />
                                 <label className="custom-file-label" htmlFor="inputGroupFile01">
                                     Choose file
                                 </label>
                             </div>
                         </div>
+                        <p></p>
+                        <p>
+                            <img src={this.state.pic} height={"289"} width={"200"}/>
+                        </p>
                         <MDBBtn  onClick={()=>this.handleChangeCover()}>Confirm</MDBBtn>
-                        <MDBBtn  onClick={this.toggle}>Back</MDBBtn>
                     </MDBModalBody>
                 </MDBModal>
 

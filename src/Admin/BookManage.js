@@ -1,7 +1,22 @@
 import React, { Component } from "react";
 import {
-    MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon, MDBRow, MDBContainer, MDBCol, MDBBtn
+    MDBNavbar,
+    MDBNavbarBrand,
+    MDBNavbarNav,
+    MDBNavItem,
+    MDBNavbarToggler,
+    MDBCollapse,
+    MDBFormInline,
+    MDBDropdown,
+    MDBDropdownToggle,
+    MDBDropdownMenu,
+    MDBDropdownItem,
+    MDBIcon,
+    MDBRow,
+    MDBContainer,
+    MDBCol,
+    MDBBtn,
+    MDBModalHeader, MDBModalBody, MDBModal, MDBInput
 } from "mdbreact";
 import { Link } from 'react-router-dom'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
@@ -40,6 +55,8 @@ class BookManage extends Component {
 
             ],
             searchOption:"Name",
+            add:false,
+            pic:null
         };
     }
     componentDidMount()
@@ -67,8 +84,20 @@ class BookManage extends Component {
 
                     });
             });
+        this.handlePicChange=this.handlePicChange.bind(this);
     }
+    handlePicChange(event)
+    {
+        this.setState({
+            pic: URL.createObjectURL(event.target.files[0])
+        })
 
+    }
+    toggle = () => {
+        this.setState({
+            add: !this.state.add
+        });
+    }
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     };
@@ -193,6 +222,88 @@ class BookManage extends Component {
     }
     handleNavLink(where){
         window.location.href = "http://localhost:3000/UserManage#/"+ where;
+    }
+    handleChangeCover(bookid)
+    {
+        const data = new FormData();
+        let fileInput = document.getElementById('inputGroupFile01');
+        let file = fileInput.files[0]
+        data.append('file', file);
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', this.state.url+"/setimage/"+bookid,false);
+        xhr.send(data);
+        if (xhr.responseText === "true")
+        {
+            alert("Add book succeeded!");
+            this.componentDidMount();
+            this.toggle();
+            location.reload();
+            return;
+        }
+        else
+        {
+            alert("Change stock failed!");
+            return;
+        }
+    }
+    handleAddBook = event =>
+    {
+        event.preventDefault();
+        let name= document.getElementById('name').value;
+        let author = document.getElementById('author').value;
+        let isbn = document.getElementById('isbn').value;
+        let price = document.getElementById('price').value;
+        let stock = document.getElementById('stock').value;
+        let newstock = parseFloat(stock);
+        if (!isFinite(newstock))
+        {
+            alert("Invaild!");
+            return;
+        }
+        if(newstock <0)
+        {
+            alert("Stock should be an positive!");
+            return;
+        }
+        let e = 1, p = 0;
+        while (Math.round(newstock * e) / e !== newstock) { e *= 10; p++; }
+        if(p!==0)
+        {
+            alert("Stock should be an int!");
+            return;
+        }
+        let newprice = parseFloat(price);
+        if (!isFinite(newprice))
+        {
+            alert("Invaild!")
+            return;
+        }
+        if(newprice<0)
+        {
+            alert("Price should be an positive!");
+            return;
+        }
+        e = 1, p = 0;
+        while (Math.round(newprice * e) / e !== newprice) { e *= 10; p++; }
+        if(p>2)
+        {
+            alert("Price can have at most 2 digits of precision!")
+            return;
+        }
+        price=price*100;
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", this.state.url+"/admin/addbook/name/"+name+"/author/"+author+"/price/"+price+"/isbn/"+isbn+"/stock/"+stock, false);
+        xhr.send();
+        if (xhr.responseText === "false")
+        {
+            alert("Add book failed! Duplicate isbn!");
+            return;
+        }
+        else
+        {
+            this.handleChangeCover(xhr.responseText);
+        }
+
     }
     render() {
         return (
@@ -322,6 +433,70 @@ class BookManage extends Component {
                         </MDBRow>
                     </div>
                 </MDBContainer>
+                <MDBBtn className="fixed-bottom" onClick={this.toggle}>
+                    Add Book
+                </MDBBtn>
+                <MDBModal isOpen={this.state.add} toggle={this.toggle} >
+                    <MDBModalHeader toggle={this.toggle}>Add new book</MDBModalHeader>
+                    <MDBModalBody>
+                        <form  onSubmit={this.handleAddBook}>
+                            <div className="input-group">
+                                <div className="custom-file">
+                                    <input
+                                        type="file"
+                                        className="custom-file-input"
+                                        id="inputGroupFile01"
+                                        aria-describedby="inputGroupFileAddon01"
+                                        onChange={this.handlePicChange}
+                                    />
+                                    <label className="custom-file-label" htmlFor="inputGroupFile01">
+                                        Choose file
+                                    </label>
+                                </div>
+                            </div>
+                            <p></p>
+                            <p>
+                                <img src={this.state.pic} height={"289"} width={"200"}/>
+                            </p>
+                            <div className="grey-text">
+                                <MDBInput
+                                    label="Book Name"
+                                    id={"name"}
+                                    group
+                                    type="text"
+
+                                />
+                                <MDBInput
+                                    label="Author"
+                                    id={"author"}
+                                    group
+                                    type="text"
+
+                                />
+                                <MDBInput
+                                    label="isbn"
+                                    id={"isbn"}
+                                    group
+                                    type="text"
+
+                                />
+                                <MDBInput
+                                    label="price"
+                                    id={"price"}
+                                    group
+                                    type="number"
+                                />
+                                <MDBInput
+                                    label="stock"
+                                    id={"stock"}
+                                    group
+                                    type="number"
+                                />
+                            </div>
+                            <MDBBtn  type="submit" >Confirm</MDBBtn>
+                        </form>
+                    </MDBModalBody>
+                </MDBModal>
             </div>
 
 
