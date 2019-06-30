@@ -374,8 +374,8 @@ class BookManage extends Component {
 
                 </MDBNavbar>
 
-                <MDBTable>
-                    <MDBTableHead>
+                <MDBTable responsive small fixed bordered hover>
+                    <MDBTableHead >
                         <tr>
                             <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>
                             <th><a onClick={() => { this.handleSort("name") }}>Name</a></th>
@@ -428,9 +428,11 @@ class BookManage extends Component {
 
                 <MDBContainer className="mt-5 p-3" >
                     <div className="mdb-lightbox p-3">
-                        <MDBRow>
-                            {this.renderImages()}
-                        </MDBRow>
+                        <MDBTable >
+                            <MDBRow>
+                                {this.renderImages()}
+                            </MDBRow>
+                        </MDBTable>
                     </div>
                 </MDBContainer>
                 <MDBBtn className="fixed-bottom" onClick={this.toggle}>

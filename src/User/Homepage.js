@@ -275,7 +275,7 @@ class Homepage extends Component {
 
                </MDBNavbar>
 
-                <MDBTable>
+                <MDBTable responsive small fixed bordered hover scrollY maxHeight="400px">
                     <MDBTableHead>
                         <tr>
                             <th><a onClick={() => { this.handleSort("booklistID") }}>BookID</a></th>

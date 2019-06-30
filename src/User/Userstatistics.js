@@ -348,7 +348,7 @@ class Userstatistics extends Component {
                     }}
                 />
                 <p> </p>
-                <MDBTable>
+                <MDBTable responsive small fixed bordered hover>
                     {this.state.simplified?
                         <MDBTableHead>
                             <tr>
