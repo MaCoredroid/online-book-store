@@ -186,7 +186,7 @@ class BookManagePageBook extends Component {
             alert("Invalid!");
             return;
         }
-        if(key===this.state.books.author)
+        if(key===this.state.books.stock)
         {
             alert("Unchanged!");
             return;

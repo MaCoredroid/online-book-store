@@ -223,18 +223,17 @@ class BookManage extends Component {
     handleNavLink(where){
         window.location.href = "http://localhost:3000/UserManage#/"+ where;
     }
-    handleChangeCover()
+    handleChangeCover(bookid)
     {
         const data = new FormData();
         let fileInput = document.getElementById('inputGroupFile01');
         let file = fileInput.files[0]
         data.append('file', file);
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', this.state.url+"/setimage/"+this.state.books.booklistID,false);
+        xhr.open('POST', this.state.url+"/setimage/"+bookid,false);
         xhr.send(data);
         if (xhr.responseText === "true")
         {
-            alert("Change cover succeeded!");
             alert("Add book succeeded!");
             this.componentDidMount();
             this.toggle();
@@ -255,18 +254,54 @@ class BookManage extends Component {
         let isbn = document.getElementById('isbn').value;
         let price = document.getElementById('price').value;
         let stock = document.getElementById('stock').value;
+        let newstock = parseFloat(stock);
+        if (!isFinite(newstock))
+        {
+            alert("Invaild!");
+            return;
+        }
+        if(newstock <0)
+        {
+            alert("Stock should be an positive!");
+            return;
+        }
+        let e = 1, p = 0;
+        while (Math.round(newstock * e) / e !== newstock) { e *= 10; p++; }
+        if(p!==0)
+        {
+            alert("Stock should be an int!");
+            return;
+        }
+        let newprice = parseFloat(price);
+        if (!isFinite(newprice))
+        {
+            alert("Invaild!")
+            return;
+        }
+        if(newprice<0)
+        {
+            alert("Price should be an positive!");
+            return;
+        }
+        e = 1, p = 0;
+        while (Math.round(newprice * e) / e !== newprice) { e *= 10; p++; }
+        if(p>2)
+        {
+            alert("Price can have at most 2 digits of precision!")
+            return;
+        }
         price=price*100;
         let xhr = new XMLHttpRequest();
         xhr.open("GET", this.state.url+"/admin/addbook/name/"+name+"/author/"+author+"/price/"+price+"/isbn/"+isbn+"/stock/"+stock, false);
         xhr.send();
-        if (xhr.responseText === "true")
+        if (xhr.responseText === "false")
         {
-            this.handleChangeCover();
+            alert("Add book failed! Duplicate isbn!");
+            return;
         }
         else
         {
-            alert("Add book failed");
-            return;
+            this.handleChangeCover(xhr.responseText);
         }
 
     }
