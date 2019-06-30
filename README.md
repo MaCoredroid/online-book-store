@@ -1,6 +1,6 @@
 Install docker;
 
-Then run `docker run -it -d -p 80:80 --name rdocker`
+Then run `docker run -it -d -p 80:80 --name rdocker macoredroid/reactdocker `
 
 Dockerhub link https://cloud.docker.com/repository/docker/macoredroid/reactdocker
 
