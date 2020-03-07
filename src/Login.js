@@ -5,8 +5,23 @@ import Cookies from 'js-cookie'
 import './css/Login.css'
 import { MDBFreeBird, MDBCardTitle, MDBEdgeHeader } from
         "mdbreact";
+import axios from "axios";
 
 class Login extends Component {
+
+    componentDidMount()
+    {
+        let xhr = new XMLHttpRequest();
+        let url=Cookies.get('url');
+        xhr.open("GET", url+"/loginwithoutverify",false);
+        xhr.withCredentials = true;
+        xhr.send();
+        if (xhr.responseText === "true") {
+            window.location.href = "http://localhost:3000/Homepage#/Homepage";
+        }
+
+    }
+
     submitHandler = event => {
         event.preventDefault();
         if(Cookies.get('username'))
@@ -20,6 +35,7 @@ class Login extends Component {
 
 
         xhr.open("GET", url+"/login/"+username+"/password/"+pattern, false);
+        xhr.withCredentials = true;
         xhr.send();
         if (xhr.responseText === "Blocked") {
             alert("You are blocked! Please contact the admin!");
