@@ -23,34 +23,10 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import Cookies from "js-cookie";
-function connect() {
-    var socket = new WebSocket('ws://localhost:8080/greeting');
-    var ws = Stomp.over(socket);
-
-    ws.connect({}, function(frame) {
-        ws.subscribe("/user/queue/errors", function(message) {
-            alert("Error " + message.body);
-        });
-
-        ws.subscribe("/user/queue/reply", function(message) {
-            alert("Message " + message.body);
-        });
-    }, function(error) {
-        alert("STOMP error " + error);
-    });
-}
-
-function disconnect() {
-    if (ws != null) {
-        ws.close();
-    }
-    setConnected(false);
-    console.log("Disconnected");
-}
-
-
+import ChatRoom from "./User/ChatRoom";
 
 ReactDOM.render(
+<div>
 
         <Router>
             <Switch>
@@ -58,6 +34,7 @@ ReactDOM.render(
                 <Route exact path="/Cart" component={Cart} />
                 <Route exact path="/Order" component={Order} />
                 <Route exact path="/Homepage" component={Homepage} />
+                <Route exact path="/ChatRoom" component={ChatRoom} />
                 <Route exact path="/Register" component={Register} />
                 <Route exact path="/Userstatistics" component={Userstatistics} />
                 <Route exact path="/UserManage" component={UserManage} />
@@ -72,9 +49,11 @@ ReactDOM.render(
                 <Route path="/bookmanagepagebook/detail/:id" component={BookManagePageBook} />
                 <Route path="/UserProfile" component={UserProfile} />
             </Switch>
-        </Router>, document.getElementById('create-article-form'));
+        </Router>
+</div>, document.getElementById('create-article-form'));
 Cookies.set('url', 'http://localhost:8080');
-connect();
+
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
