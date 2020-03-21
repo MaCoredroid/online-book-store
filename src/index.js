@@ -23,10 +23,10 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import Cookies from "js-cookie";
-
-
+import ChatRoom from "./User/ChatRoom";
 
 ReactDOM.render(
+<div>
 
         <Router>
             <Switch>
@@ -34,6 +34,7 @@ ReactDOM.render(
                 <Route exact path="/Cart" component={Cart} />
                 <Route exact path="/Order" component={Order} />
                 <Route exact path="/Homepage" component={Homepage} />
+                <Route exact path="/ChatRoom" component={ChatRoom} />
                 <Route exact path="/Register" component={Register} />
                 <Route exact path="/Userstatistics" component={Userstatistics} />
                 <Route exact path="/UserManage" component={UserManage} />
@@ -48,8 +49,10 @@ ReactDOM.render(
                 <Route path="/bookmanagepagebook/detail/:id" component={BookManagePageBook} />
                 <Route path="/UserProfile" component={UserProfile} />
             </Switch>
-        </Router>, document.getElementById('create-article-form'));
+        </Router>
+</div>, document.getElementById('create-article-form'));
 Cookies.set('url', 'http://localhost:8080');
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
