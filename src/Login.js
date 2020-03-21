@@ -17,7 +17,14 @@ class Login extends Component {
         xhr.withCredentials = true;
         xhr.send();
         if (xhr.responseText === "true") {
-            window.location.href = "http://localhost:3000/Homepage#/Homepage";
+            if(Cookies.get("username")==='')
+            {
+
+            }
+            else
+            {
+                window.location.href = "http://localhost:3000/Homepage#/Homepage";
+            }
         }
 
     }

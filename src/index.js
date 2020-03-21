@@ -23,6 +23,30 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import Cookies from "js-cookie";
+function connect() {
+    var socket = new WebSocket('ws://localhost:8080/greeting');
+    var ws = Stomp.over(socket);
+
+    ws.connect({}, function(frame) {
+        ws.subscribe("/user/queue/errors", function(message) {
+            alert("Error " + message.body);
+        });
+
+        ws.subscribe("/user/queue/reply", function(message) {
+            alert("Message " + message.body);
+        });
+    }, function(error) {
+        alert("STOMP error " + error);
+    });
+}
+
+function disconnect() {
+    if (ws != null) {
+        ws.close();
+    }
+    setConnected(false);
+    console.log("Disconnected");
+}
 
 
 
@@ -50,7 +74,7 @@ ReactDOM.render(
             </Switch>
         </Router>, document.getElementById('create-article-form'));
 Cookies.set('url', 'http://localhost:8080');
-
+connect();
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
