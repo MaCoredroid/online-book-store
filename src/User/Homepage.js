@@ -41,7 +41,8 @@ class Homepage extends Component {
 
             ],
             searchOption:"Name",
-            url:Cookies.get("url")
+            url:Cookies.get("url"),
+            num: 0
         };
     }
     componentDidMount()
@@ -69,6 +70,15 @@ class Homepage extends Component {
                         imagesCp:res.data,
                     });
             });
+        axios.get(url+`/counter`,
+        )
+            .then(res => {
+                this.setState(
+                    {
+                        num: res.data,
+                    });
+            });
+
     }
 
     toggleCollapse = () => {
@@ -254,7 +264,9 @@ class Homepage extends Component {
                    <MDBNavbarBrand>
                        <strong className="dark-text">Weclome,  User {this.state.username}           </strong>
                    </MDBNavbarBrand>
-
+                   <MDBNavbarBrand>
+                       <strong className="dark-text">Views {this.state.num}           </strong>
+                   </MDBNavbarBrand>
                    <MDBNavbarToggler onClick={this.toggleCollapse} />
                    <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
                        <MDBNavbarNav left>
