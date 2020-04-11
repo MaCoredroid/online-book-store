@@ -24,6 +24,7 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import Cookies from "js-cookie";
 import ChatRoom from "./User/ChatRoom";
+import Search from "./User/Search";
 
 ReactDOM.render(
 <div>
@@ -40,6 +41,7 @@ ReactDOM.render(
                 <Route exact path="/UserManage" component={UserManage} />
                 <Route exact path="/BookManage" component={BookManage} />
                 <Route exact path="/CartManage" component={CartManage} />
+                <Route exact path="/Search" component={Search} />
                 <Route exact path="/OrderManage" component={OrderManage} />
                 <Route exact path="/Statistics" component={Statistics} />
                 <Route exact path="/AdminProfile" component={AdminProfile} />

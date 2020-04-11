@@ -17,6 +17,8 @@ import {Link} from "react-router-dom";
 import "../css/Modal.css"
 
 import Cookies from 'js-cookie'
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 class HomepageBook extends Component {
     constructor(props) {
@@ -30,7 +32,8 @@ class HomepageBook extends Component {
             value: 0,
             value1:0,
             modal: false,
-            model1:false
+            model1:false,
+            description:''
 
         }
 
@@ -43,6 +46,10 @@ class HomepageBook extends Component {
         axios.get(this.state.url+`/Booklist/`+this.props.match.params.id).then(res => {
             this.setState({ books: res.data });
         });
+        axios.get(this.state.url+`/getDescriptionByBookId/bookid/`+this.props.match.params.id).then(res => {
+            this.setState({ description: res.data });
+        });
+
 
 
 
@@ -226,6 +233,7 @@ class HomepageBook extends Component {
                                         <MDBDropdownItem onClick={()=>this.handleNavLink("Cart")}>Cart</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>this.handleNavLink("Homepage")}>Homepage</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>this.handleNavLink("ChatRoom")}>ChatRoom</MDBDropdownItem>
+                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Search")}>Search</MDBDropdownItem>
                                         <MDBDropdownItem onClick={()=>this.handleNavLink("Userstatistics")}>Statistics</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
@@ -306,6 +314,20 @@ class HomepageBook extends Component {
                     </MDBTableBody>
                 </MDBTable>
                 <img class="center" src={this.state.url+"/image/"+ this.state.books.booklistID} height={"289"} width={"200"}/>
+                <Grid container>
+                    <Grid item xs={2}></Grid>
+                    <Typography variant={"h4"}>
+                        {"Description:"}
+                    </Typography>
+                </Grid>
+                <Grid container>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={8}>
+                        <Typography class="center" >
+                            {this.state.description}
+                        </Typography>
+                    </Grid>
+                </Grid>
                 <MDBDropdown dropup className="fixed-bottom">
                     <MDBDropdownToggle caret color="primary">
                         Action
