@@ -282,6 +282,7 @@ class Homepage extends Component {
                                        <MDBDropdownItem onClick={()=>this.handleNavLink("ChatRoom")}>ChatRoom</MDBDropdownItem>
                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Search")}>Search</MDBDropdownItem>
                                        <MDBDropdownItem onClick={()=>this.handleNavLink("Userstatistics")}>Statistics</MDBDropdownItem>
+                                       <MDBDropdownItem onClick={()=>this.handleNavLink("Friend")}>Friend</MDBDropdownItem>
                                    </MDBDropdownMenu>
                                </MDBDropdown>
                            </MDBNavItem>
