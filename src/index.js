@@ -25,6 +25,7 @@ import 'mdbreact/dist/css/mdb.css';
 import Cookies from "js-cookie";
 import ChatRoom from "./User/ChatRoom";
 import Search from "./User/Search";
+import Friend from "./User/Friend";
 
 ReactDOM.render(
 <div>
@@ -45,6 +46,7 @@ ReactDOM.render(
                 <Route exact path="/OrderManage" component={OrderManage} />
                 <Route exact path="/Statistics" component={Statistics} />
                 <Route exact path="/AdminProfile" component={AdminProfile} />
+                <Route exact path="/Friend" component={Friend} />
                 <Route path="/homepage/detail/:id" component={HomepageBook} />
                 <Route path="/orderpage/detail/:id" component={OrderpageBook} />
                 <Route path="/cartpage/detail/:id" component={CartpageBook} />
